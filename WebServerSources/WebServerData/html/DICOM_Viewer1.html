@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+    <meta http-equiv='Cache-Control' content='no-cache'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <style>
+    .container {position: relative}
+    .img_canvas {position: relative; top: 0px; left: 0px; z-index: 0; }
+
+    #imageTempaxial {position: absolute; top: 0px; left: 0px; z-index: 2;}
+    #imageTempfrontal { position: absolute; top: 0px; left: 0px; z-index: 2;}
+    #imageTempsagittal { position: absolute; top: 0px; left: 0px; z-index: 2;}
+    #canvas_lines_frontal {position: absolute; top: 0px; left: 0px; z-index: 1;}
+    #canvas_lines_sagittal { position: absolute; top: 0px; left: 0px; z-index: 1;}
+    #canvas_lines_axial { position: absolute; top: 0px; left: 0px; z-index: 1;}
+    .hidden_input {
+        visibility: hidden;
+        width: 1px !important;
+    };
+    .slice_range input{
+      width: 200px !important;
+    };
+}
+    </style>
+	</head>
+
+	<body onunload = 'PostSavingsToFile()' onunload='CloseTomogramm()' >
+		<p><span id = 'doctor_id' class = 'hidden_input'></span></p>
+		<p><span>Просматривается исследование с идентификатором: </span><span id = 'study_SOP'></span></p>
+
+		<table>
+		        <tr>
+				<th>
+					<input class = 'hidden_input' type='number' id='NFramesFrontal'>
+					<input class = 'hidden_input' type='number' id='NFramesFrontal_real' width = '0%'>
+			        	<span>Y</span><input class = 'slice_range' type='range' oninput = 'ChangeFrontalComponents()' onchange = 'ChangeFrontalComponents()' id='frontalRange' name = 'frontalRange'>
+			        	<span id = 'CurrentSlicefrontal'></span>/
+			        	<span id = 'InfoNFramesFrontal'></span>
+				</th>  
+
+				<th>
+					<div class = 'container'>
+				        	<canvas id='axialCanvas'  class = 'img_canvas' width='512' height='512'>Your browser doesn't support drawing.</canvas>
+					</div>
+				</th>
+
+				<th>
+					<div class = 'container'>
+						<canvas id='sagittalCanvas' class = 'img_canvas' width='512' height='512'>Your browser doesn't support drawing.</canvas>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th>
+				</th>
+				<th>
+					<input class = 'hidden_input' type='number' id='NFramesSagittal'>
+				        <input class = 'hidden_input' type='number' id='NFramesSagittal_real' width = '0%'>
+				        <span>X</span><input class = 'slice_range' type='range' oninput = 'ChangeSagittalComponents()' onchange = 'ChangeSagittalComponents()' id='sagittalRange' name = 'sagittalRange'  >
+				        <span id = 'CurrentSlicesagittal'></span>/
+				        <span id = 'InfoNFramesSagittal'></span>
+
+				</th>
+				<th>
+					<input class = 'hidden_input' type='number' id='NFramesAxial' width = '0%'>
+					<input class = 'hidden_input' type='number' id='NFramesAxial_real' width = '0%'>
+					<span>Z</span><input  type='range' width = '100%' class = 'slice_range' oninput = 'ChangeAxialComponents()' onchange = 'ChangeAxialComponents()' id='axialRange' name = 'axialRange'>
+					<span id = 'CurrentSliceaxial'></span>/
+					<span id = 'InfoNFramesAxial'></span>
+				</th>
+			</tr>
+			<tr>
+				<th>
+				</th>
+				<th>
+					<div class = 'container'>
+						<canvas id='frontalCanvas' class = 'img_canvas' width='512' height='512'>Your browser doesn't support drawing.</canvas>
+					</div>                               
+				</th>			
+
+				<th>
+					<table id = 'info_table_temp' border='1' width = '100%'>
+						<tr>
+							<th>X</th>
+							<th>Y</th>
+							<th>Z</th>
+							<th>Size (mm)</th>
+							<th>Type</th>
+						</tr>
+					</table>
+					<input type = 'button' value = 'Сохранить отметки' onclick='SaveFoundings()'>
+					<table id = 'info_table_saved' border='1' width = '100%'>
+						<tr>
+							<th>X</th>
+							<th>Y</th>
+							<th>Z</th>
+							<th>Size(mm)</th>
+							<th>Type</th>
+							<th>Удалить Строку</th>
+						</tr>
+					</table>
+					<table width = '100%'>
+						<tr>
+							<th>X</th>
+							<th>Y</th>
+							<th>Z</th>
+							<th>Value(HU)</th>
+						</tr>
+						<tr>
+							<input type = 'button' value = 'Сохранить в файл' onclick='PostSavingsToFile()'>
+						</tr>
+						<tr>
+							<th><span id = 'coordX'></span></th>
+							<th><span id = 'coordY'></span></th>
+							<th><span id = 'coordZ'></span></th>
+							<th><span id = 'Value_HU'></span></th>
+						</tr>
+					</table>
+				</th>
+			</tr>      
+    		</table>
+
+    <p><span>MIP:</span>
+    <span id = 'InfoMIP_min'></span>
+    <input class = 'slice_range' type='range' oninput = 'UpdateCanvasMIP()' onchange = 'UpdateCanvasMIP()'  id='mipRange'
+    min = '0' max = '10' value = '0'>
+    <span id = 'mipRange_out'></span>/
+    <span id = 'InfoMIP_max'></span>
+    <input type='radio' id='MIPpchoise1'
+    name = 'MIPmethod' value='average' onchange = 'SetMIPMethod()' >
+    <label for='MIPpchoise1'>Average</label>
+    <input type='radio' id='MIPpchoise2'
+    name = 'MIPmethod' value='maxvalue' onchange = 'SetMIPMethod()' checked>
+    <label for='MIPpchoise2'>Max Value</label>
+    <input class = 'hidden_input' type='text' id='MIPMethodValue'>
+  </p>
+  <p><span>Black Value: </span>
+  <input type='number' oninput = 'UpdateCanvasBW()'  id='blackRange' value = '-140'><span>White Value: </span>
+  <input type='number' oninput = 'UpdateCanvasBW()'  id='whiteRange' value = '260'>
+  <span>Gamma Value: </span>
+  <span id = 'InfoGV_min'></span>
+  <input type='range' oninput = 'UpdateCanvasGamma()' onchange = 'UpdateCanvasGamma()'  id='gammaRange'
+  min = '0.05' max = '3' value = '1' step='0.05'>
+  <span id = 'gammaValue_out'></span>/
+  <span id = 'InfoGV_max'></span>
+  </p>
+
+  <input type = 'button' value = 'Мягкие Ткани' onclick='SetBWRanges(-140,260)'>
+  <input type = 'button' value = 'Сосуды' onclick='SetBWRanges(0,600)'>
+  <input type = 'button' value = 'Кости' onclick='SetBWRanges(-500,1000)'>
+  <input type = 'button' value = 'Мозг' onclick='SetBWRanges(0,80)'>
+  <input type = 'button' value = 'Легкие' onclick='SetBWRanges(-1150,350)'>
+  <form>
+  <p>  Закончить просмотр исследования<input type = 'button' value = 'Закончить' onclick='GoToStartPage()'></p>
+  </form>
+
+  <script src = 'InputFunctions.js' onload='InitNumbers()' ></script>
+  <script src = 'InfoFunctions.js' onload='InitInfo_start()'></script>
+  <script src = 'CanvasFunctions.js' onload='InitCanvas()'></script>
+  <script src = 'UpdateFunctions.js' onload='ThrottleUpdateCanvases.InitThrottle()' onload='UpdateAllCanvas()'></script>
+
+  </body>
+</html>

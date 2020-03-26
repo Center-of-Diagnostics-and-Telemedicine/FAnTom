@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="QtWebServer">
+      <UniqueIdentifier>{64600bea-856f-434b-aad3-df01ea1a42b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QtWebServer\headers">
+      <UniqueIdentifier>{ec240205-8b57-46d7-a3c5-3722295cef47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{6d8e6a08-afb4-484e-9c7a-d5483eec2d67}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{83254b2e-226e-4cca-87fe-1687ed9260c8}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpconnectionhandler.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpconnectionhandlerpool.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpcookie.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpglobal.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httplistener.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httprequest.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httprequesthandler.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpresponse.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpsession.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpsessionstore.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandler.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandler.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandlerpool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandlerpool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httplistener.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httplistener.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httprequesthandler.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httprequesthandler.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpsessionstore.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpsessionstore.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_staticfilecontroller.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_staticfilecontroller.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestMapper.cpp">
+      <Filter>QtWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RequestMapper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RequestMapper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageStrings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageBitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageTomogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageWebPages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageServerCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandler.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandlerpool.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httplistener.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httprequesthandler.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httpsessionstore.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\staticfilecontroller.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="RequestMapper.h">
+      <Filter>QtWebServer\headers</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="QtWebApp\httpserver\httpcookie.h">
+      <Filter>QtWebServer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="QtWebApp\httpserver\httpglobal.h">
+      <Filter>QtWebServer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="QtWebApp\httpserver\httprequest.h">
+      <Filter>QtWebServer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="QtWebApp\httpserver\httpresponse.h">
+      <Filter>QtWebServer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="QtWebApp\httpserver\httpsession.h">
+      <Filter>QtWebServer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageBitmap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageServerCommands.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageStrings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageTomogram.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageWebPages.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 6pt;
+        padding: 0pt;
+      }
+      /* * {
+        border: thin solid red;
+      }*/
+    </style>
+  </head>
+  <body>
+    <p>Drawing canvas:</p>
+    <canvas id='canvas1' width='512' height='512'>Your browser doesn't support drawing.</canvas>
+    <form>
+    /* *     <p><input type='button' onclick='PostImage("InfoPost", getElementById("PostRaw").checked);' value='Post'/> <input type='checkbox' id='PostRaw'/><label for="PostRaw">Raw</label> <span id="InfoPost"></span></p>*/
+      <p><input type='button' onclick='SubmitImage("InfoSubmit");' value='Submit'/> <span id="InfoSubmit"></span></p>
+      <p><input type='button' onclick='GetTest("InfoGet");' value='Get test'/> <span id="InfoGet"></span></p>
+    </form>
+    <p>Image data:</p>
+    <p><input type='button' onclick='UpdateImage();' value='Update'/></p>
+    <p><input id='edit1' type='text' style='width:100%' value=''/></p>
+    <p id='p1'></p>
+    <script src="DrawCanvas.js"> </script>
+    <script src="ImageFunctions.js"> </script>
+    <form id='ImagePost' action='SaveMask().png' method='POST' style='visibility:hidden'>
+      <input id='ImageData' type='hidden' name='image' value=''/>
+    </form>
+  </body>
+</html>

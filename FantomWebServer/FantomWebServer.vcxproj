@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>FantomWebServer</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="q:\XRAD\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
+    <Import Project="..\..\..\XRAD\Projects\XRADQt\XRADQt.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="q:\XRAD\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
+    <Import Project="..\..\..\XRAD\Projects\XRADQt\XRADQt.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="q:\XRAD\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
+    <Import Project="..\..\..\XRAD\Projects\XRADQt\XRADQt.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="q:\XRAD\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
+    <Import Project="..\..\..\XRAD\Projects\XRADQt\XRADQt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;..\Sources\FantomLibrary;$(QTDIR_P)\include;$(QTDIR_P)\include\QtCore;$(QTDIR_P)\include\QtGui;GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;..\Sources\FantomLibrary;$(QTDIR_P)\include;$(QTDIR_P)\include\QtCore;$(QTDIR_P)\include\QtGui;GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;..\Sources\FantomLibrary;$(QTDIR_P)\include;$(QTDIR_P)\include\QtCore;$(QTDIR_P)\include\QtGui;GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;..\Sources\FantomLibrary;$(QTDIR_P)\include;$(QTDIR_P)\include\QtCore;$(QTDIR_P)\include\QtGui;GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandlerpool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httplistener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httprequesthandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpsessionstore.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RequestMapper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_staticfilecontroller.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandlerpool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httplistener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httprequesthandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpsessionstore.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RequestMapper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_staticfilecontroller.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManageBitmap.cpp" />
+    <ClCompile Include="ManageServerCommands.cpp" />
+    <ClCompile Include="ManageStrings.cpp" />
+    <ClCompile Include="ManageTomogram.cpp" />
+    <ClCompile Include="ManageWebPages.cpp" />
+    <ClCompile Include="pre.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="QtWebApp\httpserver\httpconnectionhandler.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpconnectionhandlerpool.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpcookie.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpglobal.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httplistener.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httprequest.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httprequesthandler.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpresponse.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpsession.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\httpsessionstore.cpp" />
+    <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp" />
+    <ClCompile Include="RequestMapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandler.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing httpconnectionhandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing httpconnectionhandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing httpconnectionhandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing httpconnectionhandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandler.h"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandlerpool.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing httpconnectionhandlerpool.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandlerpool.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing httpconnectionhandlerpool.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandlerpool.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing httpconnectionhandlerpool.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandlerpool.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing httpconnectionhandlerpool.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpconnectionhandlerpool.h"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ManageBitmap.h" />
+    <ClInclude Include="ManageServerCommands.h" />
+    <ClInclude Include="ManageStrings.h" />
+    <ClInclude Include="ManageTomogram.h" />
+    <ClInclude Include="ManageWebPages.h" />
+    <ClInclude Include="QtWebApp\httpserver\httpcookie.h" />
+    <ClInclude Include="QtWebApp\httpserver\httpglobal.h" />
+    <ClInclude Include="QtWebApp\httpserver\httprequest.h" />
+    <ClInclude Include="QtWebApp\httpserver\httpresponse.h" />
+    <ClInclude Include="QtWebApp\httpserver\httpsession.h" />
+    <CustomBuild Include="RequestMapper.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing RequestMapper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../RequestMapper.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing RequestMapper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../RequestMapper.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing RequestMapper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../RequestMapper.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing RequestMapper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../RequestMapper.h"</Command>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\staticfilecontroller.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing staticfilecontroller.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing staticfilecontroller.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing staticfilecontroller.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing staticfilecontroller.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httpsessionstore.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing httpsessionstore.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpsessionstore.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing httpsessionstore.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpsessionstore.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing httpsessionstore.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpsessionstore.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing httpsessionstore.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httpsessionstore.h"</Command>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httprequesthandler.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing httprequesthandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httprequesthandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing httprequesthandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httprequesthandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing httprequesthandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httprequesthandler.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing httprequesthandler.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httprequesthandler.h"</Command>
+    </CustomBuild>
+    <CustomBuild Include="QtWebApp\httpserver\httplistener.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing httplistener.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httplistener.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing httplistener.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"   "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httplistener.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing httplistener.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httplistener.h"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing httplistener.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.\..\Sources\FantomLibrary" "-I$(QTDIR_P)\include" "-I$(QTDIR_P)\include\QtCore" "-I$(QTDIR_P)\include\QtGui" "-I.\GeneratedFiles\$(ConfigurationName)\." "-IQ:\XRAD\Sources" "-IQ:\XRAD" "-IQ:\XRAD\QuasimodoSpecific" "-IQ:\XRAD\QuasimodoUniversal\Basic" "-IQ:\XRAD\QuasimodoUniversal\SampleTypes" "-IQ:\XRAD\QuasimodoUniversal\ScanConverter" "-IQ:\XRAD\QuasimodoUniversal\Utils" "-IQ:\XRAD\QuasimodoUniversal\VectorTypes" "-fpre.h" "-f../../QtWebApp/httpserver/httplistener.h"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="5.6.0x86" Qt5Version_x0020_x64="$(DefaultQtVersion)" MocOptions="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
