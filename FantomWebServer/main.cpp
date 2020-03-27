@@ -31,7 +31,9 @@ int xrad::xrad_main(int argc, char *argv[])
 	app.setOrganizationName("RPCMR");
 	QString	app_path = app.applicationDirPath();
 
-#error здесь идет обращение к файлу с настройками. Организовано очень плохо. С реорганизации настроек следует начать
+	
+
+//#error здесь идет обращение к файлу с настройками. Организовано очень плохо. С реорганизации настроек следует начать
 
 	QString	web_sources_ini_filename = app_path + "/websources.ini";
 	QSettings* web_sources_settings = new QSettings(web_sources_ini_filename, QSettings::IniFormat, &app);
