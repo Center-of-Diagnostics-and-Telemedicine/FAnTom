@@ -1,4 +1,4 @@
-#include "pre.h"
+ï»¿#include "pre.h"
 #include "FantomSettingsEdit.h"
 #include <Sources/XRAD/GUI/DynamicDialog.h>
 #include <QtCore/QSettings.h>
@@ -25,9 +25,9 @@ void		ExportSettings(WebServerSettings &wss)
 	settings.setValue("Port", wss.port);
 	settings.setValue("Dicom folder", convert_to_string(wss.dicom_folder).c_str());
 
-	// âñå ñîõðàíÿåòñÿ â âåòêó ðååñòðà
+	// Ð²ÑÐµ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÐµÑ‚ÑÑ Ð² Ð²ÐµÑ‚ÐºÑƒ Ñ€ÐµÐµÑÑ‚Ñ€Ð°
 	//HKEY_CURRENT_USER\Software\RPCMR\FAnTom WebServer
-	// Íàëàäèòü ÷òåíèå îòòóäà, ïîïîëíèòü âñå ïàðàìåòðû
+	// ÐÐ°Ð»Ð°Ð´Ð¸Ñ‚ÑŒ Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ Ð¾Ñ‚Ñ‚ÑƒÐ´Ð°, Ð¿Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð²ÑÐµ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹
 }
 
 int xrad::xrad_main(int,char * * const)
@@ -39,8 +39,8 @@ int xrad::xrad_main(int,char * * const)
 	
 //		wstring	some_string;
 
-		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Êàòàëîã ñ èññëåäîâàíèÿìè äëÿ ðàçìåòêè", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
-//		dialog->CreateControl<DynamicDialog::StringEdit>(L"êàêàÿ-òî ñòðîêîâàÿ íàñòðîéêà", SavedGUIValue(some_string));
+		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"ÐšÐ°Ñ‚Ð°Ð»Ð¾Ð³ Ñ Ð¸ÑÑÐ»ÐµÐ´Ð¾Ð²Ð°Ð½Ð¸ÑÐ¼Ð¸ Ð´Ð»Ñ Ñ€Ð°Ð·Ð¼ÐµÑ‚ÐºÐ¸", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
+//		dialog->CreateControl<DynamicDialog::StringEdit>(L"ÐºÐ°ÐºÐ°Ñ-Ñ‚Ð¾ ÑÑ‚Ñ€Ð¾ÐºÐ¾Ð²Ð°Ñ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°", SavedGUIValue(some_string));
 		dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", SavedGUIValue(&wss.port), 1024, 65535);
 
 //		dialog->AddControl(FoldersLayout(settings.target_folder, settings.source_folder/*, source_names_list*/));
