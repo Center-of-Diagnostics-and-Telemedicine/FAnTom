@@ -25,9 +25,42 @@
 bld/
 [Bb]in/
 [Oo]bj/
+[Ll]ib/
+[Oo]ut/
+
+
+
+
+
+
+# Common
+*.~*
+thumbs.db
+old/
+temp/
+
+# Version control systems
+*.orig
+*.rej
+
+
+
+
+
+
 
 # Visual Studio 2015 cache/options directory
 .vs/
+ipch/
+*.user
+*.db
+*.suo
+*.sdf
+*.opensdf
+*.opendb
+CMakeSettings.json
+
+
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -64,6 +97,7 @@ artifacts/
 *.tli
 *.tlh
 *.tmp
+*.bak
 *.tmp_proj
 *.log
 *.vspscc
