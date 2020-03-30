@@ -16,16 +16,6 @@
     <Filter Include="QtWebServer\headers">
       <UniqueIdentifier>{ec240205-8b57-46d7-a3c5-3722295cef47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{6d8e6a08-afb4-484e-9c7a-d5483eec2d67}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{83254b2e-226e-4cca-87fe-1687ed9260c8}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,50 +54,8 @@
     <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp">
       <Filter>QtWebServer</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandler.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandler.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_httpconnectionhandlerpool.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_httpconnectionhandlerpool.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_httplistener.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_httplistener.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_httprequesthandler.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_httprequesthandler.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_httpsessionstore.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_httpsessionstore.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_staticfilecontroller.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_staticfilecontroller.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="RequestMapper.cpp">
       <Filter>QtWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RequestMapper.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RequestMapper.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="ManageStrings.cpp">
       <Filter>Source Files</Filter>
@@ -126,6 +74,27 @@
     </ClCompile>
     <ClCompile Include="pre.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpconnectionhandler.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpconnectionhandlerpool.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httplistener.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httprequesthandler.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpsessionstore.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
