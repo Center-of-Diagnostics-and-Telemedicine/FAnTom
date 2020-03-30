@@ -1,19 +1,18 @@
-﻿/*
-
-*/
-#include "pre.h"
+﻿#include "pre.h"
 #include "TestFunctions.h"
 
+#ifdef _MSC_VER
+#include "MSVC_FantomLibraryLink.h"
+#endif
 
 XRAD_USING
 
 
-int	xrad_main(int n, char *names[])
+int	xrad::xrad_main(int n, char *names[])
 {
 	try
 	{
-//		XRAD_ASSERT_THROW_M
-		assert_throw(n <= 2, invalid_argument("Укажите только одну папку с данными формата DICOM"));
+		XRAD_ASSERT_THROW_M(n <= 2, invalid_argument, "Укажите только одну папку с данными формата DICOM");
 		wstring	foldername = (n == 2) ? convert_to_wstring(names[1]) : L"";
 		if (foldername.size() == 0)
 		{

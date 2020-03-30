@@ -16,6 +16,8 @@ void	TestLibraryImage(const wstring &folder_path_p)
 
 	vector<wstring> accession_numbers;
 	GetAccessionNumbers(accession_numbers);
+	if (accession_numbers.empty())
+		return;
 
 	char **acc = new char*[100];
 	int n;

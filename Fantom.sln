@@ -10,10 +10,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomTest", "FantomTest.vc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E4306EC-B132-4742-9643-E6B14A924B25}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\XRAD\XRADBasic\Sources\PlatformSpecific\MSVC\XRAD.natvis = ..\..\XRAD\XRADBasic\Sources\PlatformSpecific\MSVC\XRAD.natvis
+		bin\nlohmann_json.natvis = bin\nlohmann_json.natvis
+		bin\XRAD.natvis = bin\XRAD.natvis
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomWebServer", "FantomWebServer\FantomWebServer.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{833849F2-DB61-4A47-85DC-925C061BDE48} = {833849F2-DB61-4A47-85DC-925C061BDE48}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomLibrary", "FantomLibrary.vcxproj", "{833849F2-DB61-4A47-85DC-925C061BDE48}"
 EndProject
@@ -30,9 +34,11 @@ Global
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Debug|Win32.Build.0 = Debug|Win32
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Debug|x64.ActiveCfg = Debug|x64
+		{6E05F767-A333-471D-89D0-7981E76373A6}.Debug|x64.Build.0 = Debug|x64
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Release|Win32.ActiveCfg = Release|Win32
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Release|Win32.Build.0 = Release|Win32
 		{6E05F767-A333-471D-89D0-7981E76373A6}.Release|x64.ActiveCfg = Release|x64
+		{6E05F767-A333-471D-89D0-7981E76373A6}.Release|x64.Build.0 = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.Build.0 = Debug|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|x64

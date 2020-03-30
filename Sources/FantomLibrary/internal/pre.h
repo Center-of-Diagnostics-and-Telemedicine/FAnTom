@@ -1,13 +1,5 @@
-﻿#define MARKTOMOGRAM_DLL
-
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
-// #pragma warning(push)
-#pragma warning(disable:4244)
-// /*конкретное место*/7
-// #pragma warning(pop)
+﻿#ifndef Fantom__File_pre_h
+#define Fantom__File_pre_h
 
 #define Fantom_DLL
 
@@ -18,6 +10,4 @@
 #include <cstdint>
 #include <vector>
 
-
-
-//#include <XRADGUI.h>
+#endif // Fantom__File_pre_h

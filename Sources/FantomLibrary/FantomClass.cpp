@@ -1,37 +1,11 @@
-﻿/*
-
-*/
-#include "pre.h"
+﻿#include "pre.h"
 #include "FantomClass.h"
-
-
-//#include <ExponentialBlurAlgorithms.h>
-#include <XRADBasic/Sources/Containers/UniversalInterpolation.h>
-
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
-#include <omp.h>
-
-//template<class T>
-//T &nth(std::list<T> &lst, size_t n)
-//{
-//	auto	it = lst.begin();
-//	advance(it, n);
-//	return *it;
-//}
-
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
-
-/*
-	e_axial
-	e_frontal
-	e_sagittal
-
-*/
-
 
 point2_ST	slice_manager::slice_sizes(slice_type st, size_t no) const
 {

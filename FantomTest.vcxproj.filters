@@ -1,28 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;cxx;c;def</Extensions>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{a04079b9-bc11-4a6b-9fde-4a72d4e2cd9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\Test\pre.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Test\FantomTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Test\pre.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Test\TestFunctions.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Test\TestFunctions.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Test\pre.h">
-      <Filter>Source Files</Filter>
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Test\TestFunctions.h">
+      <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
