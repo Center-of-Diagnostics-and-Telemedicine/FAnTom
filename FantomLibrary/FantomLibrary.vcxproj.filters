@@ -6,31 +6,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\FantomLibrary\FantomClass.cpp">
+    <ClCompile Include="FantomClass.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\FantomLibrary\FantomLibrary.cpp">
+    <ClCompile Include="FantomLibrary.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\FantomLibrary\internal\pre.cpp">
+    <ClCompile Include="internal\pre.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\FantomLibrary\FantomClass.h">
+    <ClInclude Include="FantomClass.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\FantomLibrary\FantomLibrary.h">
+    <ClInclude Include="FantomLibrary.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\FantomLibrary\internal\pre.h">
+    <ClInclude Include="internal\pre.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\FantomLibrary\FantomDefs.h">
+    <ClInclude Include="FantomDefs.h">
       <Filter>Sources</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="todo_list.txt" />
   </ItemGroup>
 </Project>

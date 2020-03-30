@@ -6,21 +6,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Test\FantomTest.cpp">
+    <ClCompile Include="FantomTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Test\pre.cpp">
+    <ClCompile Include="pre.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Test\TestFunctions.cpp">
+    <ClCompile Include="TestFunctions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Test\pre.h">
+    <ClInclude Include="pre.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Test\TestFunctions.h">
+    <ClInclude Include="TestFunctions.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

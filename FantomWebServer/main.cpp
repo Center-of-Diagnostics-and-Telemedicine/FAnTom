@@ -4,13 +4,13 @@
 
 #include "RequestMapper.h"
 
-#include <FantomLibrary.h>
+#include <FantomLibrary/FantomLibrary.h>
 
 #ifdef _MSC_VER
 	#include <XRADConsoleUI/Sources/PlatformSpecific/MSVC/MSVC_XRADConsoleUILink.h>
 	#include <XRADSystem/Sources/PlatformSpecific/MSVC/MSVC_XRADSystemLink.h >
 	#include "FantomWebServer_QtLink.h"
-	#include "MSVC_FantomLibraryLink.h"
+	#include "FantomLibrary/MSVC_FantomLibraryLink.h"
 #endif //_MSC_VER
 
 
@@ -27,7 +27,7 @@ int xrad::xrad_main(int argc, char *argv[])
 	app.setOrganizationName("RPCMR");
 	QString	app_path = app.applicationDirPath();
 
-	
+
 
 //#error здесь идет обращение к файлу с настройками. Организовано очень плохо. С реорганизации настроек следует начать
 

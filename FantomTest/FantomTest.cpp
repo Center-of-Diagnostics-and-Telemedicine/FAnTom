@@ -2,7 +2,7 @@
 #include "TestFunctions.h"
 
 #ifdef _MSC_VER
-#include "MSVC_FantomLibraryLink.h"
+#include <FantomLibrary/MSVC_FantomLibraryLink.h>
 #endif
 
 XRAD_USING
@@ -51,4 +51,3 @@ int	xrad::xrad_main(int n, char *names[])
 
 	return 1;
 }
-

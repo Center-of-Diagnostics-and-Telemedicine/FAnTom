@@ -4,7 +4,7 @@
 #include "pre.h"
 #include "TestFunctions.h"
 
-#include <FantomLibrary.h>
+#include <FantomLibrary/FantomLibrary.h>
 
 
 XRAD_BEGIN
