@@ -49,6 +49,9 @@ void  ImportSettngs(WebServerSettings &wss)
 	wss.port = tmpPort;
 }
 
+
+// some line
+
 int xrad::xrad_main(int,char * * const)
 {
 	try
