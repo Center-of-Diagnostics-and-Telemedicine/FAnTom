@@ -20,7 +20,7 @@
 #endif //_MSC_VER
 
 
-//QString	ini_path = "q:/Projects/Fantom/FantomWebServer/webserver.ini";
+
 QString	web_server_path;
 QString	data_store_path;
 QString	text_file_path;
@@ -29,40 +29,26 @@ QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
 
 
-int xrad::xrad_main(int argc, char *argv[])
+ int xrad::xrad_main(int argc, char *argv[])
 {
 	using namespace std;
 
 	QCoreApplication app(argc, argv);
 
-	WebServerSettings wss;
+		WebServerSettings wss;
+		ImportSettngs(wss);
 
-	ImportSettngs(wss);
-
-//	int port = wss.port;
+	web_server_path = QString::fromStdWString(wss.html_source_path) +"/";
 
 	data_store_path = QString::fromStdWString(wss.dicom_folder);
 
 	text_file_path = QString::fromStdWString(wss.dicom_text_folder);
 
-	web_server_path = QString::fromStdWString(wss.html_source_path);
-
-
-	wcout << wss.server_ini_file << endl;
 
 	QString server_ini_file = QString::fromStdWString(wss.server_ini_file);
-
-	//QString server_ini_file = QString::fromStdString("Q:/Projects/FAnTom/WebServerSources/webserver.ini");
+	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 
 	QString doctor_ini_file = QString::fromStdWString(wss.doctor_ini_file);
-
-
-	QSettings* settings_webserver=new QSettings(server_ini_file, QSettings::IniFormat, &app);
-
-	settings_webserver->beginGroup("listener");
-	cout << "port = " << settings_webserver->value("port").toInt() << endl;
-	settings_webserver->endGroup();
-
 	QSettings* settings_doctor_database = new QSettings(doctor_ini_file, QSettings::IniFormat, &app);
 
 	for (size_t i = 1; i < 4 /*note Kovbas это кол-во записей о врачах в базе врачей*/; ++i)
@@ -71,26 +57,25 @@ int xrad::xrad_main(int argc, char *argv[])
 		settings_doctor_database->beginGroup(doctor_ini_group);
 		QByteArray doctor_id_buff = settings_doctor_database->value("doctor_id").toByteArray();
 		QByteArray doctor_pass_buff = settings_doctor_database->value("password").toByteArray();
+
+//		string  doctor_pass_string = settings_doctor_database->value("password").toString().toStdString();
+//		cout << doctor_pass_string << endl;
+
 		doctor_database_map.insert(doctor_id_buff, doctor_pass_buff);
 		settings_doctor_database->endGroup();
 	}
 
 	settings_webserver->beginGroup("listener");
- 	int port = settings_webserver->value("port").toInt();
-	settings_webserver->endGroup();
+	int port = settings_webserver->value("port").toInt();
 
-	cout << port << endl;
+	RequestMapper* handler = new RequestMapper(&app, port);
 
-	RequestMapper* handler=new RequestMapper(&app, port);
-
-
-	HttpListener* listener=new HttpListener(settings_webserver, handler, &app);
+	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
 
 	return app.exec();
 }
 
-
-//int xrad::xrad_main(int argc, char *argv[])
+// int xrad::xrad_main(int argc, char *argv[])
 //{
 //	using namespace std;
 //
@@ -144,4 +129,5 @@ int xrad::xrad_main(int argc, char *argv[])
 //
 //	return app.exec();
 //}
+//
 
