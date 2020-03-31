@@ -229,6 +229,7 @@
     <ClInclude Include="QtWebApp\httpserver\httprequest.h" />
     <ClInclude Include="QtWebApp\httpserver\httpresponse.h" />
     <ClInclude Include="QtWebApp\httpserver\httpsession.h" />
+    <ClInclude Include="WebServerSettings.h" />
     <CustomBuild Include="RequestMapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing RequestMapper.h...</Message>

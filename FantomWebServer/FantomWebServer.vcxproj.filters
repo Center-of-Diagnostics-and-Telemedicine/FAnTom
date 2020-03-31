@@ -182,5 +182,8 @@
     <ClInclude Include="ManageWebPages.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="WebServerSettings.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

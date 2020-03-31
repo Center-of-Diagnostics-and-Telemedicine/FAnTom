@@ -3,17 +3,14 @@
 #include <Sources/XRAD/GUI/DynamicDialog.h>
 #include <QtCore/QSettings.h>
 #include <iostream>
+#include "Q:\Projects\FAnTom\FantomWebServer\WebServerSettings.h"
 //#include <QtCore/QCoreApplication.h>
 
 XRAD_USING
 
 using namespace std;
 
-struct WebServerSettings
-{
-	size_t	port = 5555;
-	wstring dicom_folder;
-};
+
 
 
 void		ExportSettings(WebServerSettings &wss)
@@ -25,8 +22,17 @@ void		ExportSettings(WebServerSettings &wss)
 	QString	org_name("RPCMR");
 
 	QSettings	settings(QSettings::NativeFormat, QSettings::UserScope, org_name, app_name);
-	settings.setValue("Port", wss.port);
-	settings.setValue("Dicom folder", convert_to_string(wss.dicom_folder).c_str());
+	//settings.setValue("Port", wss.port);
+
+	settings.setValue("DicomFolder", convert_to_string(wss.dicom_folder).c_str());
+
+	settings.setValue("DicomTextFolder", convert_to_string(wss.dicom_text_folder).c_str());
+
+	settings.setValue("HtmlSourceFolder", convert_to_string(wss.html_source_path).c_str());
+
+	settings.setValue("Server .ini file", convert_to_string(wss.server_ini_file).c_str());
+
+	settings.setValue("Doctors .ini file", convert_to_string(wss.doctor_ini_file).c_str());
 
 	// все сохраняется в ветку реестра
 	//HKEY_CURRENT_USER\Software\RPCMR\FAnTom WebServer
@@ -34,18 +40,7 @@ void		ExportSettings(WebServerSettings &wss)
 }
 
 
-void  ImportSettngs(WebServerSettings &wss)
-{
-	QSettings settings("HKEY_CURRENT_USER\\Software\\RPCMR\\FAnTom WebServer",
-		QSettings::NativeFormat);
 
-	wss.port = settings.value("Port", 0).toInt();
-
-	wss.dicom_folder = settings.value("Dicom folder", "C:/temp").toString().toStdWString();
-}
-
-
-// some line
 
 int xrad::xrad_main(int,char * * const)
 {
@@ -56,16 +51,26 @@ int xrad::xrad_main(int,char * * const)
 
 		ImportSettngs(wss);
 	
-		wstring	some_string = L"aaa";
-
+	
 	//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
+
 		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", &wss.dicom_folder, DynamicDialog::Layout::Vertical);
+
+		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с текстовых файлов", &wss.dicom_text_folder, DynamicDialog::Layout::Vertical);
+
+		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог html файлов сервера", &wss.html_source_path, DynamicDialog::Layout::Vertical);
+
+
+		dialog->CreateControl<DynamicDialog::ValueFileLoadEdit>(L"Выбор файла внутренних настроек сервера", &wss.server_ini_file,  L"*.ini", DynamicDialog::Layout::Vertical);
+
+		dialog->CreateControl<DynamicDialog::ValueFileLoadEdit>(L"Выбор файла списка докторов", &wss.doctor_ini_file, L"*.ini", DynamicDialog::Layout::Vertical);
+
 
 
 	//	dialog->CreateControl<DynamicDialog::StringEdit>(L"какая-то строковая настройка", some_string);
 	//	dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", SavedGUIValue(&wss.port), 1024, 65535);
 
-		dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", &wss.port, 1024, 65535);
+	//!!!	dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", &wss.port, 1024, 65535);
 
 
 
@@ -73,7 +78,7 @@ int xrad::xrad_main(int,char * * const)
 
 		dialog->Show();
 
-		wcout << wss.dicom_folder << endl;
+	
 
 		ExportSettings(wss);
 

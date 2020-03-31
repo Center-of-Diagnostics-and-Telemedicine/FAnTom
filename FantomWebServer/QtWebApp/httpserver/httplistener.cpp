@@ -40,7 +40,11 @@ void HttpListener::listen()
         pool=new HttpConnectionHandlerPool(settings,requestHandler);
     }
     QString host = settings->value("host").toString();
+
+	settings->beginGroup("listener");
     int port=settings->value("port").toInt();
+	settings->endGroup();
+
     QTcpServer::listen(host.isEmpty() ? QHostAddress::Any : QHostAddress(host), port);
     if (!isListening())
     {
