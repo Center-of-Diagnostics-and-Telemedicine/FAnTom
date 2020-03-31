@@ -39,14 +39,9 @@ void  ImportSettngs(WebServerSettings &wss)
 	QSettings settings("HKEY_CURRENT_USER\\Software\\RPCMR\\FAnTom WebServer",
 		QSettings::NativeFormat);
 
-	size_t tmpPort;
-	tmpPort = settings.value("Port",     0).toInt();
+	wss.port = settings.value("Port", 0).toInt();
 
-	QString tmpFolder = settings.value("Dicom folder", "C:").toString();
-
-	cout << tmpFolder.toLocal8Bit().constData() << endl;
-
-	wss.port = tmpPort;
+	wss.dicom_folder = settings.value("Dicom folder", "C:/temp").toString().toStdWString();
 }
 
 
@@ -61,17 +56,16 @@ int xrad::xrad_main(int,char * * const)
 
 		ImportSettngs(wss);
 	
-		wstring	some_string;// = L"aaa";
+		wstring	some_string = L"aaa";
 
-		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
-	//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&some_string), DynamicDialog::Layout::Vertical);
-	//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", &some_string, DynamicDialog::Layout::Vertical);
+	//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
+		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", &wss.dicom_folder, DynamicDialog::Layout::Vertical);
+
+
 	//	dialog->CreateControl<DynamicDialog::StringEdit>(L"какая-то строковая настройка", some_string);
+	//	dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", SavedGUIValue(&wss.port), 1024, 65535);
 
-		cout << wss.port << endl;
-		cout << &some_string << endl;
-
-		dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", SavedGUIValue(&wss.port), 1024, 65535);
+		dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", &wss.port, 1024, 65535);
 
 
 
