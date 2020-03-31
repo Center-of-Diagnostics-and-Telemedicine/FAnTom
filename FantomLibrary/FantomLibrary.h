@@ -29,7 +29,9 @@ extern "C"
 operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
 
 operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
-operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
+// Если функция понадобится, переделать прототип. Не должно быть привязки к типам из Dicom,
+// вернуть составные части структуры complete_study_id_t.
+//operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 //operation_result FANTOM_DLL_EI GetStudiesIDs(string &accession_numbers);
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);

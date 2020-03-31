@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomLibrary", "FantomLibr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomSettingsEdit", "FantomSettingsEdit\FantomSettingsEdit.vcxproj", "{8E96FBD0-1605-4FA6-A1AE-AB0FD2C1E74C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomConsoleTest", "FantomConsoleTest\FantomConsoleTest.vcxproj", "{00000001-0001-0001-0001-158565548100}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -64,6 +66,14 @@ Global
 		{8E96FBD0-1605-4FA6-A1AE-AB0FD2C1E74C}.Release|Win32.Build.0 = Release|Win32
 		{8E96FBD0-1605-4FA6-A1AE-AB0FD2C1E74C}.Release|x64.ActiveCfg = Release|x64
 		{8E96FBD0-1605-4FA6-A1AE-AB0FD2C1E74C}.Release|x64.Build.0 = Release|x64
+		{00000001-0001-0001-0001-158565548100}.Debug|Win32.ActiveCfg = Debug|Win32
+		{00000001-0001-0001-0001-158565548100}.Debug|Win32.Build.0 = Debug|Win32
+		{00000001-0001-0001-0001-158565548100}.Debug|x64.ActiveCfg = Debug|x64
+		{00000001-0001-0001-0001-158565548100}.Debug|x64.Build.0 = Debug|x64
+		{00000001-0001-0001-0001-158565548100}.Release|Win32.ActiveCfg = Release|Win32
+		{00000001-0001-0001-0001-158565548100}.Release|Win32.Build.0 = Release|Win32
+		{00000001-0001-0001-0001-158565548100}.Release|x64.ActiveCfg = Release|x64
+		{00000001-0001-0001-0001-158565548100}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
