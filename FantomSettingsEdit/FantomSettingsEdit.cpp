@@ -3,7 +3,7 @@
 #include <Sources/XRAD/GUI/DynamicDialog.h>
 #include <QtCore/QSettings.h>
 #include <iostream>
-#include "Q:\Projects\FAnTom\FantomWebServer\WebServerSettings.h"
+#include <FantomWebServer/WebServerSettings.h>
 //#include <QtCore/QCoreApplication.h>
 
 XRAD_USING
