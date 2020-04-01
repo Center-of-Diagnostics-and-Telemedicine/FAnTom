@@ -1,24 +1,19 @@
 ﻿#include "pre.h"
-/*
 
-*/
 #include <QtCore/QCoreApplication>
 
 #include "RequestMapper.h"
 
-#include <FantomLibrary.h>
+#include <FantomLibrary/FantomLibrary.h>
 
 #include <iostream>
 
 #ifdef _MSC_VER
 	#include <XRADConsoleUI/Sources/PlatformSpecific/MSVC/MSVC_XRADConsoleUILink.h>
 	#include <XRADSystem/Sources/PlatformSpecific/MSVC/MSVC_XRADSystemLink.h >
-//	#include <XRAD/PlatformSpecific/MSVC/PC_XRADConsoleUILink.h>
 	#include "FantomWebServer_QtLink.h"
-    #include "WebServerSettings.h"
-	#pragma comment(lib, "FantomLibrary.lib")
+	#include "FantomLibrary/MSVC_FantomLibraryLink.h"
 #endif //_MSC_VER
-
 
 
 QString	web_server_path;

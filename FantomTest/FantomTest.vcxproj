@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6E05F767-A333-471D-89D0-7981E76373A6}</ProjectGuid>
-    <RootNamespace>SimpleTest</RootNamespace>
+    <RootNamespace>FantomTest</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -49,23 +49,23 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="q:\XRAD\Projects\XRADGUI\XRADGUI.props" />
-    <Import Project="q:\XRAD\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
+    <Import Project="$(XRADRoot)\Projects\XRADGUI\XRADGUI.props" />
+    <Import Project="$(XRADRoot)\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="q:\XRAD\Projects\XRADGUI\XRADGUI.props" />
-    <Import Project="q:\XRAD\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
+    <Import Project="$(XRADRoot)\Projects\XRADGUI\XRADGUI.props" />
+    <Import Project="$(XRADRoot)\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="q:\XRAD\Projects\XRADGUI\XRADGUI.props" />
-    <Import Project="q:\XRAD\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
+    <Import Project="$(XRADRoot)\Projects\XRADGUI\XRADGUI.props" />
+    <Import Project="$(XRADRoot)\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="q:\XRAD\Projects\XRADGUI\XRADGUI.props" />
-    <Import Project="q:\XRAD\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
+    <Import Project="$(XRADRoot)\Projects\XRADGUI\XRADGUI.props" />
+    <Import Project="$(XRADRoot)\XRADDicomGUI\MSVC\XRADDicomGUI.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
@@ -74,42 +74,37 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Sources\FantomLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Sources\FantomLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Sources\FantomLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Sources\FantomLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sources\Test\pre.cpp">
+    <ClCompile Include="pre.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Sources\Test\FantomTest.cpp" />
-    <ClCompile Include="Sources\Test\TestFunctions.cpp" />
+    <ClCompile Include="FantomTest.cpp" />
+    <ClCompile Include="TestFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Test\pre.h" />
-    <ClInclude Include="Sources\Test\TestFunctions.h" />
+    <ClInclude Include="pre.h" />
+    <ClInclude Include="TestFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

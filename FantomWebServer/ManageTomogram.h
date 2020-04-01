@@ -4,7 +4,7 @@
 #include <XRADBasic/ContainersAlgebra.h>
 #include <QTCore/QByteArray.h>
 #include <QTCore/QMap.h>
-#include <FantomLibrary.h>
+#include <FantomLibrary/FantomLibrary.h>
 #include <vector>
 
 

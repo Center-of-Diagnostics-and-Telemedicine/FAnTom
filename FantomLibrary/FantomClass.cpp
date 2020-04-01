@@ -1,37 +1,12 @@
-﻿/*
-
-*/
-#include "pre.h"
+﻿#include "pre.h"
 #include "FantomClass.h"
-
-
-//#include <ExponentialBlurAlgorithms.h>
-#include <XRADBasic/Sources/Containers/UniversalInterpolation.h>
-
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
-#include <omp.h>
-
-//template<class T>
-//T &nth(std::list<T> &lst, size_t n)
-//{
-//	auto	it = lst.begin();
-//	advance(it, n);
-//	return *it;
-//}
-
+#include <cstring>
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
-
-/*
-	e_axial
-	e_frontal
-	e_sagittal
-
-*/
-
 
 point2_ST	slice_manager::slice_sizes(slice_type st, size_t no) const
 {
@@ -369,7 +344,7 @@ operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_
 		b1.UseDataFragment(m_slices, {0, p0, 0}, {m_slices.sizes(0), p1, m_slices.sizes(2)});
 		b1.GetSubset(acquisition_buffer, {slice_mask(1), slice_mask(0), slice_mask(2)});
 		break;
-	
+
 	case e_sagittal:
 		b1.UseDataFragment(m_slices, {0, 0, p0}, {m_slices.sizes(0), m_slices.sizes(1), p1});
 		b1.GetSubset(acquisition_buffer, {slice_mask(1), slice_mask(2), slice_mask(0)});
@@ -391,9 +366,9 @@ operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_
 //auto	get_iv(const )
 
 operation_result Fantom::GetTomogramSlice(frame_t &frame,
-	double tomogram_slice_position, 
-	slice_type st, 
-	size_t aprox_size, 
+	double tomogram_slice_position,
+	slice_type st,
+	size_t aprox_size,
 	mip_method_type mip_method)
 {
 	size_t	slice_no = size_t(tomogram_slice_position);
@@ -413,10 +388,10 @@ operation_result Fantom::GetTomogramSlice(frame_t &frame,
 
 operation_result Fantom::GetScreenSlice(frame_t &screen_image_buffer,
 			slice_type st,
-			size_t dicom_slice_position, 
+			size_t dicom_slice_position,
 			double black,
 			double white,
-			double gamma, 
+			double gamma,
 			size_t slice_aprox,
 			mip_method_type mip_method)
 {
@@ -554,7 +529,7 @@ operation_result slice_manager::CalculateInterpolationScales()
 {
 	interpolation_factor.CopyData(m_scales / min(m_scales.x(), m_scales.y()));
 
-	interpolation_sizes = 
+	interpolation_sizes =
 	{
 		size_t(m_slices.sizes(0) * interpolation_factor.z()),
 		size_t(m_slices.sizes(1) * interpolation_factor.y()),
@@ -661,7 +636,7 @@ operation_result Fantom::GetSlice_J(
 	};
 
 	return bitmap_to_buffer(bitmap_buffers[st], imgData);
-	
+
 	logForJava("GetSlice_J is finished (error)");
 	return e_other;
 }

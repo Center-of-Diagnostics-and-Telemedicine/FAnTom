@@ -6,7 +6,7 @@
 #include "ManageBitmap.h"
 #include "ManageTomogram.h"
 #include "ManageWebPages.h"
-#include <FantomLibrary.h>
+#include <FantomLibrary/FantomLibrary.h>
 
 
 using namespace std;

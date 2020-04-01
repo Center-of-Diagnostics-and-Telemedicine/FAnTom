@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{a04079b9-bc11-4a6b-9fde-4a72d4e2cd9c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FantomTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pre.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TestFunctions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pre.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="TestFunctions.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
