@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "WebServerSettings.h"
+#include <Common/WebServerSettings.h>
 
 #ifdef _MSC_VER
 	#include <XRADConsoleUI/Sources/PlatformSpecific/MSVC/MSVC_XRADConsoleUILink.h>

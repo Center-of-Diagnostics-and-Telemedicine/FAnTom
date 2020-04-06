@@ -27,12 +27,18 @@
     <ClInclude Include="pre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\WebServerSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FantomSettingsEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\WebServerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

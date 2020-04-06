@@ -96,6 +96,9 @@
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\WebServerSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandler.h">
@@ -151,7 +154,7 @@
     <ClInclude Include="ManageWebPages.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebServerSettings.h">
+    <ClInclude Include="..\Common\WebServerSettings.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

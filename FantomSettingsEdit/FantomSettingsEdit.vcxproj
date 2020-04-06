@@ -153,11 +153,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\WebServerSettings.h" />
     <ClInclude Include="FantomSettingsEdit.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="pre.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\WebServerSettings.cpp" />
     <ClCompile Include="FantomSettingsEdit.cpp" />
     <ClCompile Include="pre.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

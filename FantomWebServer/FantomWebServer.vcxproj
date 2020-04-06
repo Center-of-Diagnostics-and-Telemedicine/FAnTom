@@ -82,6 +82,9 @@
 call "$(ProjectDir)CopyQtNetwork.bat" $(OutDir)
 call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -93,6 +96,9 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
 call "$(ProjectDir)CopyQtNetwork.bat" $(OutDir)
 call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -104,6 +110,9 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
 call "$(ProjectDir)CopyQtNetwork.bat" $(OutDir)
 call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -115,6 +124,9 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
 call "$(ProjectDir)CopyQtNetwork.bat" $(OutDir)
 call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpconnectionhandler.cpp" />
@@ -124,6 +136,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpsessionstore.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" />
+    <ClCompile Include="..\Common\WebServerSettings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManageBitmap.cpp" />
     <ClCompile Include="ManageServerCommands.cpp" />
@@ -190,6 +203,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\WebServerSettings.h" />
     <ClInclude Include="ManageBitmap.h" />
     <ClInclude Include="ManageServerCommands.h" />
     <ClInclude Include="ManageStrings.h" />
@@ -200,7 +214,6 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClInclude Include="QtWebApp\httpserver\httprequest.h" />
     <ClInclude Include="QtWebApp\httpserver\httpresponse.h" />
     <ClInclude Include="QtWebApp\httpserver\httpsession.h" />
-    <ClInclude Include="WebServerSettings.h" />
     <CustomBuild Include="RequestMapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing RequestMapper.h...</Message>

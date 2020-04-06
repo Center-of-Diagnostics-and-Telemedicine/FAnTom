@@ -3,7 +3,7 @@
 #include <Sources/XRAD/GUI/DynamicDialog.h>
 #include <QtCore/QSettings.h>
 #include <iostream>
-#include <FantomWebServer/WebServerSettings.h>
+#include <Common/WebServerSettings.h>
 //#include <QtCore/QCoreApplication.h>
 
 XRAD_USING
@@ -11,48 +11,17 @@ XRAD_USING
 using namespace std;
 
 
-
-
-void		ExportSettings(WebServerSettings &wss)
-{
-	int	dummy_n = 0;
-	char	**argv = NULL;
-
-	QString	app_name("FAnTom WebServer");
-	QString	org_name("RPCMR");
-
-	QSettings	settings(QSettings::NativeFormat, QSettings::UserScope, org_name, app_name);
-	//settings.setValue("Port", wss.port);
-
-	settings.setValue("DicomFolder", convert_to_string(wss.dicom_folder).c_str());
-
-	settings.setValue("DicomTextFolder", convert_to_string(wss.dicom_text_folder).c_str());
-
-	settings.setValue("HtmlSourceFolder", convert_to_string(wss.html_source_path).c_str());
-
-	settings.setValue("Server .ini file", convert_to_string(wss.server_ini_file).c_str());
-
-	settings.setValue("Doctors .ini file", convert_to_string(wss.doctor_ini_file).c_str());
-
-	// все сохраняется в ветку реестра
-	//HKEY_CURRENT_USER\Software\RPCMR\FAnTom WebServer
-	// Наладить чтение оттуда, пополнить все параметры
-}
-
-
-
-
 int xrad::xrad_main(int,char * * const)
 {
 	try
 	{
 		auto	dialog = DynamicDialog::OKCancelDialog::Create(L"FAnTom web server settings");
+
 		WebServerSettings	wss;
 
 		ImportSettngs(wss);
 	
-	
-	//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
+		//	dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", SavedGUIValue(&wss.dicom_folder), DynamicDialog::Layout::Vertical);
 
 		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", &wss.dicom_folder, DynamicDialog::Layout::Vertical);
 
@@ -72,19 +41,11 @@ int xrad::xrad_main(int,char * * const)
 
 	//!!!	dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", &wss.port, 1024, 65535);
 
-
-
-//		dialog->AddControl(FoldersLayout(settings.target_folder, settings.source_folder/*, source_names_list*/));
+   //		dialog->AddControl(FoldersLayout(settings.target_folder, settings.source_folder/*, source_names_list*/));
 
 		dialog->Show();
 
-	
-
 		ExportSettings(wss);
-
-		Pause();
-
-
 
 	}
 	catch(...)
