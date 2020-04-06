@@ -71,20 +71,26 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 	QMultiMap<QByteArray, QByteArray> q_params_map = request.getParameterMap();
 	command_type com_t = ParseCommand(q_params_map);
 
-	if (is_filetype(ws_path_name_no_slash, L"html")&&(com_t == e_load_web_page))
-	{
-		if (ws_path_name_no_slash == L"DICOM_Viewer.html")
+//@@@	if (is_filetype(ws_path_name_no_slash, L"html")&&(com_t == e_load_web_page))
+//	{
+	     if (q_request_method == "GET" && com_t == e_no_command && ws_path_name_no_slash == L"" )//ws_path_name_no_slash.isEmthy()
+	    {
+			 GenerateStartPage(message);
+		}
+		 else if (q_request_method == "GET" && com_t == e_no_command && ws_path_name_no_slash == L"favicon.ico")
+		 {
+			 qDebug() << " favicon asked";
+		 }
+		 else if (q_request_method == "GET" && com_t == e_no_command &&ws_path_name_no_slash == L"login_page.html")
+		 {
+			 GenerateLoginPage(q_params_map, message);
+		 }
+		else if (q_request_method == "GET" && com_t == e_no_command &&ws_path_name_no_slash == L"DICOM_Viewer.html")
 		{
 			GenerateDICOMPage(q_params_map, message);
 		}
-		else
-		{
-			GenerateLoginPage(q_params_map, message);
-		}
-	}
-	else
-	{
-		if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "POST")
+
+		else if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "POST")
 		{
 			QByteArray text_saved = request.getBody();
 			shared_cfile	file;
@@ -115,6 +121,11 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			bmp = ParseSliceBMP(q_params_map);
 			response.setStatus(200, "OK");
 			response.write(bmp);
+            //@@@@@@@@@@prokudaylo
+			qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
+			qDebug() << "Some bmp QByteArray written";
+			qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
+			//@@@@@@@@@@prokudaylo
 			return;
 		}
 		else
@@ -145,14 +156,18 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_coordinate_interpolated:
 				GenerateInterpolatedCoordData(q_params_map, message);
 				break;
-			case e_load_start_page:
-				GenerateStartPage(message);
-				break;
+			//case e_load_start_page:
+			//	GenerateStartPage(message);
+			//	break;
 			case e_check_doctor_login:
 				CheckDoctorLogin(q_params_map, message);
 				break;
 			case e_get_accession_numbers:
 				GetAccNamesData(message);
+
+				qDebug() << "GetAccNamesData called ";
+				qDebug() << u16tou8(message.str()).c_str();
+
 				break;
 			case e_delete_ct:
 				//CloseTomogram(q_params_map);
@@ -168,13 +183,21 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 				break;
 			}
 		}
-	}
+	
 	// Set a response header
 	response.setHeader("Content-Type", "text/html; charset=utf-8");
 
 
 	// Generate the HTML document
 	string	msgstr = u16tou8(message.str());
+
+	//@@@@@@@@ prokudaylo
+	qDebug() << "RequestMapper::service msgstr.c_str()";
+	qDebug() << msgstr.c_str() ;
+	qDebug() << "End of msgstr.c_str()";
+	//@@@@@@@@
+
+
 	response.write(msgstr.c_str());
 }
 

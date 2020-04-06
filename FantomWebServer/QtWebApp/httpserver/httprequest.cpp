@@ -9,6 +9,8 @@
 #include <QTCore/QDir>
 #include "httpcookie.h"
 
+
+
 using namespace stefanfrings;
 
 HttpRequest::HttpRequest(QSettings* settings)
@@ -29,6 +31,11 @@ void HttpRequest::readRequest(QTcpSocket* socket)
     #endif
     int toRead=maxSize-currentSize+1; // allow one byte more to be able to detect overflow
     lineBuffer.append(socket->readLine(toRead));
+	///@@@@@@@@@@ prokudaylo
+	qDebug() << "readRequest";
+	qDebug() << qPrintable(lineBuffer);
+	//@@@@@@@@@@
+
     currentSize+=lineBuffer.size();
     if (!lineBuffer.contains('\r') && !lineBuffer.contains('\n'))
     {
@@ -53,6 +60,15 @@ void HttpRequest::readRequest(QTcpSocket* socket)
             version=list.at(2);
             peerAddress = socket->peerAddress();
             status=waitForHeader;
+
+
+        //@@@@@@@ prokudaylo
+			qDebug() << "readRequest.method =";
+			qDebug() << qPrintable(method);
+
+			qDebug() << "readRequest.path =";
+			qDebug() << qPrintable(path);
+	    //@@@@@@@
         }
     }
 }
@@ -64,6 +80,12 @@ void HttpRequest::readHeader(QTcpSocket* socket)
     #endif
     int toRead=maxSize-currentSize+1; // allow one byte more to be able to detect overflow
     lineBuffer.append(socket->readLine(toRead));
+
+	///@@@@@@@@@@ prokudaylo
+	qDebug() << "readHeader";
+	qDebug() << qPrintable(lineBuffer);
+	//@@@@@@@@@@
+
     currentSize+=lineBuffer.size();
     if (!lineBuffer.contains('\r') && !lineBuffer.contains('\n'))
     {
@@ -158,6 +180,12 @@ void HttpRequest::readBody(QTcpSocket* socket)
         #endif
         int toRead=expectedBodySize-bodyData.size();
         QByteArray newData=socket->read(toRead);
+
+		///@@@@@@@@@@ prokudaylo
+		qDebug() << "readBody";
+		qDebug() << qPrintable(newData);
+		//@@@@@@@@@@
+
         currentSize+=newData.size();
         bodyData.append(newData);
         if (bodyData.size()>=expectedBodySize)

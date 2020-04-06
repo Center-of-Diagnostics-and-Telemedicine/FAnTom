@@ -12,8 +12,11 @@ XRAD_BEGIN
 
 command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 {
-	if (!(q_params_map.contains("command")) && (q_params_map.size() == 0)) return e_load_start_page;
-	else if (!(q_params_map.contains("command")) && (q_params_map.size() == 2)) return e_load_web_page;
+	if (!(q_params_map.contains("command")) ) return e_no_command;
+	
+//	if (!(q_params_map.contains("command")) && (q_params_map.size() == 0)) return e_load_start_page;
+//	else if (!(q_params_map.contains("command")) && (q_params_map.size() == 2)) return e_load_web_page;
+
 	else if ((q_params_map.value("command", "") == "GetSlice") && q_params_map.size() == 9) return e_get_one_slice;
 	else if ((q_params_map.value("command", "") == "GetNFramesReal") && (q_params_map.size() == 3)) return e_get_n_frames_real;
 	else if ((q_params_map.value("command", "") == "GetNFramesInterpolated") && (q_params_map.size() == 3)) return e_get_n_frames_interpolated;

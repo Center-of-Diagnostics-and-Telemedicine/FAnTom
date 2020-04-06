@@ -10,7 +10,7 @@
 using namespace stefanfrings;
 
 HttpConnectionHandler::HttpConnectionHandler(QSettings* settings, HttpRequestHandler* requestHandler, QSslConfiguration* sslConfiguration)
-    : QThread()
+ //   : QThread()
 {
     Q_ASSERT(settings!=0);
     Q_ASSERT(requestHandler!=0);
@@ -22,11 +22,21 @@ HttpConnectionHandler::HttpConnectionHandler(QSettings* settings, HttpRequestHan
 
     // Create TCP or SSL socket
     createSocket();
+	//@@@@@@ prokudaylo 
+//	qDebug("HttpConnectionHandler (%p): before moveToThread", this);
+//	qDebug("Socket (%p): before moveToThread", socket);
+	//@@@@@@
+
 
     // execute signals in my own thread
-    moveToThread(this);
-    socket->moveToThread(this);
-    readTimer.moveToThread(this);
+//    moveToThread(this);
+ //  socket->moveToThread(this);
+
+   //@@@@@@ prokudaylo 
+  // qDebug("Socket (%p): after moveToThread", socket);
+   //@@@@@@
+
+//    readTimer.moveToThread(this);
 
     // Connect signals
     connect(socket, SIGNAL(readyRead()), SLOT(read()));
