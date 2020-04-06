@@ -10,11 +10,17 @@
 #include "FantomDefs.h"
 
 #ifndef FANTOM_DLL_EI
-#if defined(_MSC_VER)
+#if defined(XRAD_COMPILER_MSC)
 #ifdef Fantom_DLL
 	#define FANTOM_DLL_EI __declspec(dllexport)
 #else
 	#define FANTOM_DLL_EI __declspec(dllimport)
+#endif
+#elif defined(XRAD_COMPILER_GNUC)
+#ifdef Fantom_DLL
+	#define FANTOM_DLL_EI __attribute__((visibility("default")))
+#else
+	#define FANTOM_DLL_EI
 #endif
 #else
 #define FANTOM_DLL_EI
