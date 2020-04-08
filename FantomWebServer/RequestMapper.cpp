@@ -192,12 +192,18 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 	string	msgstr = u16tou8(message.str());
 
 	//@@@@@@@@ prokudaylo
-	qDebug() << "RequestMapper::service msgstr.c_str()";
-	qDebug() << msgstr.c_str() ;
-	qDebug() << "End of msgstr.c_str()";
+//	qDebug() << "RequestMapper::service msgstr.c_str()";
+//	qDebug() << msgstr.c_str() ;
+//	qDebug() << "End of msgstr.c_str()";
 	//@@@@@@@@
 
 
 	response.write(msgstr.c_str());
+
+	//@@@@@@@@ prokudaylo
+		qDebug() << "";
+		qDebug() << "Some msgstr.c_str()is written to response" ;
+		qDebug() << "";
+	//@@@@@@@@
 }
 

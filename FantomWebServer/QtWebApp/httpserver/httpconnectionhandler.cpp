@@ -29,14 +29,14 @@ HttpConnectionHandler::HttpConnectionHandler(QSettings* settings, HttpRequestHan
 
 
     // execute signals in my own thread
-//    moveToThread(this);
- //  socket->moveToThread(this);
+    moveToThread(this);
+   socket->moveToThread(this);
 
    //@@@@@@ prokudaylo 
   // qDebug("Socket (%p): after moveToThread", socket);
    //@@@@@@
 
-//    readTimer.moveToThread(this);
+    readTimer.moveToThread(this);
 
     // Connect signals
     connect(socket, SIGNAL(readyRead()), SLOT(read()));
@@ -103,6 +103,9 @@ void HttpConnectionHandler::handleConnection(tSocketDescriptor socketDescriptor)
     //https://bugreports.qt-project.org/browse/QTBUG-28914
     socket->connectToHost("",0);
     socket->abort();
+     //@@@@prokudaylo
+	//qDebug("The socketDescriptor now is (%p): ", socketDescriptor);
+	//@@@@@
 
     if (!socket->setSocketDescriptor(socketDescriptor))
     {
@@ -166,9 +169,9 @@ void HttpConnectionHandler::read()
     // The loop adds support for HTTP pipelinig
     while (socket->bytesAvailable())
     {
-        #ifdef SUPERVERBOSE
+      //  #ifdef SUPERVERBOSE
             qDebug("HttpConnectionHandler (%p): read input",this);
-        #endif
+    //    #endif
 
         // Create new HttpRequest object if necessary
         if (!currentRequest)
@@ -192,7 +195,13 @@ void HttpConnectionHandler::read()
         // If the request is aborted, return error message and close the connection
         if (currentRequest->getStatus()==HttpRequest::abort)
         {
-            socket->write("HTTP/1.1 413 entity too large\r\nConnection: close\r\n\r\n413 Entity too large\r\n");
+           //@@@@@prokudaylo	
+			qDebug() << "";
+			qDebug(" ==HttpRequest::abort at (%)", this);
+			qDebug() << "";
+			//@@@
+
+			socket->write("HTTP/1.1 413 entity too large\r\nConnection: close\r\n\r\n413 Entity too large\r\n");
             while(socket->bytesToWrite()) socket->waitForBytesWritten();
             socket->disconnectFromHost();
             delete currentRequest;
@@ -274,6 +283,11 @@ void HttpConnectionHandler::read()
             {
                 while(socket->bytesToWrite()) socket->waitForBytesWritten();
                 socket->disconnectFromHost();
+				//@@@@@@@@@@@ prokudaylo
+				qDebug() << "";
+				qDebug( "Socket of handler (%p) will be disconnected", this);
+				qDebug() << "";
+				//@@@@@@@@@@@ prokudaylo
             }
             else
             {
