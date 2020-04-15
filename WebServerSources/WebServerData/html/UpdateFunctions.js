@@ -138,7 +138,7 @@ function UpdateAllCanvas()
 
 function GoToStartPage()
 {
-  var new_location = '/login_page.html?doctor_id='+document.getElementById('doctor_id').innerHTML+"&login=true";
+    var new_location = '/login_page.html';
   location.assign(new_location);
 }
 

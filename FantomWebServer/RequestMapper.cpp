@@ -75,7 +75,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //	{
 	     if (q_request_method == "GET" && com_t == e_no_command && ws_path_name_no_slash == L"" )//ws_path_name_no_slash.isEmthy()
 	    {
-			 GenerateStartPage(message);
+			 GenerateLoginPage(q_params_map, message);
 		}
 		 else if (q_request_method == "GET" && com_t == e_no_command && ws_path_name_no_slash == L"favicon.ico")
 		 {

@@ -164,11 +164,10 @@ function InitNumbers()
 {
     var url_string = window.location.href;
     var url = new URL(url_string);
-    var doc_id_var = url.searchParams.get("doctor_id");
     var acc_num = url.searchParams.get('accession_number');
 
     document.getElementById('study_SOP').innerHTML = acc_num;
-    document.getElementById('doctor_id').innerHTML = doc_id_var;
+ //   document.getElementById('doctor_id').innerHTML = doc_id_var;
     document.getElementById('NFramesAxial').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
     document.getElementById('NFramesFrontal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
     document.getElementById('NFramesSagittal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
@@ -178,7 +177,8 @@ function InitNumbers()
     document.getElementById('MIPMethodValue').value = document.getElementById('MIPpchoise2').value;
     SetRanges();
 
-    var saved_text_file = doc_id_var + '_' + acc_num + '.txt';
+ //   var saved_text_file = doc_id_var + '_' + acc_num + '.txt';
+    var saved_text_file = acc_num + '.txt';
     var saved_data = readTextFile(saved_text_file);
     var saved_data_array = saved_data.split(/\n/);
     saved_data_array.splice(0, 1);
