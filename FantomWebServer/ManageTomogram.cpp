@@ -85,7 +85,7 @@ mip_method_type GetMIPMethod(wstring mip_method_wstring)
 	}
 }
 
-size_t GetSliceNo(wstring accession_number_ws, wstring slice_no_wstring, slice_type st)
+size_t GetSliceNo(wstring accession_number_ws, wstring slice_no_wstring, slice_type st)//todo первый аргумент на удаление
 {
 	size_t frames_no;
 	GetNFrames_real(frames_no, st);
