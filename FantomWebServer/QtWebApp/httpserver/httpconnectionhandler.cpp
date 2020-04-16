@@ -29,14 +29,14 @@ HttpConnectionHandler::HttpConnectionHandler(QSettings* settings, HttpRequestHan
 
 
     // execute signals in my own thread
-    moveToThread(this);
-   socket->moveToThread(this);
+   // moveToThread(this);
+   // socket->moveToThread(this);
 
    //@@@@@@ prokudaylo 
   // qDebug("Socket (%p): after moveToThread", socket);
    //@@@@@@
 
-    readTimer.moveToThread(this);
+   // readTimer.moveToThread(this);
 
     // Connect signals
     connect(socket, SIGNAL(readyRead()), SLOT(read()));
@@ -45,14 +45,14 @@ HttpConnectionHandler::HttpConnectionHandler(QSettings* settings, HttpRequestHan
     readTimer.setSingleShot(true);
 
     qDebug("HttpConnectionHandler (%p): constructed", this);
-    this->start();
+    //this->start();
 }
 
 
 HttpConnectionHandler::~HttpConnectionHandler()
 {
-    quit();
-    wait();
+//    quit();
+ //   wait();
     qDebug("HttpConnectionHandler (%p): destroyed", this);
 }
 
@@ -75,22 +75,22 @@ void HttpConnectionHandler::createSocket()
 }
 
 
-void HttpConnectionHandler::run()
-{
-    qDebug("HttpConnectionHandler (%p): thread started", this);
-    try
-    {
-        exec();
-    }
-    catch (...)
-    {
-        qCritical("HttpConnectionHandler (%p): an uncatched exception occured in the thread",this);
-    }
-    socket->close();
-    delete socket;
-    readTimer.stop();
-    qDebug("HttpConnectionHandler (%p): thread stopped", this);
-}
+//void HttpConnectionHandler::run()
+//{
+//    qDebug("HttpConnectionHandler (%p): thread started", this);
+//    try
+//    {
+//        exec();
+//    }
+//    catch (...)
+//    {
+//        qCritical("HttpConnectionHandler (%p): an uncatched exception occured in the thread",this);
+//    }
+//    socket->close();
+//    delete socket;
+//    readTimer.stop();
+//    qDebug("HttpConnectionHandler (%p): thread stopped", this);
+//}
 
 
 void HttpConnectionHandler::handleConnection(tSocketDescriptor socketDescriptor)
