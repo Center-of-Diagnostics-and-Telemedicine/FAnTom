@@ -32,10 +32,7 @@ int xrad::xrad_main(int,char * * const)
 
 		dialog->CreateControl<DynamicDialog::ValueFileLoadEdit>(L"Выбор файла внутренних настроек сервера", &wss.server_ini_file,  L"*.ini", DynamicDialog::Layout::Vertical);
 
-		dialog->CreateControl<DynamicDialog::ValueFileLoadEdit>(L"Выбор файла списка докторов", &wss.doctor_ini_file, L"*.ini", DynamicDialog::Layout::Vertical);
-
-
-
+	
 	//	dialog->CreateControl<DynamicDialog::StringEdit>(L"какая-то строковая настройка", some_string);
 	//	dialog->CreateControl<DynamicDialog::ValueNumberEdit<size_t>>(L"Port", SavedGUIValue(&wss.port), 1024, 65535);
 

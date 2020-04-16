@@ -34,8 +34,8 @@ extern QString	text_file_path;
 extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
 
-RequestMapper::RequestMapper(QObject* parent, int in_port)
-	:HttpRequestHandler(parent), port(in_port)
+RequestMapper::RequestMapper(QObject* parent)
+	:HttpRequestHandler(parent)
 {
 	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
 	InitFantom(convert_to_wstring(data_store_path.toStdString()));
@@ -93,17 +93,14 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						{
 							qDebug() << " favicon asked";
 						}
-
 						else if ( ws_path_name_no_slash == L"login_page.html" )
 						{
 							GenerateLoginPage(q_params_map, message);
 						}
-
 						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
 						{
 							GenerateDICOMPage(q_params_map, message);
 						}
-
 						else if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{
 							shared_cfile	opened_file;

@@ -48,7 +48,7 @@ QString	text_file_path;
 	settings_webserver->beginGroup("listener");
 	int port = settings_webserver->value("port").toInt();
 
-	RequestMapper* handler = new RequestMapper(&app, port);
+	RequestMapper* handler = new RequestMapper(&app);
 
 	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
 
