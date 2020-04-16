@@ -11,7 +11,7 @@
 
 using namespace std;
 extern QString	web_server_path;
-extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
+//extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
 XRAD_BEGIN
 
@@ -78,21 +78,6 @@ void GetAccNamesData(std::wstringstream &message)
 	{
 		message << convert_to_wstring(acc_names[i]) + L" ";
 	}
-}
-
-void CheckDoctorLogin(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
-{
-	bool result_bool(false);
-
-	if (doctor_database_map.contains(q_params_map.value("doctor_id", "")) && doctor_database_map.value(q_params_map.value("doctor_id"), "") == q_params_map.value("password", ""))
-	{
-		result_bool = true;
-	}
-	else
-	{
-		result_bool = false;
-	}
-	message << result_bool;
 }
 
 void GenerateOriginalPixelCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)

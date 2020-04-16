@@ -50,7 +50,7 @@ protected:
 
 
 private:
-	std::mutex	m_slice_manager_mutex;
+//	std::mutex	m_slice_manager_mutex;
 	wstring m_accession_number;
 	point3_F64		  m_interpolation_factor;
 	RealFunctionMD_F32 m_slices;

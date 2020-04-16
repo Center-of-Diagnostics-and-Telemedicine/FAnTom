@@ -45,6 +45,9 @@ public:
     */
     void service(HttpRequest& request, HttpResponse& response);
 
+private:
+	std::mutex m_RequestMapperMutex;
+
 };
 
 #endif // RequestMapper_h__

@@ -18,8 +18,6 @@ const string HtmlSourceFolder = "HtmlSourceFolder";
 
 const string ServerIniFile = "Server .ini file";
 
-const string DoctorsIniFile = "Doctors .ini file";
-
 
 void	ExportSettings(WebServerSettings &wss)
 {
@@ -33,8 +31,6 @@ void	ExportSettings(WebServerSettings &wss)
 	settings.setValue(HtmlSourceFolder.c_str(), convert_to_string(wss.html_source_path).c_str());
 
 	settings.setValue(ServerIniFile.c_str(), convert_to_string(wss.server_ini_file).c_str());
-
-	settings.setValue(DoctorsIniFile.c_str(), convert_to_string(wss.doctor_ini_file).c_str());
 
 }
 
@@ -51,8 +47,6 @@ void  ImportSettngs(WebServerSettings &wss)
 	wss.html_source_path = settings.value(HtmlSourceFolder.c_str(), "C:/temp").toString().toStdWString();
 
 	wss.server_ini_file = settings.value(ServerIniFile.c_str(), "C:/temp/webserver.ini").toString().toStdWString();
-
-	wss.doctor_ini_file = settings.value(DoctorsIniFile.c_str(), "C:/temp/doctor_database.ini").toString().toStdWString();
 
 };
 

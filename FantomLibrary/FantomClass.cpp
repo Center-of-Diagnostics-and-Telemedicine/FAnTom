@@ -165,7 +165,7 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 //Загрузка данных выбранного КТ в свойства текущего объекта
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
-	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+//	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
 
 	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
 	{

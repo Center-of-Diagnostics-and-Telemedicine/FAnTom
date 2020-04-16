@@ -20,11 +20,8 @@ enum command_type
 	e_get_pixel_length,
 	e_get_point_HU,
 	e_get_pixel_interpolated,
-	e_load_web_page,
-	e_load_start_page,
 	e_delete_ct,
 	e_get_study_accession,
-	e_check_doctor_login,
 	e_get_accession_numbers,
 	e_no_command
 };
