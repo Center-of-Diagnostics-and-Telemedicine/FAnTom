@@ -40,7 +40,11 @@ void HttpListener::listen()
         pool=new HttpConnectionHandlerPool(settings,requestHandler);
     }
     QString host = settings->value("host").toString();
+
+//	settings->beginGroup("listener");
     int port=settings->value("port").toInt();
+//	settings->endGroup();
+
     QTcpServer::listen(host.isEmpty() ? QHostAddress::Any : QHostAddress(host), port);
     if (!isListening())
     {
@@ -62,16 +66,22 @@ void HttpListener::close() {
 }
 
 void HttpListener::incomingConnection(tSocketDescriptor socketDescriptor) {
-#ifdef SUPERVERBOSE
+//#ifdef SUPERVERBOSE
+	qDebug() << " ";
     qDebug("HttpListener: New connection");
-#endif
+	qDebug() << " ";
+//#endif
 
     HttpConnectionHandler* freeHandler=NULL;
     if (pool)
     {
         freeHandler=pool->getConnectionHandler();
     }
-
+	//@@@prokudaylo
+	qDebug() << " ";
+	qDebug("The frehandler now is (%p): ", freeHandler);
+	qDebug() << " ";
+	//@@@
     // Let the handler process the new connection.
     if (freeHandler)
     {

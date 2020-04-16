@@ -1,4 +1,4 @@
-#ifndef FantomSettingsEdit_h__
+﻿#ifndef FantomSettingsEdit_h__
 #define FantomSettingsEdit_h__
 
 /*!

@@ -24,14 +24,14 @@ class RequestMapper : public HttpRequestHandler
 	Q_OBJECT
 		Q_DISABLE_COPY(RequestMapper)
 
-		int port;
+//		int port;
 public:
 
     /**
       Constructor.
       @param parent Parent object
     */
-    RequestMapper(QObject* parent=0, int port = 80);
+    RequestMapper(QObject* parent=0);
 
     /**
       Destructor.
@@ -44,6 +44,9 @@ public:
       @param response Must be used to return the response
     */
     void service(HttpRequest& request, HttpResponse& response);
+
+private:
+	std::mutex m_RequestMapperMutex;
 
 };
 

@@ -4,6 +4,7 @@
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 #include <cstring>
+#include <iostream>
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
@@ -164,17 +165,28 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 //Загрузка данных выбранного КТ в свойства текущего объекта
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
+//	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+
+	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
+	{
+		series_loaded = true;
+		return e_successful;
+	}
+	
 	size_t chosen_accession_number = GetAccessionHeapPosition(accession_number, series_loaded);
 
 	if (!series_loaded) return e_out_of_range;
 
 	proc_acquisition_work_ptr = CreateProcessAcquisition(GetLargestAcquisition(m_studies_heap[chosen_accession_number]), ConsoleProgressProxy());
 	proc_acquisition_work_ptr->open_instancestorages();
+
 	m_slices = ct_acquisition_ptr().slices();
 	m_scales = ct_acquisition_ptr().scales();
 	m_image_positions_patient = ct_acquisition_ptr().image_positions_patient();
 
 	CalculateInterpolationScales();
+
+	m_accession_number = accession_number;
 
 	return e_successful;
 }
@@ -237,13 +249,13 @@ double	slice_manager::dicom_to_screen_coordinate(double t, axis_t axis)
 	switch(axis)
 	{
 		case e_z:
-			return double(b_flip_z ? m_slices.sizes(0) - t-1 : t) * interpolation_factor.z();
+			return double(b_flip_z ? m_slices.sizes(0) - t-1 : t) * m_interpolation_factor.z();
 
 		case e_y:
-			return double(t) * interpolation_factor.y();
+			return double(t) * m_interpolation_factor.y();
 
 		case e_x:
-			return double(t) * interpolation_factor.x();
+			return double(t) * m_interpolation_factor.x();
 	}
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
@@ -254,15 +266,15 @@ double	slice_manager::screen_to_dicom_coordinate(double t, axis_t axis)
 	{
 		case e_z:
 		{
-			double	u = t / interpolation_factor.z();
+			double	u = t / m_interpolation_factor.z();
 			return double(b_flip_z ? m_slices.sizes(0) - u-1 : u);
 		}
 
 		case e_y:
-			return double(t) / interpolation_factor.y();
+			return double(t) / m_interpolation_factor.y();
 
 		case e_x:
-			return double(t) / interpolation_factor.x();
+			return double(t) / m_interpolation_factor.x();
 	}
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
@@ -527,13 +539,13 @@ operation_result Fantom::GetStudyAccessionNumber(wstring &accession_number)
 
 operation_result slice_manager::CalculateInterpolationScales()
 {
-	interpolation_factor.CopyData(m_scales / min(m_scales.x(), m_scales.y()));
+	m_interpolation_factor.CopyData(m_scales / min(m_scales.x(), m_scales.y()));
 
 	interpolation_sizes =
 	{
-		size_t(m_slices.sizes(0) * interpolation_factor.z()),
-		size_t(m_slices.sizes(1) * interpolation_factor.y()),
-		size_t(m_slices.sizes(2) * interpolation_factor.x())
+		size_t(m_slices.sizes(0) * m_interpolation_factor.z()),
+		size_t(m_slices.sizes(1) * m_interpolation_factor.y()),
+		size_t(m_slices.sizes(2) * m_interpolation_factor.x())
 	};
 
 	// учет укладки пациента

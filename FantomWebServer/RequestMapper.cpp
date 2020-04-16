@@ -20,6 +20,7 @@
 #include <XRADSystem/Sources/CFile/shared_cfile.h>
 #include <QTGui/QImage.h>
 #include <QTCore/QBuffer.h>
+#include <QTCore/QThread>
 #include "ManageStrings.h"
 #include "ManageBitmap.h"
 #include "ManageTomogram.h"
@@ -33,8 +34,8 @@ extern QString	text_file_path;
 extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
 
-RequestMapper::RequestMapper(QObject* parent, int in_port)
-	:HttpRequestHandler(parent), port(in_port)
+RequestMapper::RequestMapper(QObject* parent)
+	:HttpRequestHandler(parent)
 {
 	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
 	InitFantom(convert_to_wstring(data_store_path.toStdString()));
@@ -52,6 +53,13 @@ using namespace xrad;
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
 // Get a request parameters
+
+	lock_guard<std::mutex> lck(m_RequestMapperMutex);
+
+		qDebug() << "############";
+		qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
+		qDebug() << "############";
+
 	std::wstringstream	message;
 
 //Определение чистого адреса без параметров
@@ -71,56 +79,72 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 	QMultiMap<QByteArray, QByteArray> q_params_map = request.getParameterMap();
 	command_type com_t = ParseCommand(q_params_map);
 
-	if (is_filetype(ws_path_name_no_slash, L"html")&&(com_t == e_load_web_page))
+	switch (com_t)
 	{
-		if (ws_path_name_no_slash == L"DICOM_Viewer.html")
-		{
-			GenerateDICOMPage(q_params_map, message);
-		}
-		else
-		{
-			GenerateLoginPage(q_params_map, message);
-		}
-	}
-	else
-	{
-		if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "POST")
-		{
-			QByteArray text_saved = request.getBody();
-			shared_cfile	file;
-			string file_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
-			file.open(file_path, "wb");
-			file.write(text_saved.data(), text_saved.size(), 1);
-		}
-		else if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "GET")
-		{
-			shared_cfile	opened_file;
-			string document_path = text_file_path.toStdString() +"/" + convert_to_string(ws_path_name_no_slash);
-			opened_file.open(document_path, "rb");
-			DataArray<char>	document_data(opened_file.size() + 1, 0);
-			opened_file.read_numbers(document_data, ioI8);
-			wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
-			message << ws_data;
-		}
-		else if (is_filetype(ws_path_name_no_slash, L"js"))
-		{
-			wstring	wjsdata = ReadDocument(ws_path_name_no_slash);
-			message << wjsdata;
-		}
-		//else if (filetype_is(ws_path_name_no_slash, L".bmp"))
-		//else if (is_filetype(ws_path_name_no_slash, L"png"))
-		else if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
-		{
-			QByteArray bmp;
-			bmp = ParseSliceBMP(q_params_map);
-			response.setStatus(200, "OK");
-			response.write(bmp);
-			return;
-		}
-		else
-		{
-			switch (com_t)
-			{
+			case e_no_command:
+
+					if (q_request_method == "GET")
+					{
+						if ( ws_path_name_no_slash == L"" )
+						{
+							GenerateLoginPage(q_params_map, message);
+						}
+						else if ( ws_path_name_no_slash == L"favicon.ico" )
+						{
+							qDebug() << " favicon asked";
+						}
+						else if ( ws_path_name_no_slash == L"login_page.html" )
+						{
+							GenerateLoginPage(q_params_map, message);
+						}
+						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
+						{
+							GenerateDICOMPage(q_params_map, message);
+						}
+						else if ( is_filetype(ws_path_name_no_slash, L"txt") )
+						{
+							shared_cfile	opened_file;
+							string document_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
+							opened_file.open(document_path, "rb");
+							DataArray<char>	document_data(opened_file.size() + 1, 0);
+							opened_file.read_numbers(document_data, ioI8);
+							wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
+							message << ws_data;
+						}
+						else if ( is_filetype(ws_path_name_no_slash, L"js") )
+						{
+							wstring	wjsdata = ReadDocument(ws_path_name_no_slash);
+							message << wjsdata;
+						}
+					}
+
+					else if (q_request_method == "POST")
+					{
+						if ( is_filetype(ws_path_name_no_slash, L"txt") )
+						{
+							QByteArray text_saved = request.getBody();
+							shared_cfile	file;
+							string file_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
+							file.open(file_path, "wb");
+							file.write(text_saved.data(), text_saved.size(), 1);
+						}
+					}
+
+			case e_get_one_slice:
+					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
+					{
+						QByteArray bmp;
+						bmp = ParseSliceBMP(q_params_map);
+						response.setStatus(200, "OK");
+						response.write(bmp);
+						//@@@@@@@@@@prokudaylo
+						qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
+						qDebug() << "Some bmp QByteArray written ID = " <<  QThread::currentThreadId();
+						qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
+						//@@@@@@@@@@prokudaylo
+						return;
+					}
+				break;
 			case e_get_original_coordinate:
 				GenerateOriginalPixelCoordData(q_params_map, message);
 				break;
@@ -145,14 +169,12 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_coordinate_interpolated:
 				GenerateInterpolatedCoordData(q_params_map, message);
 				break;
-			case e_load_start_page:
-				GenerateStartPage(message);
-				break;
-			case e_check_doctor_login:
-				CheckDoctorLogin(q_params_map, message);
-				break;
 			case e_get_accession_numbers:
 				GetAccNamesData(message);
+
+				qDebug() << "GetAccNamesData called ";
+				qDebug() << u16tou8(message.str()).c_str();
+
 				break;
 			case e_delete_ct:
 				//CloseTomogram(q_params_map);
@@ -160,21 +182,35 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_study_accession:
 				GenerateStudyAccessionNumberData(message);
 				break;
-			case e_no_command:
-				break;
-			case e_load_web_page:
-				break;
 			default:
 				break;
-			}
+			
 		}
-	}
+	
 	// Set a response header
 	response.setHeader("Content-Type", "text/html; charset=utf-8");
 
 
 	// Generate the HTML document
 	string	msgstr = u16tou8(message.str());
+
+	//@@@@@@@@ prokudaylo
+//	qDebug() << "RequestMapper::service msgstr.c_str()";
+//	qDebug() << msgstr.c_str() ;
+//	qDebug() << "End of msgstr.c_str()";
+	//@@@@@@@@
+
+
 	response.write(msgstr.c_str());
+
+	//@@@@@@@@ prokudaylo
+//		qDebug() << "";
+//		qDebug() << "Some msgstr.c_str()is written to response" ;
+//		qDebug() << "";
+	//@@@@@@@@
+
+		qDebug() << "############";
+		qDebug() << "SERVICE COMPLETED ID = " << QThread::currentThreadId();
+		qDebug() << "############";
 }
 
