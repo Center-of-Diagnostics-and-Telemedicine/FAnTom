@@ -6,8 +6,8 @@
 #ifndef HTTPCOOKIE_H
 #define HTTPCOOKIE_H
 
-#include <QList>
-#include <QByteArray>
+#include <QTCore/QList>
+#include <QTCore/QByteArray>
 #include "httpglobal.h"
 
 namespace stefanfrings {

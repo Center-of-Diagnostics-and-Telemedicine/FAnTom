@@ -1,4 +1,4 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
@@ -6,9 +6,9 @@
 #ifndef HTTPRESPONSE_H
 #define HTTPRESPONSE_H
 
-#include <QMap>
-#include <QString>
-#include <QTcpSocket>
+#include <QTCore/QMap>
+#include <QTCore/QString>
+#include <QTNetwork/QTcpSocket>
 #include "httpglobal.h"
 #include "httpcookie.h"
 

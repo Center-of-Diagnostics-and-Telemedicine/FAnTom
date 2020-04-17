@@ -6,7 +6,7 @@
 #ifndef HTTPGLOBAL_H
 #define HTTPGLOBAL_H
 
-#include <QtGlobal>
+#include <QTCore/QtGlobal>
 
 // This is specific to Windows dll's
 #if defined(Q_OS_WIN)

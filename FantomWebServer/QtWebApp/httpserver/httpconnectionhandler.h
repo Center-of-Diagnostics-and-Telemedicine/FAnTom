@@ -1,4 +1,4 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
@@ -7,12 +7,12 @@
 #define HTTPCONNECTIONHANDLER_H
 
 #ifndef QT_NO_SSL
-   #include <QSslConfiguration>
+   #include <QTNetwork/QSslConfiguration>
 #endif
-#include <QTcpSocket>
-#include <QSettings>
-#include <QTimer>
-#include <QThread>
+#include <QTNetwork/QTcpSocket>
+#include <QTCore/QSettings>
+#include <QTCore/QTimer>
+#include <QTCore/QThread>
 #include "httpglobal.h"
 #include "httprequest.h"
 #include "httprequesthandler.h"

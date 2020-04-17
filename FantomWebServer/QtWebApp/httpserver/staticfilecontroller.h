@@ -6,8 +6,8 @@
 #ifndef STATICFILECONTROLLER_H
 #define STATICFILECONTROLLER_H
 
-#include <QCache>
-#include <QMutex>
+#include <QTCore/QCache>
+#include <QTCore/QMutex>
 #include "httpglobal.h"
 #include "httprequest.h"
 #include "httpresponse.h"

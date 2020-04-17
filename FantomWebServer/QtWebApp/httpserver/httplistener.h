@@ -1,4 +1,4 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
@@ -6,9 +6,9 @@
 #ifndef HTTPLISTENER_H
 #define HTTPLISTENER_H
 
-#include <QTcpServer>
-#include <QSettings>
-#include <QBasicTimer>
+#include <QTNetwork/QTcpServer>
+#include <QTCore/QSettings>
+#include <QTCore/QBasicTimer>
 #include "httpglobal.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"

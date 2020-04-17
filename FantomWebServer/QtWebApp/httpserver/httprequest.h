@@ -1,4 +1,4 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
@@ -6,14 +6,14 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <QByteArray>
-#include <QHostAddress>
-#include <QTcpSocket>
-#include <QMap>
-#include <QMultiMap>
-#include <QSettings>
-#include <QTemporaryFile>
-#include <QUuid>
+#include <QTCore/QByteArray>
+#include <QTNetwork/QHostAddress>
+#include <QTNetwork/QTcpSocket>
+#include <QTCore/QMap>
+#include <QTCore/QMultiMap>
+#include <QTCore/QSettings>
+#include <QTCore/QTemporaryFile>
+#include <QTCore/QUuid>
 #include "httpglobal.h"
 
 namespace stefanfrings {

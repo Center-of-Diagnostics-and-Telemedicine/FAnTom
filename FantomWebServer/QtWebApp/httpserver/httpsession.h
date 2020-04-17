@@ -1,4 +1,4 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
@@ -6,9 +6,9 @@
 #ifndef HTTPSESSION_H
 #define HTTPSESSION_H
 
-#include <QByteArray>
-#include <QVariant>
-#include <QReadWriteLock>
+#include <QTCore/QByteArray>
+#include <QTCore/QVariant>
+#include <QTCore/QReadWriteLock>
 #include "httpglobal.h"
 
 namespace stefanfrings {

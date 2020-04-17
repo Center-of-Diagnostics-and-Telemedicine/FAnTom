@@ -1,12 +1,12 @@
-/**
+﻿/**
   @file
   @author Stefan Frings
 */
 
 #include "staticfilecontroller.h"
-#include <QFileInfo>
-#include <QDir>
-#include <QDateTime>
+#include <QTCore/QFileInfo>
+#include <QTCore/QDir>
+#include <QTCore/QDateTime>
 
 using namespace stefanfrings;
 
