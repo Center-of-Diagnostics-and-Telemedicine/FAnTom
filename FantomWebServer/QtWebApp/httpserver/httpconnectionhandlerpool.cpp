@@ -1,11 +1,11 @@
 ﻿#include "pre.h"
 #ifndef QT_NO_SSL
-    #include <QSslSocket>
-    #include <QSslKey>
-    #include <QSslCertificate>
-    #include <QSslConfiguration>
+    #include <QTNetwork/QSslSocket>
+    #include <QTNetwork/QSslKey>
+    #include <QTNetwork/QSslCertificate>
+    #include <QTNetwork/QSslConfiguration>
 #endif
-#include <QDir>
+#include <QTCore/QDir>
 #include "httpconnectionhandlerpool.h"
 
 using namespace stefanfrings;

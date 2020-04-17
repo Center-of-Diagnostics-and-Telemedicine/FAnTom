@@ -5,8 +5,8 @@
 */
 
 #include "httprequest.h"
-#include <QList>
-#include <QDir>
+#include <QTCore/QList>
+#include <QTCore/QDir>
 #include "httpcookie.h"
 
 using namespace stefanfrings;
