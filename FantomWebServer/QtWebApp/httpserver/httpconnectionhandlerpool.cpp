@@ -1,3 +1,4 @@
+﻿#include "pre.h"
 #ifndef QT_NO_SSL
     #include <QSslSocket>
     #include <QSslKey>

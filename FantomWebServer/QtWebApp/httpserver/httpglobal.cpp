@@ -1,3 +1,4 @@
+#include "pre.h"
 #include "httpglobal.h"
 
 const char* getQtWebAppLibVersion()
