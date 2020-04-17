@@ -1,4 +1,4 @@
-﻿/**
+/**
   @file
   @author Stefan Frings
 */
@@ -6,8 +6,8 @@
 #ifndef HTTPCOOKIE_H
 #define HTTPCOOKIE_H
 
-#include <QTCore/QList>
-#include <QTCore/QByteArray>
+#include <QList>
+#include <QByteArray>
 #include "httpglobal.h"
 
 namespace stefanfrings {
@@ -36,7 +36,10 @@ public:
       @param secure If true, the cookie will be sent by the browser to the server only on secure connections
       @param httpOnly If true, the browser does not allow client-side scripts to access the cookie
     */
-    HttpCookie(const QByteArray name, const QByteArray value, const int maxAge, const QByteArray path="/", const QByteArray comment=QByteArray(), const QByteArray domain=QByteArray(), const bool secure=false, const bool httpOnly=false);
+    HttpCookie(const QByteArray name, const QByteArray value, const int maxAge,
+               const QByteArray path="/", const QByteArray comment=QByteArray(),
+               const QByteArray domain=QByteArray(), const bool secure=false,
+               const bool httpOnly=false);
 
     /**
       Create a cookie from a string.

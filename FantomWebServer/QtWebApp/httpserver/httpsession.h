@@ -1,4 +1,4 @@
-﻿/**
+/**
   @file
   @author Stefan Frings
 */
@@ -6,9 +6,9 @@
 #ifndef HTTPSESSION_H
 #define HTTPSESSION_H
 
-#include <QTCore/QByteArray>
-#include <QTCore/QVariant>
-#include <QTCore/QReadWriteLock>
+#include <QByteArray>
+#include <QVariant>
+#include <QReadWriteLock>
 #include "httpglobal.h"
 
 namespace stefanfrings {
@@ -29,7 +29,7 @@ public:
       @param canStore The session can store data, if this parameter is true.
       Otherwise all calls to set() and remove() do not have any effect.
      */
-    HttpSession(bool canStore=false);
+    HttpSession(const bool canStore=false);
 
     /**
       Copy constructor. Creates another HttpSession object that shares the
@@ -53,7 +53,7 @@ public:
     QByteArray getId() const;
 
     /**
-      Null sessions cannot store data. All calls to set() and remove()
+      Null sessions cannot store data. All calls to set() and remove() 
       do not have any effect.This method is thread safe.
     */
     bool isNull() const;

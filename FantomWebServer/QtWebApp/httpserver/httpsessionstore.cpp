@@ -1,16 +1,15 @@
-﻿#include "pre.h"
 /**
   @file
   @author Stefan Frings
 */
 
 #include "httpsessionstore.h"
-#include <QTCore/QDateTime>
-#include <QTCore/QUuid>
+#include <QDateTime>
+#include <QUuid>
 
 using namespace stefanfrings;
 
-HttpSessionStore::HttpSessionStore(QSettings* settings, QObject* parent)
+HttpSessionStore::HttpSessionStore(const QSettings *settings, QObject* parent)
     :QObject(parent)
 {
     this->settings=settings;

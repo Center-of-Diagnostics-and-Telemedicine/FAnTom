@@ -1,4 +1,4 @@
-﻿/**
+/**
   @file
   @author Stefan Frings
 */
@@ -6,7 +6,7 @@
 #ifndef HTTPGLOBAL_H
 #define HTTPGLOBAL_H
 
-#include <QTCore/QtGlobal>
+#include <QtGlobal>
 
 // This is specific to Windows dll's
 #if defined(Q_OS_WIN)
@@ -25,3 +25,4 @@ DECLSPEC const char* getQtWebAppLibVersion();
 
 
 #endif // HTTPGLOBAL_H
+

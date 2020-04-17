@@ -1,4 +1,4 @@
-﻿/**
+/**
   @file
   @author Stefan Frings
 */
@@ -6,13 +6,13 @@
 #ifndef HTTPCONNECTIONHANDLER_H
 #define HTTPCONNECTIONHANDLER_H
 
-#ifndef QT_NO_OPENSSL
-   #include <QTNetwork/QSslConfiguration>
+#ifndef QT_NO_SSL
+   #include <QSslConfiguration>
 #endif
-#include <QTNetwork/QTcpSocket>
-#include <QTCore/QSettings>
-#include <QTCore/QTimer>
-#include <QTCore/QThread>
+#include <QTcpSocket>
+#include <QSettings>
+#include <QTimer>
+#include <QThread>
 #include "httpglobal.h"
 #include "httprequest.h"
 #include "httprequesthandler.h"
@@ -27,7 +27,7 @@ namespace stefanfrings {
 #endif
 
 /** Alias for QSslConfiguration if OpenSSL is not supported */
-#ifdef QT_NO_OPENSSL
+#ifdef QT_NO_SSL
   #define QSslConfiguration QObject
 #endif
 
@@ -46,13 +46,9 @@ namespace stefanfrings {
   The readTimeout value defines the maximum time to wait for a complete HTTP request.
   @see HttpRequest for description of config settings maxRequestSize and maxMultiPartSize.
 */
-//class DECLSPEC HttpConnectionHandler : public QThread {
-//    Q_OBJECT
-//    Q_DISABLE_COPY(HttpConnectionHandler)
-
-	class DECLSPEC HttpConnectionHandler : public QObject {
-		Q_OBJECT
-		Q_DISABLE_COPY(HttpConnectionHandler)
+class DECLSPEC HttpConnectionHandler : public QObject {
+    Q_OBJECT
+    Q_DISABLE_COPY(HttpConnectionHandler)
 
 public:
 
@@ -62,7 +58,8 @@ public:
       @param requestHandler Handler that will process each incoming HTTP request
       @param sslConfiguration SSL (HTTPS) will be used if not NULL
     */
-    HttpConnectionHandler(QSettings* settings, HttpRequestHandler* requestHandler, QSslConfiguration* sslConfiguration=NULL);
+    HttpConnectionHandler(const QSettings* settings, HttpRequestHandler* requestHandler,
+                          const QSslConfiguration* sslConfiguration=nullptr);
 
     /** Destructor */
     virtual ~HttpConnectionHandler();
@@ -76,10 +73,13 @@ public:
 private:
 
     /** Configuration settings */
-    QSettings* settings;
+    const QSettings* settings;
 
     /** TCP socket of the current connection  */
     QTcpSocket* socket;
+
+    /** The thread that processes events of this connection */
+    QThread* thread;
 
     /** Time for read timeout detection */
     QTimer readTimer;
@@ -94,10 +94,7 @@ private:
     bool busy;
 
     /** Configuration for SSL */
-    QSslConfiguration* sslConfiguration;
-
-    /** Executes the threads own event loop */
-    void run();
+    const QSslConfiguration* sslConfiguration;
 
     /**  Create SSL or TCP socket */
     void createSocket();
@@ -108,7 +105,7 @@ public slots:
       Received from from the listener, when the handler shall start processing a new connection.
       @param socketDescriptor references the accepted connection.
     */
-    void handleConnection(tSocketDescriptor socketDescriptor);
+    void handleConnection(const tSocketDescriptor socketDescriptor);
 
 private slots:
 
@@ -121,6 +118,8 @@ private slots:
     /** Received from the socket when a connection has been closed */
     void disconnected();
 
+    /** Cleanup after the thread is closed */
+    void thread_done();
 };
 
 } // end of namespace

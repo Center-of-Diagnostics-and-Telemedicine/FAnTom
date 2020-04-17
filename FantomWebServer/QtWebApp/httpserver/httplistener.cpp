@@ -1,4 +1,3 @@
-﻿#include "pre.h"
 /**
   @file
   @author Stefan Frings
@@ -7,16 +6,16 @@
 #include "httplistener.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"
-#include <QTCore/QCoreApplication>
+#include <QCoreApplication>
 
 using namespace stefanfrings;
 
-HttpListener::HttpListener(QSettings* settings, HttpRequestHandler* requestHandler, QObject *parent)
+HttpListener::HttpListener(const QSettings* settings, HttpRequestHandler* requestHandler, QObject *parent)
     : QTcpServer(parent)
 {
-    Q_ASSERT(settings!=0);
-    Q_ASSERT(requestHandler!=0);
-    pool=NULL;
+    Q_ASSERT(settings!=nullptr);
+    Q_ASSERT(requestHandler!=nullptr);
+    pool=nullptr;
     this->settings=settings;
     this->requestHandler=requestHandler;
     // Reqister type of socketDescriptor for signal/slot handling
@@ -40,11 +39,7 @@ void HttpListener::listen()
         pool=new HttpConnectionHandlerPool(settings,requestHandler);
     }
     QString host = settings->value("host").toString();
-
-//	settings->beginGroup("listener");
-    int port=settings->value("port").toInt();
-//	settings->endGroup();
-
+    quint16 port=settings->value("port").toUInt() & 0xFFFF;
     QTcpServer::listen(host.isEmpty() ? QHostAddress::Any : QHostAddress(host), port);
     if (!isListening())
     {
@@ -61,33 +56,26 @@ void HttpListener::close() {
     qDebug("HttpListener: closed");
     if (pool) {
         delete pool;
-        pool=NULL;
+        pool=nullptr;
     }
 }
 
 void HttpListener::incomingConnection(tSocketDescriptor socketDescriptor) {
-//#ifdef SUPERVERBOSE
-	qDebug() << " ";
+#ifdef SUPERVERBOSE
     qDebug("HttpListener: New connection");
-	qDebug() << " ";
-//#endif
+#endif
 
-    HttpConnectionHandler* freeHandler=NULL;
+    HttpConnectionHandler* freeHandler=nullptr;
     if (pool)
     {
         freeHandler=pool->getConnectionHandler();
     }
-	//@@@prokudaylo
-	qDebug() << " ";
-	qDebug("The frehandler now is (%p): ", freeHandler);
-	qDebug() << " ";
-	//@@@
+
     // Let the handler process the new connection.
     if (freeHandler)
     {
         // The descriptor is passed via event queue because the handler lives in another thread
-     //   QMetaObject::invokeMethod(freeHandler, "handleConnection", Qt::QueuedConnection, Q_ARG(tSocketDescriptor, socketDescriptor));
-		freeHandler->handleConnection(socketDescriptor);
+        QMetaObject::invokeMethod(freeHandler, "handleConnection", Qt::QueuedConnection, Q_ARG(tSocketDescriptor, socketDescriptor));
     }
     else
     {
