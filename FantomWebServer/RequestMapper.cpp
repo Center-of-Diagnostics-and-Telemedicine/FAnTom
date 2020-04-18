@@ -31,7 +31,7 @@
 extern QString	web_server_path;
 extern QString	data_store_path;
 extern QString	text_file_path;
-extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
+
 
 
 RequestMapper::RequestMapper(QObject* parent)

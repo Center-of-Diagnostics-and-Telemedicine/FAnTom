@@ -1,5 +1,5 @@
 ﻿#include "pre.h"
-#ifndef QT_NO_OPENSSL
+#ifndef QT_NO_SSL
     #include <QTNetwork/QSslSocket>
     #include <QTNetwork/QSslKey>
     #include <QTNetwork/QSslCertificate>
@@ -10,7 +10,7 @@
 
 using namespace stefanfrings;
 
-HttpConnectionHandlerPool::HttpConnectionHandlerPool(QSettings* settings, HttpRequestHandler* requestHandler)
+HttpConnectionHandlerPool::HttpConnectionHandlerPool(const QSettings *settings, HttpRequestHandler *requestHandler)
     : QObject()
 {
     Q_ASSERT(settings!=0);
@@ -94,7 +94,7 @@ void HttpConnectionHandlerPool::loadSslConfig()
     QString sslCertFileName=settings->value("sslCertFile","").toString();
     if (!sslKeyFileName.isEmpty() && !sslCertFileName.isEmpty())
     {
-        #ifdef QT_NO_OPENSSL
+        #ifdef QT_NO_SSL
             qWarning("HttpConnectionHandlerPool: SSL is not supported");
         #else
             // Convert relative fileNames to absolute, based on the directory of the config file.

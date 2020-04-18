@@ -29,7 +29,7 @@ public:
       @param canStore The session can store data, if this parameter is true.
       Otherwise all calls to set() and remove() do not have any effect.
      */
-    HttpSession(bool canStore=false);
+    HttpSession(const bool canStore=false);
 
     /**
       Copy constructor. Creates another HttpSession object that shares the
@@ -53,7 +53,7 @@ public:
     QByteArray getId() const;
 
     /**
-      Null sessions cannot store data. All calls to set() and remove()
+      Null sessions cannot store data. All calls to set() and remove() 
       do not have any effect.This method is thread safe.
     */
     bool isNull() const;
