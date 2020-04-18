@@ -30,7 +30,7 @@
 
 extern QString	web_server_path;
 extern QString	data_store_path;
-extern QString	text_file_path;
+
 
 
 
@@ -101,7 +101,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						{
 							GenerateDICOMPage(q_params_map, message);
 						}
-						else if ( is_filetype(ws_path_name_no_slash, L"txt") )
+				/*		else if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{
 							shared_cfile	opened_file;
 							string document_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
@@ -110,7 +110,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							opened_file.read_numbers(document_data, ioI8);
 							wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
 							message << ws_data;
-						}
+						}   */
+
 						else if ( is_filetype(ws_path_name_no_slash, L"js") )
 						{
 							wstring	wjsdata = ReadDocument(ws_path_name_no_slash);
@@ -118,7 +119,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						}
 					}
 
-					else if (q_request_method == "POST")
+				/*	else if (q_request_method == "POST")
 					{
 						if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{
@@ -128,7 +129,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							file.open(file_path, "wb");
 							file.write(text_saved.data(), text_saved.size(), 1);
 						}
-					}
+					} */
 
 			case e_get_one_slice:
 					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")

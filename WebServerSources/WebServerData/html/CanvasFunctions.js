@@ -343,43 +343,6 @@ window.addEventListener('keyup', ctrlUnPressed, true);
     context_temp.closePath();
   }
 
-  function DrawCirclesFromSavedTable()
-  {
-      var table = document.getElementById('info_table_saved');
-      var x = table.rows.length;
-      if (x > 1)
-      {
-        for (var i = 1; i < x; i++)
-        {
-              var current_slices = {
-              z: document.getElementById('axialRange').value,
-              y: document.getElementById('frontalRange').value,
-              x: document.getElementById('sagittalRange').value
-            };
-              var coords ={
-                x:  parseInt(table.rows[i].cells[0].innerHTML),
-                y:  parseInt(table.rows[i].cells[1].innerHTML),
-                z:  parseInt(table.rows[i].cells[2].innerHTML)
-              };
-              var lenght_mm = table.rows[i].cells[3].innerHTML;
-              var pixel_length = Math.round(lenght_mm/ReturnResponseFromCommand('?command=GetPixelLength&accession_number='+document.getElementById('study_SOP').innerHTML));
-              if ((current_slices.z < (coords.z+(pixel_length/2)))&&(current_slices.z > (coords.z-(pixel_length/2))))
-              {
-                DrawCircle(current_slices.z, coords,  pixel_length/2,'axial');
-              }
-              if ((current_slices.y < (coords.y+(pixel_length/2)))&&(current_slices.y > (coords.y-(pixel_length/2))))
-              {
-                DrawCircle(current_slices.y, coords, pixel_length/2, 'frontal');
-              }
-              if ((current_slices.x < (coords.x+(pixel_length/2)))&&(current_slices.x > (coords.x-(pixel_length/2))))
-              {
-                DrawCircle(current_slices.x, coords, pixel_length/2, 'sagittal');
-              }
-
-        }
-      }
-  }
-
   function AddTempTableUniversal(img_type, StartPos, coords)
   {
     var table = document.getElementById('info_table_temp'),
