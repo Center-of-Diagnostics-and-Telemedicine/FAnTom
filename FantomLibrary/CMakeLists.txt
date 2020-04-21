@@ -32,3 +32,4 @@ target_link_libraries(${Project}
 	${XRADDicom_Libraries}
 	${XRADSystem_Libraries}
 	)
+xrad_add_dependencies(${Project} "XRADSystem;XRADDicom")

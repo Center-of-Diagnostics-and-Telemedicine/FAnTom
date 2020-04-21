@@ -34,3 +34,4 @@ target_link_libraries(${Project}
 	${FantomLibrary_Libraries}
 	${XRADConsoleUI_Libraries}
 	)
+xrad_add_dependencies(${Project} "XRADConsoleUI")
