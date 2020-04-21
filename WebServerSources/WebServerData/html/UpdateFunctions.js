@@ -72,7 +72,6 @@ function ChangeAllComponents()
   document.getElementById('CurrentSlicesagittal').innerHTML = document.getElementById('sagittalRange').value;
   ThrottleUpdateCanvases.sag_up();
   DrawNavigationLines();
-  DrawCirclesFromSavedTable();
 }
 
 function ChangeAxialComponents()
@@ -80,7 +79,6 @@ function ChangeAxialComponents()
   document.getElementById('CurrentSliceaxial').innerHTML = document.getElementById('axialRange').value;
   ThrottleUpdateCanvases.ax_up();
   DrawNavigationLines();
-  DrawCirclesFromSavedTable();
 }
 
 function ChangeFrontalComponents()
@@ -88,7 +86,6 @@ function ChangeFrontalComponents()
   document.getElementById('CurrentSlicefrontal').innerHTML = document.getElementById('frontalRange').value;
   ThrottleUpdateCanvases.fr_up();
   DrawNavigationLines();
-  DrawCirclesFromSavedTable();
 }
 
 function ChangeSagittalComponents()
@@ -96,7 +93,6 @@ function ChangeSagittalComponents()
   document.getElementById('CurrentSlicesagittal').innerHTML = document.getElementById('sagittalRange').value;
   ThrottleUpdateCanvases.sag_up();
   DrawNavigationLines();
-  DrawCirclesFromSavedTable();
 }
 
 function UpdateCanvasBW()

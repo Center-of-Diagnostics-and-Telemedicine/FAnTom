@@ -24,7 +24,7 @@
     </style>
 	</head>
 
-	<body onunload = 'PostSavingsToFile()' onunload='CloseTomogramm()' >
+	<body <!--onunload = 'PostSavingsToFile()' onunload='CloseTomogramm()' --> >
 		<p><span>Просматривается исследование с идентификатором: </span><span id = 'study_SOP'></span></p>
 
 		<table>
@@ -43,35 +43,12 @@
 					</div>
 				</th>
 				<th>
-					<table id = 'info_table_temp' border='1' width = '100%'>
-						<tr>
-							<th>X</th>
-							<th>Y</th>
-							<th>Z</th>
-							<th>Size (mm)</th>
-							<th>Type</th>
-						</tr>
-					</table>
-					<input type = 'button' value = 'Сохранить отметки' onclick='SaveFoundings()'>
-					<table id = 'info_table_saved' border='1' width = '100%'>
-						<tr>
-							<th>X</th>
-							<th>Y</th>
-							<th>Z</th>
-							<th>Size(mm)</th>
-							<th>Type</th>
-							<th>Удалить Строку</th>
-						</tr>
-					</table>
 					<table width = '100%'>
 						<tr>
 							<th>X</th>
 							<th>Y</th>
 							<th>Z</th>
 							<th>Value(HU)</th>
-						</tr>
-						<tr>
-							<input type = 'button' value = 'Сохранить в файл' onclick='PostSavingsToFile()'>
 						</tr>
 						<tr>
 							<th><span id = 'coordX'></span></th>

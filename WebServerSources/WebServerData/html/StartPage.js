@@ -39,7 +39,6 @@ function GoToDICOMPage()
   }
 }
 
-//function CreateLoginPage(doc_id_var)
 function CreateLoginPage()
 {
   var acc_num_p_var = document.getElementById('acc_num_p');

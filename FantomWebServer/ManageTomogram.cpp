@@ -31,11 +31,16 @@ XRAD_BEGIN
 QByteArray ParseSliceBMP(QMultiMap<QByteArray, QByteArray> &q_params_map)
 {
 	RealFunction2D_UI8	bmp_buffer;
+
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
+
 	mip_method_type mip_method = GetMIPMethod(interpret_url(q_params_map.value("mip_method", "")));
+
 	size_t slice_no = GetSliceNo(interpret_url(q_params_map.value("accession_number", "")), interpret_url(q_params_map.value("slice_no", "")), st);
+
 	GetSliceTomogramWeb(bmp_buffer, interpret_url(q_params_map.value("accession_number", "")), st, slice_no, stod(interpret_url(q_params_map.value("black_var", ""))),
 	stod(interpret_url(q_params_map.value("white_var", ""))), stod(interpret_url(q_params_map.value("gamma_var", ""))), _wtoi(interpret_url(q_params_map.value("aprox_value", "")).c_str()), mip_method);
+
 	QByteArray bmp;
 	//CreateBitMap(bmp, bmp_buffer, L".bmp");
 	//CreateBitMap(bmp, bmp_buffer, L"png");
