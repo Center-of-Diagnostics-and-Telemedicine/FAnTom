@@ -135,7 +135,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httprequesthandler.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpsessionstore.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp" />
-    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" />
+ <!--   <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" /> -->
     <ClCompile Include="..\Common\WebServerSettings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManageBitmap.cpp" />
