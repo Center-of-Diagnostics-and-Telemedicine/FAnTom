@@ -36,12 +36,16 @@ protected:
 	frame_t	slice(slice_type st, size_t no);
 
 	unique_ptr<char[]> buf_ct_accession_numbers;
+	unique_ptr<char[]> buffer_detailed_study_info;
+
 	size_t			  GetAccessionHeapPosition(const wstring &accession_number, bool &series_loaded);
 
 	point3_ST		  interpolation_sizes;
 //! Отношение масштабов дискретных изображений
 	operation_result  CalculateInterpolationScales();
 	operation_result  CalculateMIPFrame(frame_t &buffer, double native_slice_position, slice_type st, size_t aprox_size, mip_method_type mmt);
+
+	string	DetailedStudyInfo();
 
 	double	dicom_to_screen_coordinate(double x, axis_t axis);
 	double	screen_to_dicom_coordinate(double x, axis_t axis);
@@ -50,8 +54,15 @@ protected:
 
 
 private:
-//	std::mutex	m_slice_manager_mutex;
+	wstring m_patient_id;
+	wstring m_patient_sex;
+	wstring m_patient_age;
+
 	wstring m_accession_number;
+	wstring m_study_id;
+	wstring m_study_instance_uid;
+
+
 	point3_F64		  m_interpolation_factor;
 	RealFunctionMD_F32 m_slices;
 };
@@ -89,6 +100,8 @@ public:
 	operation_result GetStudiesIDs_J(char **studies_ids_p, int &length);
 	operation_result LoadCTbyAccession_J(const char *accession_number);
 	operation_result GetSlice_J(const unsigned char **imgData, int &length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t slice_aprox, mip_method_type mip_method);
+
+	operation_result GetDetailedStudyInfo_J(char **info_json_p, int &length);
 
 
 
