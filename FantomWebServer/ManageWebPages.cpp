@@ -63,7 +63,7 @@ void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_m
 void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	double hu_value;
-	GetPointHU(hu_value, _wtoi(interpret_url(q_params_map.value("coords_z", "")).c_str()),
+	GetPointHU_J(&hu_value, _wtoi(interpret_url(q_params_map.value("coords_z", "")).c_str()),
 	_wtoi(interpret_url(q_params_map.value("coords_y", "")).c_str()),
 		_wtoi(interpret_url(q_params_map.value("coords_x", "")).c_str()));
 	message << hu_value;

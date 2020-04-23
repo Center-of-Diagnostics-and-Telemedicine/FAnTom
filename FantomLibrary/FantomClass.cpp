@@ -407,8 +407,6 @@ operation_result Fantom::GetScreenSlice(frame_t &screen_image_buffer,
 			size_t slice_aprox,
 			mip_method_type mip_method)
 {
-// 	double	dicom_slice_position(dicom_slice_position);
-// 	dicom_slice_position -= 1;
 	switch (st)
 	{
 	case e_frontal:

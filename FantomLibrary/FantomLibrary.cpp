@@ -105,11 +105,11 @@ operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, s
 }
 
 
-operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord)
-{
-	//point3_ST coord(axial_coord, frontal_coord, sagittal_coord);
-	return tomogram.GetTomogramSampleHU(value, point3_ST(axial_coord, frontal_coord, sagittal_coord));
-}
+// operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord)
+// {
+// 	//point3_ST coord(axial_coord, frontal_coord, sagittal_coord);
+// 	return tomogram.GetTomogramSampleHU(value, point3_ST(axial_coord, frontal_coord, sagittal_coord));
+// }
 
 
 
@@ -300,30 +300,3 @@ void FANTOM_DLL_EI init_tomogram()
 }
 
 
-
-// void FANTOM_DLL_EI get_pixeldata(unique_ptr<uint8_t> &pixelData, int &length, int &hs, int &vs, int &ncomp, int &bpp, int &sign)
-// {
-// 	double black(0);
-// 	double white(255);
-// 	double gamma(1);
-// 	//GetSlice(marked_image &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t slice_aprox, mip_method_type mip_method);
-// 	frame_t slice;
-// 	tomogram.RescaledSlice(slice, slice_type::e_axial, 1, black, white, gamma, 0,mip_method_type::e_no_mip);
-// 	hs = static_cast<int>(slice.hsize());
-// 	vs = static_cast<int>(slice.vsize());
-// 
-// 	BitmapContainerIndexed	bmp;
-// 	bmp.SetSizes(slice.vsize(), slice.hsize());
-// 	bmp.palette.realloc(256);
-// 	for (size_t i = 0; i < 256; ++i)
-// 	{
-// 		bmp.palette[i] = static_cast<uint8_t>(i);
-// 	}
-// 
-// 	bmp.CopyData(slice);
-// 
-// 	length = bmp.GetBitmapFileSize();
-// 	pixelData = make_unique<uint8_t>(length);
-// 	memcpy(pixelData.get(), bmp.GetBitmapFile(), length);
-// 
-// }
