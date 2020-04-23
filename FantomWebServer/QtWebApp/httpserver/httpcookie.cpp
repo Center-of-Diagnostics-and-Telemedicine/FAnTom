@@ -1,4 +1,4 @@
-﻿#include "pre.h"
+#include "pre.h"
 /**
   @file
   @author Stefan Frings

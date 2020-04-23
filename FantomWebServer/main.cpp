@@ -20,7 +20,7 @@
 
 QString	web_server_path;
 QString	data_store_path;
-QString	text_file_path;
+
 
 
 
@@ -37,9 +37,6 @@ QString	text_file_path;
 	web_server_path = QString::fromStdWString(wss.html_source_path) +"/";
 
 	data_store_path = QString::fromStdWString(wss.dicom_folder);
-
-	text_file_path = QString::fromStdWString(wss.dicom_text_folder);
-
 
 	QString server_ini_file = QString::fromStdWString(wss.server_ini_file);
 	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);

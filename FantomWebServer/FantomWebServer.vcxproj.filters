@@ -51,9 +51,6 @@
     <ClCompile Include="QtWebApp\httpserver\httpsessionstore.cpp">
       <Filter>QtWebServer</Filter>
     </ClCompile>
-    <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp">
-      <Filter>QtWebServer</Filter>
-    </ClCompile>
     <ClCompile Include="RequestMapper.cpp">
       <Filter>QtWebServer</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
       <Filter>QtWebServer\headers</Filter>
     </CustomBuild>
     <CustomBuild Include="QtWebApp\httpserver\httpsessionstore.h">
-      <Filter>QtWebServer\headers</Filter>
-    </CustomBuild>
-    <CustomBuild Include="QtWebApp\httpserver\staticfilecontroller.h">
       <Filter>QtWebServer\headers</Filter>
     </CustomBuild>
     <CustomBuild Include="RequestMapper.h">

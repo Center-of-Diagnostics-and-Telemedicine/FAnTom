@@ -11,7 +11,7 @@
 
 using namespace std;
 extern QString	web_server_path;
-//extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
+
 
 XRAD_BEGIN
 

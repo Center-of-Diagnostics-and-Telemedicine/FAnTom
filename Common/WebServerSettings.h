@@ -11,13 +11,9 @@ struct WebServerSettings
 
 	wstring dicom_folder;
 
-	wstring dicom_text_folder;
-
 	wstring html_source_path;
 
 	wstring server_ini_file;
-
-	wstring doctor_ini_file;
 
 };
 

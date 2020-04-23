@@ -1,4 +1,4 @@
-﻿/**
+/**
   @file
   @author Stefan Frings
 */
@@ -25,3 +25,4 @@ DECLSPEC const char* getQtWebAppLibVersion();
 
 
 #endif // HTTPGLOBAL_H
+

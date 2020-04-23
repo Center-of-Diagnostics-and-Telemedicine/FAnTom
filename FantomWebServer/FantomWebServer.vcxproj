@@ -50,22 +50,22 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(XRADRoot)\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
-    <Import Project="$(XRADRoot)\Projects\XRADQt\XRADQt.props" />
+    <Import Project="$(XRADRoot)\XRADQt\MSVC\XRADQt.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(XRADRoot)\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
-    <Import Project="$(XRADRoot)\Projects\XRADQt\XRADQt.props" />
+    <Import Project="$(XRADRoot)\XRADQt\MSVC\XRADQt.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(XRADRoot)\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
-    <Import Project="$(XRADRoot)\Projects\XRADQt\XRADQt.props" />
+    <Import Project="$(XRADRoot)\XRADQt\MSVC\XRADQt.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(XRADRoot)\XRADConsoleUI\MSVC\XRADConsoleUI.props" />
-    <Import Project="$(XRADRoot)\Projects\XRADQt\XRADQt.props" />
+    <Import Project="$(XRADRoot)\XRADQt\MSVC\XRADQt.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -135,7 +135,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httprequesthandler.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpsessionstore.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp" />
-    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" />
+ <!--   <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" /> -->
     <ClCompile Include="..\Common\WebServerSettings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManageBitmap.cpp" />
@@ -159,7 +159,6 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClCompile Include="QtWebApp\httpserver\httpresponse.cpp" />
     <ClCompile Include="QtWebApp\httpserver\httpsession.cpp" />
     <ClCompile Include="QtWebApp\httpserver\httpsessionstore.cpp" />
-    <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp" />
     <ClCompile Include="RequestMapper.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -231,24 +230,6 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing RequestMapper.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(IntDir)\GeneratedFiles\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.." "-I$(QTDIR_P)\include" "-I.\__IntDirPlaceholder__\GeneratedFiles" "-I$(XRADRoot)\." "-I$(XRADThirdParty)\vld\include" "-fpre.h" "-f../../RequestMapper.h"</Command>
-    </CustomBuild>
-    <CustomBuild Include="QtWebApp\httpserver\staticfilecontroller.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing staticfilecontroller.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(IntDir)\GeneratedFiles\moc_%(Filename).cpp"   "-I." "-I.." "-I$(QTDIR_P)\include" "-I.\__IntDirPlaceholder__\GeneratedFiles" "-I$(XRADRoot)\." "-I$(XRADThirdParty)\vld\include" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing staticfilecontroller.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(IntDir)\GeneratedFiles\moc_%(Filename).cpp"   "-I." "-I.." "-I$(QTDIR_P)\include" "-I.\__IntDirPlaceholder__\GeneratedFiles" "-I$(XRADRoot)\." "-I$(XRADThirdParty)\vld\include" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing staticfilecontroller.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(IntDir)\GeneratedFiles\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.." "-I$(QTDIR_P)\include" "-I.\__IntDirPlaceholder__\GeneratedFiles" "-I$(XRADRoot)\." "-I$(XRADThirdParty)\vld\include" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing staticfilecontroller.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(IntDir)\GeneratedFiles\moc_%(Filename).cpp"  -DNDEBUG  "-I." "-I.." "-I$(QTDIR_P)\include" "-I.\__IntDirPlaceholder__\GeneratedFiles" "-I$(XRADRoot)\." "-I$(XRADThirdParty)\vld\include" "-fpre.h" "-f../../QtWebApp/httpserver/staticfilecontroller.h"</Command>
     </CustomBuild>
     <CustomBuild Include="QtWebApp\httpserver\httpsessionstore.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
