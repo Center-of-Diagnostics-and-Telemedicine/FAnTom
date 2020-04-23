@@ -11,15 +11,12 @@
 #pragma warning (disable:4482)
 #pragma warning (disable:4297)
 
-#include <XRAD.h>
+#include <XRADGUI/XRAD.h>
 #include <XRADBasic/Sources/Utils/TimeProfiler.h>
-#include <MathFunctionGUI2D.h>
-#include <MathFunctionGUIMD.h>
+#include <XRADGUI/Sources/GUI/MathFunctionGUIMD.h>
 #include <XRADBasic/DataArrayIO.h>
 #include <XRADSystem/CFile.h>
 #include <XRADBasic/ContainersAlgebra.h>
-//#include <XRAD/FIRFilterKernel2D.h>
-//#include <DataArrayMD.h>
 #include <XRADSystem/Sources/IniFile/XRADIniFile.h>
 #include <XRADBasic/Sources/Utils/ExponentialBlurAlgorithms.h>
 

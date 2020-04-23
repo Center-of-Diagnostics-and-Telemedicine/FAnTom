@@ -1,6 +1,6 @@
 ﻿#include "pre.h"
 #include "FantomSettingsEdit.h"
-#include <Sources/XRAD/GUI/DynamicDialog.h>
+#include <XRADGUI/Sources/GUI/DynamicDialog.h>
 #include <QtCore/QSettings.h>
 #include <iostream>
 #include <Common/WebServerSettings.h>
