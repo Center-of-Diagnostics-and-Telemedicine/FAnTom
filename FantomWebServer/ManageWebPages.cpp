@@ -20,7 +20,8 @@ void GenerateNFramesRealData(QMultiMap<QByteArray, QByteArray> &q_params_map, st
 {
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 	size_t n_frames;
-	GetNFrames_real(n_frames, st);
+//	GetNFrames_real(n_frames, st);
+	GetTomogramDimension_J(&n_frames, st);
 	message << n_frames;
 }
 
@@ -29,7 +30,8 @@ void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params
 {
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 	size_t n_frames;
-	GetNFrames_interpolated(n_frames, st);
+//	GetNFrames_interpolated(n_frames, st);
+	GetScreenDimension_J(&n_frames, st);
 	message << n_frames;
 }
 
