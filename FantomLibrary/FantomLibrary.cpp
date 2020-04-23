@@ -105,12 +105,6 @@ operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, s
 }
 
 
-// operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord)
-// {
-// 	//point3_ST coord(axial_coord, frontal_coord, sagittal_coord);
-// 	return tomogram.GetTomogramSampleHU(value, point3_ST(axial_coord, frontal_coord, sagittal_coord));
-// }
-
 
 
 // Java implementation ==========================================================================
@@ -122,6 +116,11 @@ operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers_in, int *length)
 {
 	return tomogram.GetStudiesIDs_J(accession_numbers_in, *length);
+}
+
+operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length)
+{
+	return tomogram.GetDetailedStudyInfo_J(info_json_ptr, *length);
 }
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path)

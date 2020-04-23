@@ -67,6 +67,12 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 //todo (Kovbas) выводить в консоль инфу о выполнении методов
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path); //todo (Kovbas) баблиотека должна получить путь к папке с исследованиями
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
+
+//! \brief Функция помещает в info_json_ptr указатель на строку, содержащую json c подробной информацией об исследовании
+//!	для записи в БД разметки.
+//!	Записываются ключи patient_id, patient_age, patient_sex, study_id, study_instance_uid, accession_number
+operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length);
+
 operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path);
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 

@@ -3,8 +3,11 @@
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
+
 #include <cstring>
 #include <iostream>
+#include <sstream>
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
@@ -187,6 +190,24 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 	CalculateInterpolationScales();
 
 	m_accession_number = accession_number;
+
+	auto	&sample_instance = *ct_acquisition_ptr().loader().front();
+
+	m_patient_id = sample_instance.get_wstring(Dicom::e_patient_id);
+	m_patient_sex = sample_instance.get_wstring(Dicom::e_patient_sex);
+	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
+	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
+	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	cout << "\n\nPatient info:\n";
+	cout << convert_to_string8(m_patient_id) << endl;
+	cout << convert_to_string8(m_patient_sex) << endl;
+	cout << convert_to_string8(m_patient_age) << endl;
+
+	cout << "\nstudy info:\n";
+	cout << convert_to_string8(m_study_id) << endl;
+	cout << convert_to_string8(m_accession_number) << endl;
+	cout << convert_to_string8(m_study_instance_uid) << endl;
 
 	return e_successful;
 }
@@ -575,6 +596,42 @@ operation_result  Fantom::InitFantom_J(const char *data_store_path)
 	return e_successful;
 }
 
+
+std::string slice_manager::DetailedStudyInfo()
+{
+	nlohmann::json	j;
+	stringstream	str;
+
+	j["accession_number"] = convert_to_string8(m_accession_number);
+	j["study_id"] = convert_to_string8(m_study_id);
+	j["study_instance_uid"] = convert_to_string8(m_study_instance_uid);
+	j["patient_id"] = convert_to_string8(m_patient_id);
+	j["patient_sex"] = convert_to_string8(m_patient_sex);
+	j["patient_age"] = convert_to_string8(m_patient_age);
+
+	str << j;
+
+	return str.str();
+}
+
+
+
+operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
+{
+	logForJava("GetDetailedStudyInfo_J is started");
+	string string_buffer = DetailedStudyInfo();
+
+	length = string_buffer.size();
+	
+	buffer_detailed_study_info = make_unique<char[]>(length);
+	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), length);
+	*info_json_p = buffer_detailed_study_info.get();
+
+	logForJava("GetDetailedStudyInfo_J is finished");
+	return e_successful;
+}
+
+
 operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 {
 	logForJava("GetStudiesIDs_J is started");
@@ -583,9 +640,9 @@ operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 	string string_buffer;
 	for (auto &study_id : study_ids)
 	{
-//		string_buffer += convert_to_string(study_id.study_instance_uid()) + '\t' + convert_to_string(study_id.study_id()) + '\t' + convert_to_string(study_id.accession_number()) + '\n';
+//		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
 		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
-		string_buffer += convert_to_string(study_id.accession_number()) + '\t';
+		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
 	length = int(string_buffer.size());
@@ -650,3 +707,4 @@ operation_result Fantom::GetSlice_J(
 	logForJava("GetSlice_J is finished (error)");
 	return e_other;
 }
+
