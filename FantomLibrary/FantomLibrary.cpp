@@ -33,11 +33,10 @@ operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number
 	return tomogram.GetStudyAccessionNumber(accession_number);
 }
 
-
-operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers)
-{
-	return tomogram.GetAccessionNumbers(accession_numbers);
-}
+//operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers)
+//{
+//	return tomogram.GetAccessionNumbers(accession_numbers);
+//}
 
 operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &study_ids)
 {
@@ -111,6 +110,11 @@ operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, s
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 {
 	return tomogram.InitFantom_J(data_store_path);
+}
+
+operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers)
+{
+	return tomogram.GetAccessionNumbers(*accession_numbers);
 }
 
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers_in, int *length)

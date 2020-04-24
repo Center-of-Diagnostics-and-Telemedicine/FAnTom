@@ -34,7 +34,7 @@ extern "C"
 //инициализация библиотеки: загрузка всех исследований по указанному пути
 //operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
 
-operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
+//operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
 // Если функция понадобится, переделать прототип. Не должно быть привязки к типам из Dicom,
 // вернуть составные части структуры complete_study_id_t.
 //operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
@@ -66,6 +66,7 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 //note (Kovbas) для работы c Java сделан суффикс _J
 //todo (Kovbas) выводить в консоль инфу о выполнении методов
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path); //todo (Kovbas) баблиотека должна получить путь к папке с исследованиями
+operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers);
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
 
 //! \brief Функция помещает в info_json_ptr указатель на строку, содержащую json c подробной информацией об исследовании

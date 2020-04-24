@@ -75,7 +75,7 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 void GetAccNamesData(std::wstringstream &message)
 {
 	vector<wstring> acc_names;
-	GetAccessionNumbers(acc_names);
+	GetAccessionNumbers_J(&acc_names);
 	for (size_t i = 0; i < acc_names.size(); ++i)
 	{
 		message << convert_to_wstring(acc_names[i]) + L" ";
