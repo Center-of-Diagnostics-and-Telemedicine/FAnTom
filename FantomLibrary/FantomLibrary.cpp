@@ -2,6 +2,8 @@
 #include "FantomLibrary.h"
 
 #include "FantomClass.h"
+
+#include <sstream> 
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
 //TODO list<MarketTomogram> sessions;
@@ -109,7 +111,9 @@ operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, s
 // Java implementation ==========================================================================
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 {
-	return tomogram.InitFantom_J(data_store_path);
+	std::wstringstream cls;
+	cls << data_store_path;
+	return tomogram.InitFantom(cls.str());
 }
 
 operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers)

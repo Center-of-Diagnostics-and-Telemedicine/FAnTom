@@ -588,13 +588,13 @@ void logForJava(wstring val)
 }
 
 // Java ========================================================================================================
-operation_result  Fantom::InitFantom_J(const char *data_store_path)
-{
-	logForJava("InitFantom_J is started");
-	InitFantom(convert_to_wstring(data_store_path));
-	logForJava("InitFantom_J is finished");
-	return e_successful;
-}
+//operation_result  Fantom::InitFantom_J(const char *data_store_path)
+//{
+//	logForJava("InitFantom_J is started");
+//	InitFantom(convert_to_wstring(data_store_path));
+//	logForJava("InitFantom_J is finished");
+//	return e_successful;
+//}
 
 
 std::string slice_manager::DetailedStudyInfo()
