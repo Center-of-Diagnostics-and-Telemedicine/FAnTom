@@ -38,7 +38,7 @@ RequestMapper::RequestMapper(QObject* parent)
 	:HttpRequestHandler(parent)
 {
 	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
-	InitFantom(convert_to_wstring(data_store_path.toStdString()));
+	InitFantom_J(data_store_path.toStdString().c_str());
 }
 
 

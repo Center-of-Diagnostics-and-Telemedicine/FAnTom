@@ -32,7 +32,7 @@ XRAD_USING
 extern "C"
 {
 //инициализация библиотеки: загрузка всех исследований по указанному пути
-operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
+//operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
 
 operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
 // Если функция понадобится, переделать прототип. Не должно быть привязки к типам из Dicom,
