@@ -108,6 +108,7 @@ void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_m
 void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	bool series_loaded(false);
+
 	std::string s_buff = convert_to_string( interpret_url(q_params_map.value("accession_number", "")) );
 	
 	const char* cbuff = s_buff.c_str();

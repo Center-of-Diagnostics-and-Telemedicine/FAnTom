@@ -37,8 +37,11 @@ extern QString	data_store_path;
 RequestMapper::RequestMapper(QObject* parent)
 	:HttpRequestHandler(parent)
 {
-	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
-	InitFantom_J(data_store_path.toStdString().c_str());
+	std::string s_buff = data_store_path.toStdString();
+
+	const char* cbuff = s_buff.c_str();
+
+	InitFantom_J(&cbuff);
 }
 
 

@@ -53,10 +53,10 @@ operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> 
 //	return tomogram.CloseCTStudyAcession(accession_number);
 //}
 
-operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
-{
-	return tomogram.InitFantom(data_store_path);
-}
+//operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
+//{
+//	return tomogram.InitFantom(data_store_path);
+//}
 
 
 operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no)
@@ -110,11 +110,13 @@ operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, s
 
 
 // Java implementation ==========================================================================
-operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
+operation_result FANTOM_DLL_EI InitFantom_J(const char **data_store_path)
 {
-	std::wstringstream cls;
-	cls << data_store_path;
-	return tomogram.InitFantom(cls.str());
+		std::wstringstream buff;
+
+		buff << *data_store_path;
+
+		return tomogram.InitFantom(buff.str());
 }
 
 operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accession_numbers)
@@ -151,7 +153,11 @@ operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int 
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char **asseccion_number, bool *series_loaded)
 {
-	return tomogram.LoadCTbyAccession(convert_to_wstring(*asseccion_number), *series_loaded);
+	std::wstringstream buff;
+
+	buff << *asseccion_number;
+
+	return tomogram.LoadCTbyAccession(buff.str(), *series_loaded);
 }
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)
