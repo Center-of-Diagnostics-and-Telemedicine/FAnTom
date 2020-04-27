@@ -647,16 +647,16 @@ operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
 //	return e_successful;
 //}
 
-operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
-{
-	logForJava("LoadCTbyAccession_J is started");
-
-	bool res;
-	LoadCTbyAccession(convert_to_wstring(accession_number), res);
-
-	logForJava("LoadCTbyAccession_J is finished");
-	return e_successful;
-}
+//operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
+//{
+//	logForJava("LoadCTbyAccession_J is started");
+//
+//	bool res;
+//	LoadCTbyAccession(convert_to_wstring(accession_number), res);
+//
+//	logForJava("LoadCTbyAccession_J is finished");
+//	return e_successful;
+//}
 
 operation_result Fantom::GetSlice_J(
 	const unsigned char **imgData,

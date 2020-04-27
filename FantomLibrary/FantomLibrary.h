@@ -40,7 +40,7 @@ extern "C"
 //operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 //operation_result FANTOM_DLL_EI GetStudiesIDs(string &accession_numbers);
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
+//operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
 //operation_result FANTOM_DLL_EI CloseCTStudyAcession(const wstring &accession_number);
 
 
@@ -74,7 +74,7 @@ operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accessi
 //!	Записываются ключи patient_id, patient_age, patient_sex, study_id, study_instance_uid, accession_number
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length);
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path);
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char **assesion_number, bool *series_loaded);
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 
 operation_result FANTOM_DLL_EI GetTomogramDimension_J(size_t *frames_no, slice_type st);

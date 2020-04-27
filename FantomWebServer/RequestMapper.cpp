@@ -99,7 +99,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						}
 						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
 						{
-							GenerateDICOMPage(q_params_map, message);
+							LoadCTbyAccession(q_params_map, message);
 						}
 				/*		else if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{

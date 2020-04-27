@@ -105,10 +105,15 @@ void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_m
 	message << pixel_coord;
 }
 
-void GenerateDICOMPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	bool series_loaded(false);
-	LoadCTbyAccession(interpret_url(q_params_map.value("accession_number", "")), series_loaded);
+	std::string s_buff = convert_to_string( interpret_url(q_params_map.value("accession_number", "")) );
+	
+	const char* cbuff = s_buff.c_str();
+
+	LoadCTbyAccession_J(&cbuff, &series_loaded);
+
 	if (series_loaded)
 	{
 		wstring	ws_dicom_page_data = ReadDocument(L"DICOM_Viewer.html");

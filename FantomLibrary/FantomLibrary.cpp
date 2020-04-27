@@ -65,10 +65,10 @@ operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord
 }
 
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
-{
-	return tomogram.LoadCTbyAccession(accession_number, series_loaded);
-}
+//operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
+//{
+//	return tomogram.LoadCTbyAccession(accession_number, series_loaded);
+//}
 
 
 operation_result  FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st)
@@ -149,9 +149,9 @@ operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int 
 	return tomogram.GetDetailedStudyInfo_J(info_json_ptr, *length);
 }
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path)
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char **asseccion_number, bool *series_loaded)
 {
-	return tomogram.LoadCTbyAccession_J(data_store_path);
+	return tomogram.LoadCTbyAccession(convert_to_wstring(*asseccion_number), *series_loaded);
 }
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)

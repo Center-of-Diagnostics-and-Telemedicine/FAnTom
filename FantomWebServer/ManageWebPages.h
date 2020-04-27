@@ -11,7 +11,7 @@ XRAD_BEGIN
 
 using namespace std;
 
-void GenerateDICOMPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
