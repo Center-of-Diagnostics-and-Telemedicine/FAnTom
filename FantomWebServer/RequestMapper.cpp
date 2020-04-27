@@ -180,9 +180,6 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_delete_ct:
 				//CloseTomogram(q_params_map);
 				break;
-			case e_get_study_accession:
-				GenerateStudyAccessionNumberData(message);
-				break;
 			default:
 				break;
 			

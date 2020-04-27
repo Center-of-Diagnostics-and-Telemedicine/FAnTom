@@ -39,11 +39,12 @@ extern "C"
 // вернуть составные части структуры complete_study_id_t.
 //operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 //operation_result FANTOM_DLL_EI GetStudiesIDs(string &accession_numbers);
+	operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number);
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
 //operation_result FANTOM_DLL_EI CloseCTStudyAcession(const wstring &accession_number);
 
-operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number);
+
 
 // кол-во фреймов в соответствующем срезе
 operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);

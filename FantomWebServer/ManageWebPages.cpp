@@ -36,12 +36,6 @@ void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params
 }
 
 
-void GenerateStudyAccessionNumberData(std::wstringstream &message)
-{
-	wstring id;
-	GetStudyAccessionNumber(id);
-	message << id; //(id, e_decode_literals);
-}
 
 
 void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)

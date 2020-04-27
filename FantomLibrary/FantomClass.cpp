@@ -546,15 +546,7 @@ operation_result Fantom::GetDatabaseCoordinateFromScreenPosition(double &coord, 
 }
 
 
-operation_result Fantom::GetStudyAccessionNumber(wstring &accession_number)
-{
-	if ((ct_acquisition_ptr().accession_number() != L""))
-	{
-		accession_number = ct_acquisition_ptr().accession_number(), e_encode_literals;
-		return e_successful;
-	}
-	else return e_other;
-}
+
 
 operation_result slice_manager::CalculateInterpolationScales()
 {

@@ -31,10 +31,10 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image,
 }
 
 
-operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number)
-{
-	return tomogram.GetStudyAccessionNumber(accession_number);
-}
+//operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number)
+//{
+//	return tomogram.GetStudyAccessionNumber(accession_number);
+//}
 
 //operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers)
 //{

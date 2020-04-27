@@ -85,7 +85,7 @@ public:
 	operation_result	GetAccessionNumbers(vector<wstring> &accession_numbers);
 	operation_result	GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 	operation_result	GetTomogramSampleHU(double &value, point3_ST rescaled_value_coord);
-	operation_result	GetStudyAccessionNumber(wstring &accession_number);
+
  	operation_result	GetDicomLocationFromScreenCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z);
 	operation_result	GetScreenCoordinateFromDicomLocation(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
 	operation_result	GetPixelLengthCoefficient(double &length_pixel_coef);

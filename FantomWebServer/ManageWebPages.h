@@ -27,8 +27,6 @@ void GenerateNFramesRealData(QMultiMap<QByteArray, QByteArray> &q_params_map, st
 
 void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateStudyAccessionNumberData(std::wstringstream &message);
-
 void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 //void CloseTomogram(QMultiMap<QByteArray, QByteArray> &q_params_map);
