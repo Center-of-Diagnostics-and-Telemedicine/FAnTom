@@ -51,7 +51,7 @@ function CreateLoginPage()
   var acc_names_var = document.createElement("DATALIST");
   acc_names_var.setAttribute("id", "input_options");
 
-   var acc_names_response = ReturnResponseFromCommand('?command=GetAccessionNames');
+   var acc_names_response = ReturnResponseFromCommand('?command=GetNumbersOfAccessions');
    var arrayOfAccNames = acc_names_response.split(' ');
    for (var i = 0; i < arrayOfAccNames.length; i++)
   {

@@ -85,7 +85,7 @@ operation_result Fantom::InitFantom(const wstring &data_store_path)
 	return e_successful;
 }
 
-operation_result Fantom::GetAccessionNumbers(vector<wstring> &accession_numbers)
+operation_result Fantom::GetNumbersOfAccessions(vector<wstring> &accession_numbers)
 {
 	if (m_studies_heap.size() == 0) return e_other;
 	for (auto &study: m_studies_heap)

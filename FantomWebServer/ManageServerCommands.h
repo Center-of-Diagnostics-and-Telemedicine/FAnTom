@@ -21,7 +21,7 @@ enum command_type
 	e_get_point_HU,
 	e_get_pixel_interpolated,
 	e_delete_ct,
-	e_get_accession_numbers,
+	e_get_numbers_of_accessions,
 	e_no_command
 };
 

@@ -82,7 +82,9 @@ public:
 	operation_result	GetScreenDimension(size_t &frames_no, slice_type st);
 	operation_result	GetMillimeterCoordinateFromTomogramPosition(double &coord, slice_type st, size_t rescaled_slice_no);
 	operation_result	GetDatabaseCoordinateFromScreenPosition(double &coord, slice_type st, size_t rescaled_slice_no);
-	operation_result	GetAccessionNumbers(vector<wstring> &accession_numbers);
+
+	operation_result	GetNumbersOfAccessions(vector<wstring> &accession_numbers);
+
 	operation_result	GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 	operation_result	GetTomogramSampleHU(double &value, point3_ST rescaled_value_coord);
 

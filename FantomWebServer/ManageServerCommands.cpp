@@ -34,7 +34,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 	else if ((q_params_map.value("command", "") == "CloseTomogram") && (q_params_map.size() == 2)) return e_delete_ct;
 
-	else if ((q_params_map.value("command", "") == "GetAccessionNames") && (q_params_map.size() == 1)) return e_get_accession_numbers;
+	else if ((q_params_map.value("command", "") == "GetNumbersOfAccessions") && (q_params_map.size() == 1)) return e_get_numbers_of_accessions;
 
 	else return e_no_command;
 }

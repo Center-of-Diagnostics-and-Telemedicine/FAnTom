@@ -117,9 +117,9 @@ operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 	return tomogram.InitFantom(cls.str());
 }
 
-operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers)
+operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accession_numbers)
 {
-	return tomogram.GetAccessionNumbers(*accession_numbers);
+	return tomogram.GetNumbersOfAccessions(*accession_numbers);
 }
 
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t *length)

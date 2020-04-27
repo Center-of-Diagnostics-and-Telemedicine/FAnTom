@@ -39,7 +39,6 @@ extern "C"
 // вернуть составные части структуры complete_study_id_t.
 //operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 //operation_result FANTOM_DLL_EI GetStudiesIDs(string &accession_numbers);
-	operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number);
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
 //operation_result FANTOM_DLL_EI CloseCTStudyAcession(const wstring &accession_number);
@@ -68,7 +67,7 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 //todo (Kovbas) выводить в консоль инфу о выполнении методов
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path); //todo (Kovbas) баблиотека должна получить путь к папке с исследованиями
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
-operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers);
+operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accession_numbers);
 
 //! \brief Функция помещает в info_json_ptr указатель на строку, содержащую json c подробной информацией об исследовании
 //!	для записи в БД разметки.
