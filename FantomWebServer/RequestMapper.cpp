@@ -177,9 +177,6 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 				qDebug() << u16tou8(message.str()).c_str();
 
 				break;
-			case e_delete_ct:
-				//CloseTomogram(q_params_map);
-				break;
 			default:
 				break;
 			
