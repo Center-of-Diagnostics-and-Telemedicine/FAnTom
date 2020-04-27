@@ -14,7 +14,7 @@
 #include "RequestMapper.h"
 
 #include <sstream>
-
+#include <iostream>
 #include <XRADBasic/Core.h>
 #include <XRADBasic/ContainersAlgebra.h>
 #include <XRADSystem/Sources/CFile/shared_cfile.h>

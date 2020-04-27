@@ -66,8 +66,8 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 //note (Kovbas) для работы c Java сделан суффикс _J
 //todo (Kovbas) выводить в консоль инфу о выполнении методов
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path); //todo (Kovbas) баблиотека должна получить путь к папке с исследованиями
+operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
 operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_numbers);
-operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
 
 //! \brief Функция помещает в info_json_ptr указатель на строку, содержащую json c подробной информацией об исследовании
 //!	для записи в БД разметки.

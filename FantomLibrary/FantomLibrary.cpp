@@ -3,7 +3,8 @@
 
 #include "FantomClass.h"
 
-#include <sstream> 
+#include <sstream>
+#include <iostream>
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
 //TODO list<MarketTomogram> sessions;
@@ -121,9 +122,26 @@ operation_result FANTOM_DLL_EI GetAccessionNumbers_J(vector<wstring> *accession_
 	return tomogram.GetAccessionNumbers(*accession_numbers);
 }
 
-operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers_in, int *length)
+operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t *length)
 {
-	return tomogram.GetStudiesIDs_J(accession_numbers_in, *length);
+
+	vector<Dicom::complete_study_id_t> study_ids;
+	tomogram.GetStudiesIDs(study_ids);
+	string string_buffer;
+	for (auto &study_id : study_ids)
+	{
+		//		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
+		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
+		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
+	}
+
+	*length = string_buffer.size() ;
+	tomogram.buf_ct_accession_numbers = make_unique<char[]>(*length);
+
+	memcpy(tomogram.buf_ct_accession_numbers.get(), string_buffer.c_str(), *length + 1);
+	*accession_numbers = tomogram.buf_ct_accession_numbers.get();
+
+	return e_successful;
 }
 
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length)
