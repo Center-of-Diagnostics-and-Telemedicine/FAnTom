@@ -56,15 +56,15 @@ function ReturnResponseFromCommand(commandPath)
 
 function SetRanges()
 {
-  document.getElementById('axialRange').max = document.getElementById('NFramesAxial_real').value;
-  document.getElementById('frontalRange').max = document.getElementById('NFramesFrontal_real').value;
-  document.getElementById('sagittalRange').max = document.getElementById('NFramesSagittal_real').value;
+  document.getElementById('axialRange').max = document.getElementById('TomogramDimensionAxial').value;
+  document.getElementById('frontalRange').max = document.getElementById('TomogramDimensionFrontal').value;
+  document.getElementById('sagittalRange').max = document.getElementById('TomogramDimensionSagittal').value;
   document.getElementById('axialRange').min = 1;
   document.getElementById('frontalRange').min = 1;
   document.getElementById('sagittalRange').min = 1;
-  document.getElementById('axialRange').value = Math.round(document.getElementById('NFramesAxial_real').value/2);
-  document.getElementById('frontalRange').value = Math.round(document.getElementById('NFramesFrontal_real').value/2);
-  document.getElementById('sagittalRange').value = Math.round(document.getElementById('NFramesSagittal_real').value/2);
+  document.getElementById('axialRange').value = Math.round(document.getElementById('TomogramDimensionAxial').value/2);
+  document.getElementById('frontalRange').value = Math.round(document.getElementById('TomogramDimensionFrontal').value/2);
+  document.getElementById('sagittalRange').value = Math.round(document.getElementById('TomogramDimensionSagittal').value/2);
 }
 
 function InitNumbers()
@@ -77,9 +77,9 @@ function InitNumbers()
     document.getElementById('NFramesAxial').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
     document.getElementById('NFramesFrontal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
     document.getElementById('NFramesSagittal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
-    document.getElementById('NFramesAxial_real').value = ReturnResponseFromCommand('?command=GetNFramesReal&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
-    document.getElementById('NFramesFrontal_real').value = ReturnResponseFromCommand('?command=GetNFramesReal&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
-    document.getElementById('NFramesSagittal_real').value = ReturnResponseFromCommand('?command=GetNFramesReal&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
+    document.getElementById('TomogramDimensionAxial').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
+    document.getElementById('TomogramDimensionFrontal').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
+    document.getElementById('TomogramDimensionSagittal').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
     document.getElementById('MIPMethodValue').value = document.getElementById('MIPpchoise2').value;
     SetRanges();
 

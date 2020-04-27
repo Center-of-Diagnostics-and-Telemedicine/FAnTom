@@ -75,10 +75,12 @@ operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accessi
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length);
 
 operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char **assesion_number, bool *series_loaded);
-operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 
 operation_result FANTOM_DLL_EI GetTomogramDimension_J(size_t *frames_no, slice_type st);
+
 operation_result FANTOM_DLL_EI GetScreenDimension_J(size_t *frames_no, slice_type st);
+
+operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 
 operation_result FANTOM_DLL_EI GetMillimeterCoordinateFromTomogramPosition_J(double *coord, slice_type st, size_t native_slice_position);
 operation_result FANTOM_DLL_EI GetDatabaseCoordinateFromScreenPosition_J(double *coord, slice_type st, size_t rescaled_slice_no);

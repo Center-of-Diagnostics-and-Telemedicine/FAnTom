@@ -23,7 +23,7 @@ void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_m
 
 void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateNFramesRealData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void GetTomogramDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 

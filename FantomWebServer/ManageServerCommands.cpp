@@ -16,7 +16,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 	else if ((q_params_map.value("command", "") == "GetSlice") && q_params_map.size() == 9) return e_get_one_slice;
 
-	else if ((q_params_map.value("command", "") == "GetNFramesReal") && (q_params_map.size() == 3)) return e_get_n_frames_real;
+	else if ((q_params_map.value("command", "") == "GetTomogramDimension") && (q_params_map.size() == 3)) return e_get_tomogram_dimension;
 
 	else if ((q_params_map.value("command", "") == "GetNFramesInterpolated") && (q_params_map.size() == 3)) return e_get_n_frames_interpolated;
 

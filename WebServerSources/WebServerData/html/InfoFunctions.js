@@ -1,8 +1,8 @@
 function InitInfo_start()
 {
-  document.getElementById('InfoNFramesAxial').innerHTML = document.getElementById('NFramesAxial_real').value;
-  document.getElementById('InfoNFramesFrontal').innerHTML = document.getElementById('NFramesFrontal_real').value;
-  document.getElementById('InfoNFramesSagittal').innerHTML = document.getElementById('NFramesSagittal_real').value;
+  document.getElementById('InfoNFramesAxial').innerHTML = document.getElementById('TomogramDimensionAxial').value;
+  document.getElementById('InfoNFramesFrontal').innerHTML = document.getElementById('TomogramDimensionFrontal').value;
+  document.getElementById('InfoNFramesSagittal').innerHTML = document.getElementById('TomogramDimensionSagittal').value;
   document.getElementById('CurrentSliceaxial').innerHTML = document.getElementById('axialRange').value;
   document.getElementById('CurrentSlicefrontal').innerHTML = document.getElementById('frontalRange').value;
   document.getElementById('CurrentSlicesagittal').innerHTML = document.getElementById('sagittalRange').value;

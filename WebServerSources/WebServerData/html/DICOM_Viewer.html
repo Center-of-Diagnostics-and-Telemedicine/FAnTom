@@ -31,7 +31,7 @@
 		        <tr>
 				<th>
 					<input class = 'hidden_input' type='number' id='NFramesFrontal'>
-					<input class = 'hidden_input' type='number' id='NFramesFrontal_real' width = '0%'>
+					<input class = 'hidden_input' type='number' id='TomogramDimensionFrontal' width = '0%'>
 			        	<span>Y</span><input class = 'slice_range' type='range' oninput = 'ChangeFrontalComponents()' onchange = 'ChangeFrontalComponents()' id='frontalRange' name = 'frontalRange'>
 			        	<span id = 'CurrentSlicefrontal'></span>/
 			        	<span id = 'InfoNFramesFrontal'></span>
@@ -66,7 +66,7 @@
 				</th>
 				<th>
 					<input class = 'hidden_input' type='number' id='NFramesSagittal'>
-				        <input class = 'hidden_input' type='number' id='NFramesSagittal_real' width = '0%'>
+				        <input class = 'hidden_input' type='number' id='TomogramDimensionSagittal' width = '0%'>
 				        <span>X</span><input class = 'slice_range' type='range' oninput = 'ChangeSagittalComponents()' onchange = 'ChangeSagittalComponents()' id='sagittalRange' name = 'sagittalRange'  >
 				        <span id = 'CurrentSlicesagittal'></span>/
 				        <span id = 'InfoNFramesSagittal'></span>
@@ -79,7 +79,7 @@
 			<tr>
 				<th>
 					<input class = 'hidden_input' type='number' id='NFramesAxial' width = '0%'>
-					<input class = 'hidden_input' type='number' id='NFramesAxial_real' width = '0%'>
+					<input class = 'hidden_input' type='number' id='TomogramDimensionAxial' width = '0%'>
 					<span>Z</span><input  type='range' width = '100%' class = 'slice_range' oninput = 'ChangeAxialComponents()' onchange = 'ChangeAxialComponents()' id='axialRange' name = 'axialRange'>
 					<span id = 'CurrentSliceaxial'></span>/
 					<span id = 'InfoNFramesAxial'></span>

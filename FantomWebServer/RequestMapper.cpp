@@ -161,8 +161,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_n_frames_interpolated:
 				GenerateNFramesInterpolatedData(q_params_map, message);
 				break;
-			case e_get_n_frames_real:
-				GenerateNFramesRealData(q_params_map, message);
+			case e_get_tomogram_dimension:
+				GetTomogramDimension(q_params_map, message);
 				break;
 			case e_get_point_HU:
 				GenerateHUValueData(q_params_map, message);

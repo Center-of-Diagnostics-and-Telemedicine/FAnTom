@@ -16,7 +16,7 @@ extern QString	web_server_path;
 XRAD_BEGIN
 
 
-void GenerateNFramesRealData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+void GetTomogramDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 	size_t n_frames;
