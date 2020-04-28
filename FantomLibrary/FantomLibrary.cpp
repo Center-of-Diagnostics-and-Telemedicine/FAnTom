@@ -83,10 +83,10 @@ operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord
 //}
 
 
-operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
-{
-	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
-}
+//operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
+//{
+//	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
+//}
 
 
 operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)

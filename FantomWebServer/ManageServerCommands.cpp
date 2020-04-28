@@ -20,7 +20,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 	else if ((q_params_map.value("command", "") == "GetScreenDimension") && (q_params_map.size() == 3)) return e_get_screen_dimension;
 
-	else if ((q_params_map.value("command", "") == "GetCoordinateNative") && (q_params_map.size() == 4)) return e_get_coordinate_native;
+//	else if ((q_params_map.value("command", "") == "GetCoordinateNative") && (q_params_map.size() == 4)) return e_get_coordinate_native;
 
 	else if ((q_params_map.value("command", "") == "GetCoordinateInterpolated") && (q_params_map.size() == 4)) return e_get_coordinate_interpolated;
 

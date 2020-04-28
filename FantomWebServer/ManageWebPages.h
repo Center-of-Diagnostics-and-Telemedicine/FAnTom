@@ -31,7 +31,7 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 
 //void CloseTomogram(QMultiMap<QByteArray, QByteArray> &q_params_map);
 
-void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
