@@ -15,7 +15,7 @@ enum command_type
 	e_get_tomogram_dimension, 
 	e_get_screen_dimension,
 //	e_get_coordinate_native,
-	e_get_coordinate_interpolated,
+//	e_get_coordinate_interpolated,
 	e_get_original_coordinate,
 	e_get_pixel_length,
 	e_get_point_HU,

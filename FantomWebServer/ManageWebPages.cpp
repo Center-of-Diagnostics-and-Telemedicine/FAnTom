@@ -47,13 +47,13 @@ void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::ws
 //}
 
 
-void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
-{
-	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
-	double coord_dbl;
-	GetCoordinateInterpolated(coord_dbl, st, _wtoi(interpret_url(q_params_map.value("coord", "")).c_str()));
-	message << coord_dbl;
-}
+//void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+//{
+//	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
+//	double coord_dbl;
+//	GetCoordinateInterpolated(coord_dbl, st, _wtoi(interpret_url(q_params_map.value("coord", "")).c_str()));
+//	message << coord_dbl;
+//}
 
 
 void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)

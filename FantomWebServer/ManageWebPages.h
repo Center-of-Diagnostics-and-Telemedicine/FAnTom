@@ -33,7 +33,7 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 
 //void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GetNumbersOfAccessions(std::wstringstream &message);
 

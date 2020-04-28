@@ -22,7 +22,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 //	else if ((q_params_map.value("command", "") == "GetCoordinateNative") && (q_params_map.size() == 4)) return e_get_coordinate_native;
 
-	else if ((q_params_map.value("command", "") == "GetCoordinateInterpolated") && (q_params_map.size() == 4)) return e_get_coordinate_interpolated;
+//	else if ((q_params_map.value("command", "") == "GetCoordinateInterpolated") && (q_params_map.size() == 4)) return e_get_coordinate_interpolated;
 
 	else if ((q_params_map.value("command", "") == "GetOriginalPixelCoordinate") && (q_params_map.size() == 5)) return e_get_original_coordinate;
 

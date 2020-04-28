@@ -174,9 +174,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //			case e_get_coordinate_native:
 //				GenerateNativeCoordData(q_params_map, message);
 //				break;
-			case e_get_coordinate_interpolated:
-				GenerateInterpolatedCoordData(q_params_map, message);
-				break;
+//			case e_get_coordinate_interpolated:
+//				GenerateInterpolatedCoordData(q_params_map, message);
+//				break;
 			case e_get_numbers_of_accessions:
 				GetNumbersOfAccessions(message);
 
