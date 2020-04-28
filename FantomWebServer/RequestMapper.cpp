@@ -149,8 +149,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						return;
 					}
 				break;
-			case e_get_original_coordinate:
-				GenerateOriginalPixelCoordData(q_params_map, message);
+			case e_get_tomogram_coordinate:
+				GetTomogramLocationFromScreenCoordinate(q_params_map, message);
 				break;
 			case e_get_pixel_interpolated:
 				GenerateInterpolatedPixelData(q_params_map, message);
