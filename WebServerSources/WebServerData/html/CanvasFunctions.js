@@ -282,12 +282,12 @@ window.addEventListener('keyup', ctrlUnPressed, true);
 
   function InitCanvas()
   {
-    document.getElementById('axialCanvas').width = document.getElementById('NFramesFrontal').value;
-    document.getElementById('axialCanvas').height = document.getElementById('NFramesSagittal').value;
-    document.getElementById('frontalCanvas').width = document.getElementById('NFramesSagittal').value;
-    document.getElementById('frontalCanvas').height = document.getElementById('NFramesAxial').value;
-    document.getElementById('sagittalCanvas').width = document.getElementById('NFramesFrontal').value;
-    document.getElementById('sagittalCanvas').height = document.getElementById('NFramesAxial').value;
+    document.getElementById('axialCanvas').width = document.getElementById('ScreenDimensionFrontal').value;
+    document.getElementById('axialCanvas').height = document.getElementById('ScreenDimensionSagittal').value;
+    document.getElementById('frontalCanvas').width = document.getElementById('ScreenDimensionSagittal').value;
+    document.getElementById('frontalCanvas').height = document.getElementById('ScreenDimensionAxial').value;
+    document.getElementById('sagittalCanvas').width = document.getElementById('ScreenDimensionFrontal').value;
+    document.getElementById('sagittalCanvas').height = document.getElementById('ScreenDimensionAxial').value;
     InitAllImageDraw();
   }
 

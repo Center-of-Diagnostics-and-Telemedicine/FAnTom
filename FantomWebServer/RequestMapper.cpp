@@ -158,8 +158,12 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_pixel_length:
 				GeneratePixelLengthData(q_params_map, message);
 				break;
-			case e_get_n_frames_interpolated:
-				GenerateNFramesInterpolatedData(q_params_map, message);
+			case e_get_screen_dimension:
+				GetScreenDimension(q_params_map, message);
+
+				qDebug() << "GetScreenDimension called ";
+				qDebug() << u16tou8(message.str()).c_str();
+
 				break;
 			case e_get_tomogram_dimension:
 				GetTomogramDimension(q_params_map, message);
@@ -176,7 +180,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_numbers_of_accessions:
 				GetNumbersOfAccessions(message);
 
-				qDebug() << "GetAccNamesData called ";
+				qDebug() << "GetNumbersOfAccessions called ";
 				qDebug() << u16tou8(message.str()).c_str();
 
 				break;

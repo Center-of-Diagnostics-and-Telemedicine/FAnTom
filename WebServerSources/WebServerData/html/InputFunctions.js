@@ -74,9 +74,9 @@ function InitNumbers()
     var acc_num = url.searchParams.get('accession_number');
 
     document.getElementById('study_SOP').innerHTML = acc_num;
-    document.getElementById('NFramesAxial').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
-    document.getElementById('NFramesFrontal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
-    document.getElementById('NFramesSagittal').value = ReturnResponseFromCommand('?command=GetNFramesInterpolated&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
+    document.getElementById('ScreenDimensionAxial').value = ReturnResponseFromCommand('?command=GetScreenDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
+    document.getElementById('ScreenDimensionFrontal').value = ReturnResponseFromCommand('?command=GetScreenDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
+    document.getElementById('ScreenDimensionSagittal').value = ReturnResponseFromCommand('?command=GetScreenDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');
     document.getElementById('TomogramDimensionAxial').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=axial');
     document.getElementById('TomogramDimensionFrontal').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=frontal');
     document.getElementById('TomogramDimensionSagittal').value = ReturnResponseFromCommand('?command=GetTomogramDimension&accession_number=' + document.getElementById('study_SOP').innerHTML  + '&img_type=sagittal');

@@ -25,7 +25,7 @@ void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, st
 
 void GetTomogramDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 

@@ -13,7 +13,7 @@ enum command_type
 {
 	e_get_one_slice,
 	e_get_tomogram_dimension, 
-	e_get_n_frames_interpolated,
+	e_get_screen_dimension,
 	e_get_coordinate_native,
 	e_get_coordinate_interpolated,
 	e_get_original_coordinate,

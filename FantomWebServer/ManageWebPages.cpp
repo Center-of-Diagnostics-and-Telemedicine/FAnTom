@@ -26,7 +26,7 @@ void GetTomogramDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::
 }
 
 
-void GenerateNFramesInterpolatedData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 	size_t n_frames;
