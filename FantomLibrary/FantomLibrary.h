@@ -46,8 +46,8 @@ extern "C"
 
 
 // кол-во фреймов в соответствующем срезе
-operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);
-operation_result FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st);
+//operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);
+//operation_result FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st);
 
 operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 

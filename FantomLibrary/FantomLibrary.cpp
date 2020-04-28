@@ -71,16 +71,16 @@ operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord
 //}
 
 
-operation_result  FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st)
-{
-	return tomogram.GetScreenDimension(frames_no, st);
-}
+//operation_result  FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st)
+//{
+//	return tomogram.GetScreenDimension(frames_no, st);
+//}
 
 
-operation_result  FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st)
-{
-	return tomogram.GetTomogramDimension(frames_no, st);
-}
+//operation_result  FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st)
+//{
+//	return tomogram.GetTomogramDimension(frames_no, st);
+//}
 
 
 operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
