@@ -41,7 +41,20 @@ QByteArray ParseSliceBMP(QMultiMap<QByteArray, QByteArray> &q_params_map)
 	GetSliceTomogramWeb(bmp_buffer, interpret_url(q_params_map.value("accession_number", "")), st, slice_no, stod(interpret_url(q_params_map.value("black_var", ""))),
 	stod(interpret_url(q_params_map.value("white_var", ""))), stod(interpret_url(q_params_map.value("gamma_var", ""))), _wtoi(interpret_url(q_params_map.value("aprox_value", "")).c_str()), mip_method);
 
-	QByteArray bmp;
+	const unsigned char *img;
+	int  length;
+
+	GetSlice_J(&img, &length,
+		st,
+		slice_no,
+		stod(interpret_url(q_params_map.value("black_var", ""))),
+		stod(interpret_url(q_params_map.value("white_var", ""))),
+		stod(interpret_url(q_params_map.value("gamma_var", ""))),
+		_wtoi(interpret_url(q_params_map.value("aprox_value", "")).c_str()),
+		mip_method
+	);
+
+	QByteArray bmp((const char*)img,length);
 	//CreateBitMap(bmp, bmp_buffer, L".bmp");
 	//CreateBitMap(bmp, bmp_buffer, L"png");
 	CreateBitMap(bmp, bmp_buffer, interpret_url(q_params_map.value("img_format", "")));

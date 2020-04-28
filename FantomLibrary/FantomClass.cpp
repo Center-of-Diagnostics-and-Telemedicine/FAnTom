@@ -671,25 +671,30 @@ operation_result Fantom::GetSlice_J(
 {
 	logForJava("GetSlice_J is started");
 	frame_t screen_image;
+	RealFunction2D_UI8 screen_buff;
 	if (GetScreenSlice(screen_image, st, dicom_slice_no, black, white, gamma, slice_aprox, mip_method) != e_successful)
 	{
 		return e_other;
 	}
 
-	BitmapContainerIndexed	bmp;
-	bmp.SetSizes(screen_image.vsize(), screen_image.hsize());
-	bmp.palette.realloc(256);
-	for (size_t i = 0; i < 256; ++i)
-	{
-		bmp.palette[i] = static_cast<uint8_t>(i);
-	}
-	bmp.CopyData(screen_image);
+	screen_buff.MakeCopy(screen_image);
 
-	length = static_cast<int>(bmp.GetBitmapFileSize());
-	auto bitmap_to_buffer = [&bmp, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
+	//BitmapContainerIndexed	bmp;
+	//bmp.SetSizes(screen_image.vsize(), screen_image.hsize());
+	//bmp.palette.realloc(256);
+	//for (size_t i = 0; i < 256; ++i)
+	//{
+	//	bmp.palette[i] = static_cast<uint8_t>(i);
+	//}
+	//bmp.CopyData(screen_image);
+
+//	length = static_cast<int>(bmp.GetBitmapFileSize());
+	length = static_cast<int>(screen_buff.vsize()*screen_buff.hsize());
+///	auto bitmap_to_buffer = [&bmp, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
+	auto bitmap_to_buffer = [&screen_buff, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
 	{
 		buf = make_unique<unsigned char[]>(length);
-		memcpy(buf.get(), bmp.GetBitmapFile(), length);
+		memcpy(buf.get(), &screen_buff.at(0,0), length);
 		*imgData = buf.get();
 		logForJava("GetSlice_J is finished (normal)");
 		return e_successful;
