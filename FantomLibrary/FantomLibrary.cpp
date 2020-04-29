@@ -11,24 +11,24 @@
 Fantom	tomogram;
 
 
-operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
-									   slice_type st, 
-									   size_t rescaled_slice_no, 
-									   double black, 
-									   double white, 
-									   double gamma, 
-									   size_t aprox_size, 
-									   mip_method_type mip_method)
-{
-	return tomogram.GetScreenSlice(interpolated_image, 
-							 st, 
-							 rescaled_slice_no, 
-							 black, 
-							 white, 
-							 gamma, 
-							 aprox_size, 
-							 mip_method);
-}
+//operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
+//									   slice_type st, 
+//									   size_t rescaled_slice_no, 
+//									   double black, 
+//									   double white, 
+//									   double gamma, 
+//									   size_t aprox_size, 
+//									   mip_method_type mip_method)
+//{
+//	return tomogram.GetScreenSlice(interpolated_image, 
+//							 st, 
+//							 rescaled_slice_no, 
+//							 black, 
+//							 white, 
+//							 gamma, 
+//							 aprox_size, 
+//							 mip_method);
+//}
 
 
 //operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number)

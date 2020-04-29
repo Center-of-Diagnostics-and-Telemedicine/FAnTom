@@ -49,7 +49,7 @@ extern "C"
 //operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);
 //operation_result FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st);
 
-operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
+//operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 
 //operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position);
 //operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no);
@@ -57,7 +57,6 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type 
 
 //
 //operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
-operation_result FANTOM_DLL_EI GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
 //operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
 //operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
@@ -81,6 +80,8 @@ operation_result FANTOM_DLL_EI GetTomogramDimension_J(size_t *frames_no, slice_t
 operation_result FANTOM_DLL_EI GetScreenDimension_J(size_t *frames_no, slice_type st);
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
+
+operation_result FANTOM_DLL_EI GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
 
 operation_result FANTOM_DLL_EI GetMillimeterCoordinateFromTomogramPosition_J(double *coord, slice_type st, size_t native_slice_position);
 operation_result FANTOM_DLL_EI GetDatabaseCoordinateFromScreenPosition_J(double *coord, slice_type st, size_t rescaled_slice_no);
