@@ -149,8 +149,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						return;
 					}
 				break;
-			case e_get_original_coordinate:
-				GenerateOriginalPixelCoordData(q_params_map, message);
+			case e_get_tomogram_coordinate:
+				GetTomogramLocationFromScreenCoordinate(q_params_map, message);
 				break;
 			case e_get_pixel_interpolated:
 				GenerateInterpolatedPixelData(q_params_map, message);
@@ -171,12 +171,12 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_point_HU:
 				GenerateHUValueData(q_params_map, message);
 				break;
-			case e_get_coordinate_native:
-				GenerateNativeCoordData(q_params_map, message);
-				break;
-			case e_get_coordinate_interpolated:
-				GenerateInterpolatedCoordData(q_params_map, message);
-				break;
+//			case e_get_coordinate_native:
+//				GenerateNativeCoordData(q_params_map, message);
+//				break;
+//			case e_get_coordinate_interpolated:
+//				GenerateInterpolatedCoordData(q_params_map, message);
+//				break;
 			case e_get_numbers_of_accessions:
 				GetNumbersOfAccessions(message);
 

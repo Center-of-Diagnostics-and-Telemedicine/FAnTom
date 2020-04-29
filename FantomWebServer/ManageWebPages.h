@@ -17,7 +17,7 @@ void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 
 void GenerateStartPage(std::wstringstream &message);
 
-void GenerateOriginalPixelCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
@@ -31,9 +31,9 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 
 //void CloseTomogram(QMultiMap<QByteArray, QByteArray> &q_params_map);
 
-void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void GenerateNativeCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GetNumbersOfAccessions(std::wstringstream &message);
 

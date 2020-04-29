@@ -83,10 +83,10 @@ operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord
 //}
 
 
-operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
-{
-	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
-}
+//operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
+//{
+//	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
+//}
 
 
 operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
@@ -95,16 +95,16 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 }
 
 
-operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no)
-{
-	return tomogram.GetDatabaseCoordinateFromScreenPosition(coord, st, rescaled_slice_no);
-}
+//operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no)
+//{
+//	return tomogram.GetDatabaseCoordinateFromScreenPosition(coord, st, rescaled_slice_no);
+//}
 
 
-operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z)
-{
-	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
-}
+//operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z)
+//{
+//	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
+//}
 
 
 
