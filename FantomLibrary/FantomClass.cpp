@@ -593,18 +593,12 @@ std::string slice_manager::DetailedStudyInfo()
 {
 	nlohmann::json	j;
 	nlohmann::json	tube_current;
-	stringstream	str;
-	//make indents in json
-	str.width(1);
-	str.fill('\t');
-	
-	auto	currents = ct_acquisition_ptr().currents();
 
-	tube_current["min_tube_current"] = MinValue(currents);
-	tube_current["max_tube_current"] = MaxValue(currents);
-	tube_current["average_tube_current"] = AverageValue(currents);
-	std::sort(currents.begin(), currents.end());
-	tube_current["median_tube_current"] = currents[currents.size()/2];
+	auto	&first_frame = *ct_acquisition_ptr().get_loader()->front();
+
+	j["series_description"] = convert_to_string8(first_frame.get_wstring(Dicom::e_series_description));
+	j["convolution_kernel"] = convert_to_string8(first_frame.get_wstring(Dicom::e_convolution_kernel));
+	j["protocol_name"] = convert_to_string8(first_frame.get_wstring(Dicom::e_protocol_name));
 
 	j["accession_number"] = convert_to_string8(m_accession_number);
 	j["study_id"] = convert_to_string8(m_study_id);
@@ -613,6 +607,20 @@ std::string slice_manager::DetailedStudyInfo()
 	j["patient_sex"] = convert_to_string8(m_patient_sex);
 	j["patient_age"] = convert_to_string8(m_patient_age);
 	j["tube_current"] = tube_current;
+
+
+	auto	currents = ct_acquisition_ptr().currents();
+
+	tube_current["min"] = MinValue(currents);
+	tube_current["max"] = MaxValue(currents);
+	tube_current["average"] = AverageValue(currents);
+	std::sort(currents.begin(), currents.end());
+	tube_current["median"] = currents[currents.size()/2];
+
+	stringstream	str;
+	//make tab indents in json
+	str.width(1);
+	str.fill('\t');
 	str << j;
 
 	return str.str();
@@ -648,11 +656,11 @@ operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 	for (auto &study_id : study_ids)
 	{
 //		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
-		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
+		//TODO следующая строчка временно. Нужно вернуть ту информацию, что выше, только в json
 		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
-	length = int(string_buffer.size());
+	length = int(string_buffer.size() + 1);
 	buf_ct_accession_numbers = make_unique<char[]>(length);
 	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), length);
 	*studies_ids_p = buf_ct_accession_numbers.get();
