@@ -27,7 +27,7 @@ void GetTomogramDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::
 
 void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void GetPointHU(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 //void CloseTomogram(QMultiMap<QByteArray, QByteArray> &q_params_map);
 

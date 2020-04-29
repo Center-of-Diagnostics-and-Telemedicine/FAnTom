@@ -56,7 +56,7 @@ void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::ws
 //}
 
 
-void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+void GetPointHU(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	double hu_value;
 	GetPointHU_J(&hu_value, _wtoi(interpret_url(q_params_map.value("coords_z", "")).c_str()),

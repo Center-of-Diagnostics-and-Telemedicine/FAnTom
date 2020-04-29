@@ -169,7 +169,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 				GetTomogramDimension(q_params_map, message);
 				break;
 			case e_get_point_HU:
-				GenerateHUValueData(q_params_map, message);
+				GetPointHU(q_params_map, message);
 				break;
 //			case e_get_coordinate_native:
 //				GenerateNativeCoordData(q_params_map, message);
