@@ -20,7 +20,7 @@ enum command_type
 	e_get_pixel_length,
 	e_get_point_HU,
 	e_get_scrn_coord_from_tmgm_lctn, 
-	e_get_numbers_of_accessions,
+	e_get_studies_ids,
 	e_no_command
 };
 

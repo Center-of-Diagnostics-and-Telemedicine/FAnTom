@@ -66,14 +66,16 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 }
 
 
-void GetNumbersOfAccessions_W(std::wstringstream &message)
+void GetStudiesIDs(std::wstringstream &message)
 {
-	vector<wstring> acc_names;
-	GetNumbersOfAccessions(&acc_names);
-	for (size_t i = 0; i < acc_names.size(); ++i)
-	{
-		message << convert_to_wstring(acc_names[i]) + L" ";
-	}
+//	vector<wstring> acc_names;
+//	GetNumbersOfAccessions(&acc_names);
+	char* acc_n;
+	int length;
+	GetStudiesIDs_J(&acc_n, &length);
+
+	message << string8_to_wstring(acc_n);
+
 }
 
 void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)

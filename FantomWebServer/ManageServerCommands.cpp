@@ -32,7 +32,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 	else if ((q_params_map.value("command", "") == "GetPointHU") && (q_params_map.size() == 5)) return e_get_point_HU;
 
-	else if ((q_params_map.value("command", "") == "GetNumbersOfAccessions") && (q_params_map.size() == 1)) return e_get_numbers_of_accessions;
+	else if ((q_params_map.value("command", "") == "GetStudiesIDs") && (q_params_map.size() == 1)) return e_get_studies_ids;
 
 	else return e_no_command;
 }

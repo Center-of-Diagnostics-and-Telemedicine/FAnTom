@@ -177,8 +177,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //			case e_get_coordinate_interpolated:
 //				GenerateInterpolatedCoordData(q_params_map, message);
 //				break;
-			case e_get_numbers_of_accessions:
-				GetNumbersOfAccessions_W(message);
+			case e_get_studies_ids:
+				GetStudiesIDs(message);
 
 				qDebug() << "GetNumbersOfAccessions called ";
 				qDebug() << u16tou8(message.str()).c_str();

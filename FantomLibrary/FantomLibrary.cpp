@@ -87,10 +87,10 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image,
 //{
 //	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
 //}
-operation_result FANTOM_DLL_EI GetNumbersOfAccessions(vector<wstring> *accession_numbers)
-{
-	return tomogram.GetNumbersOfAccessions(*accession_numbers);
-}
+////operation_result FANTOM_DLL_EI GetNumbersOfAccessions(vector<wstring> *accession_numbers)
+//{
+//	return tomogram.GetNumbersOfAccessions(*accession_numbers);
+//}
 
 operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
 {
