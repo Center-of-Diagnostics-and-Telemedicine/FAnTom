@@ -137,10 +137,10 @@ operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t 
 		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
-	*length = string_buffer.size() ;
+	*length = string_buffer.size() + 1;
 	tomogram.buf_ct_accession_numbers = make_unique<char[]>(*length);
 
-	memcpy(tomogram.buf_ct_accession_numbers.get(), string_buffer.c_str(), *length + 1);
+	memcpy(tomogram.buf_ct_accession_numbers.get(), string_buffer.c_str(), *length);
 	*accession_numbers = tomogram.buf_ct_accession_numbers.get();
 
 	return e_successful;
