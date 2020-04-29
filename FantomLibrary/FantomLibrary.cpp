@@ -46,11 +46,6 @@ operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> 
 
 
 
-//operation_result FANTOM_DLL_EI  CloseCTStudyAcession(const wstring &accession_number)
-//{
-//	return tomogram.CloseCTStudyAcession(accession_number);
-//}
-
 operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
 {
 	return tomogram.InitFantom(data_store_path);
