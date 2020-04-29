@@ -320,12 +320,12 @@ window.addEventListener('keyup', ctrlUnPressed, true);
       lines_position.horizontal = document.getElementById('sagittalRange').value;
         break;
       case 'frontal':
-      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
       '&img_type=axial&slice_no='+ document.getElementById('axialRange').value));
       lines_position.horizontal = document.getElementById('sagittalRange').value;
         break;
       case 'sagittal':
-      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
       '&img_type=axial&slice_no='+ document.getElementById('axialRange').value));
       lines_position.horizontal = document.getElementById('frontalRange').value;
         break;
@@ -528,14 +528,14 @@ window.addEventListener('keyup', ctrlUnPressed, true);
         coords_local.main =  coords.y;
         coords_local.horizontal =   coords.x;
 
-        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
         '&img_type=axial&slice_no='+ coords.z));
 
         break;
       case 'sagittal':
         coords_local.main =  coords.x;
         coords_local.horizontal =   coords.y;
-        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
         '&img_type=axial&slice_no='+ coords.z));
         break;
     }

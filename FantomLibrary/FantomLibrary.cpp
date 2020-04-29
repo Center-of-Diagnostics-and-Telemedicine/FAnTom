@@ -59,10 +59,10 @@ operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> 
 //}
 
 
-operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no)
-{
-	return tomogram.GetScreenCoordinateFromDicomLocation(rescaled_pixel_coord, st, original_slice_no);
-}
+//operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no)
+//{
+//	return tomogram.GetScreenCoordinateFromDicomLocation(rescaled_pixel_coord, st, original_slice_no);
+//}
 
 
 //operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)

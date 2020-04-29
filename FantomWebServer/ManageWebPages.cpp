@@ -97,11 +97,11 @@ void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, st
 	message << pixel_length;
 }
 
-void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+void GetScreenCoordinateFromTomogramLocation(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 	size_t pixel_coord(0);
-	GetInterpolatedPixel(pixel_coord, st, wcstod(interpret_url(q_params_map.value("slice_no", "")).c_str(), NULL));
+	GetScreenCoordinateFromTomogramLocation_J(&pixel_coord, st, wcstod(interpret_url(q_params_map.value("slice_no", "")).c_str(), NULL));
 	message << pixel_coord;
 }
 

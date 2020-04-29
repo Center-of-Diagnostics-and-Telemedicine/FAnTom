@@ -19,7 +19,7 @@ void GenerateStartPage(std::wstringstream &message);
 
 void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateInterpolatedPixelData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+void GetScreenCoordinateFromTomogramLocation(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
 void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
