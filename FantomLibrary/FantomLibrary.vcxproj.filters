@@ -15,6 +15,7 @@
     <ClCompile Include="internal\pre.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="FantomLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FantomClass.h">

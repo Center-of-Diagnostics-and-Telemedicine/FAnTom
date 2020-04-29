@@ -8,6 +8,15 @@
 #include <cstring>
 #include <iostream>
 #include <sstream>
+#include "FantomLogger.h"
+
+// void logForJava(const char *val)
+// {
+// 	printf("%s", val); //todo (Kovbas) лог для Джава
+// 	XRAD_ASSERT_THROW
+// }
+
+//{ if(!(condition)) throw assert_exception(format_assert_message(#condition, __func__)); }
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
@@ -577,22 +586,18 @@ operation_result slice_manager::CalculateInterpolationScales()
 
 
 
-void logForJava(const char *val)
-{
-	printf("%s", val); //todo (Kovbas) лог для Джава
-}
 
-void logForJava(wstring val)
-{
-	logForJava(convert_to_string(val).c_str());
-}
+// void logForJava(wstring val)
+// {
+// 	logForJava(convert_to_string(val).c_str());
+// }
 
 // Java ========================================================================================================
 operation_result  Fantom::InitFantom_J(const char *data_store_path)
 {
-	logForJava("InitFantom_J is started");
+	START_LOG;
 	InitFantom(convert_to_wstring(data_store_path));
-	logForJava("InitFantom_J is finished");
+	END_LOG;
 	return e_successful;
 }
 
@@ -618,23 +623,29 @@ std::string slice_manager::DetailedStudyInfo()
 
 operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
 {
-	logForJava("GetDetailedStudyInfo_J is started");
+	START_LOG;
+
+	//	logForJava("GetDetailedStudyInfo_J is started");
 	string string_buffer = DetailedStudyInfo();
 
-	length = string_buffer.size();
+	length = int(string_buffer.size());
 	
 	buffer_detailed_study_info = make_unique<char[]>(length);
 	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), length);
 	*info_json_p = buffer_detailed_study_info.get();
 
-	logForJava("GetDetailedStudyInfo_J is finished");
+//	logForJava("GetDetailedStudyInfo_J is finished");
+	END_LOG;
+
 	return e_successful;
 }
 
 
 operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 {
-	logForJava("GetStudiesIDs_J is started");
+	START_LOG;
+
+//	logForJava("GetStudiesIDs_J is started");
 	vector<Dicom::complete_study_id_t> study_ids;
 	GetStudiesIDs(study_ids);
 	string string_buffer;
@@ -650,18 +661,21 @@ operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), length);
 	*studies_ids_p = buf_ct_accession_numbers.get();
 
-	logForJava("GetStudiesIDs_J is finished");
+	END_LOG;
+//	logForJava("GetStudiesIDs_J is finished");
 	return e_successful;
 }
 
 operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
 {
-	logForJava("LoadCTbyAccession_J is started");
+	START_LOG;
+//	logForJava("LoadCTbyAccession_J is started");
 
 	bool res;
 	LoadCTbyAccession(convert_to_wstring(accession_number), res);
 
-	logForJava("LoadCTbyAccession_J is finished");
+	END_LOG;
+//	logForJava("LoadCTbyAccession_J is finished");
 	return e_successful;
 }
 
@@ -676,7 +690,8 @@ operation_result Fantom::GetSlice_J(
 	size_t slice_aprox,
 	mip_method_type mip_method)
 {
-	logForJava("GetSlice_J is started");
+	START_LOG;
+//	logForJava("GetSlice_J is started");
 	frame_t screen_image;
 	if (GetScreenSlice(screen_image, st, dicom_slice_no, black, white, gamma, slice_aprox, mip_method) != e_successful)
 	{
@@ -693,18 +708,11 @@ operation_result Fantom::GetSlice_J(
 	bmp.CopyData(screen_image);
 
 	length = static_cast<int>(bmp.GetBitmapFileSize());
-	auto bitmap_to_buffer = [&bmp, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
-	{
-		buf = make_unique<unsigned char[]>(length);
-		memcpy(buf.get(), bmp.GetBitmapFile(), length);
-		*imgData = buf.get();
-		logForJava("GetSlice_J is finished (normal)");
-		return e_successful;
-	};
-
-	return bitmap_to_buffer(bitmap_buffers[st], imgData);
-
-	logForJava("GetSlice_J is finished (error)");
-	return e_other;
+	bitmap_buffers[st] = make_unique<unsigned char[]>(length);
+	memcpy(bitmap_buffers[st].get(), bmp.GetBitmapFile(), length);
+	*imgData = bitmap_buffers[st].get();
+	END_LOG;
+//	logForJava("GetSlice_J is finished (normal)");
+	return e_successful;
 }
 
