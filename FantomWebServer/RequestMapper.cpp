@@ -138,7 +138,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
 					{
 						QByteArray bmp;
-						bmp = ParseSliceBMP(q_params_map);
+						bmp = GetSlice(q_params_map);
 						response.setStatus(200, "OK");
 						response.write(bmp);
 						//@@@@@@@@@@prokudaylo

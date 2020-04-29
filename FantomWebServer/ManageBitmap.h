@@ -12,6 +12,7 @@
 
 XRAD_BEGIN
 
+void	CreateQByteArrayPngFromChar(QByteArray &raw_bitmap, const unsigned char *img, int length, const wstring &format);
 void	CreateBitMap(QByteArray &raw_bitmap, const RealFunction2D_UI8 &img, const wstring &format);
 bool	SaveImageFormat(const QByteArray &raw_image_body, QString filename, char* format);
 
