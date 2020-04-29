@@ -66,10 +66,10 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 }
 
 
-void GetNumbersOfAccessions(std::wstringstream &message)
+void GetNumbersOfAccessions_W(std::wstringstream &message)
 {
 	vector<wstring> acc_names;
-	GetNumbersOfAccessions_J(&acc_names);
+	GetNumbersOfAccessions(&acc_names);
 	for (size_t i = 0; i < acc_names.size(); ++i)
 	{
 		message << convert_to_wstring(acc_names[i]) + L" ";
@@ -113,7 +113,7 @@ void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 	
 	const char* cbuff = s_buff.c_str();
 
-	LoadCTbyAccession_J(&cbuff, &series_loaded);
+	LoadCTbyAccession_J(cbuff, &series_loaded);
 
 	if (series_loaded)
 	{

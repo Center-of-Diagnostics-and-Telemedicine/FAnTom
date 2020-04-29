@@ -41,7 +41,7 @@ RequestMapper::RequestMapper(QObject* parent)
 
 	const char* cbuff = s_buff.c_str();
 
-	InitFantom_J(&cbuff);
+	InitFantom_J(cbuff);
 }
 
 
@@ -178,7 +178,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //				GenerateInterpolatedCoordData(q_params_map, message);
 //				break;
 			case e_get_numbers_of_accessions:
-				GetNumbersOfAccessions(message);
+				GetNumbersOfAccessions_W(message);
 
 				qDebug() << "GetNumbersOfAccessions called ";
 				qDebug() << u16tou8(message.str()).c_str();

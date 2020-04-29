@@ -35,7 +35,7 @@ void GenerateHUValueData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::w
 
 //void GenerateInterpolatedCoordData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GetNumbersOfAccessions(std::wstringstream &message);
+void GetNumbersOfAccessions_W(std::wstringstream &message);
 
 
 wstring ReadDocument(wstring file_name_no_slash);

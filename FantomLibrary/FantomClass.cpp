@@ -580,13 +580,13 @@ void logForJava(wstring val)
 }
 
 // Java ========================================================================================================
-//operation_result  Fantom::InitFantom_J(const char *data_store_path)
-//{
-//	logForJava("InitFantom_J is started");
-//	InitFantom(convert_to_wstring(data_store_path));
-//	logForJava("InitFantom_J is finished");
-//	return e_successful;
-//}
+operation_result  Fantom::InitFantom_J(const char *data_store_path)
+{
+	logForJava("InitFantom_J is started");
+	InitFantom(string8_to_wstring(data_store_path));
+	logForJava("InitFantom_J is finished");
+	return e_successful;
+}
 
 
 std::string slice_manager::DetailedStudyInfo()
@@ -624,28 +624,28 @@ operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
 }
 
 
-//operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
-//{
-//	logForJava("GetStudiesIDs_J is started");
-//	vector<Dicom::complete_study_id_t> study_ids;
-//	GetStudiesIDs(study_ids);
-//	string string_buffer;
-//	for (auto &study_id : study_ids)
-//	{
-////		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
-//		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
-//		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
-//	}
-//	string_buffer += convert_to_string8(L"55555") + '\t';
-//
-//	length = string_buffer.size()+1;
-//	buf_ct_accession_numbers = make_unique<char[]>(length);
-//	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), length);
-//    *studies_ids_p = buf_ct_accession_numbers.get();
-//  
-//	logForJava("GetStudiesIDs_J is finished");
-//	return e_successful;
-//}
+operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
+{
+	logForJava("GetStudiesIDs_J is started");
+	vector<Dicom::complete_study_id_t> study_ids;
+	GetStudiesIDs(study_ids);
+	string string_buffer;
+	for (auto &study_id : study_ids)
+	{
+//		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
+		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
+		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
+	}
+
+	auto string_length = string_buffer.size();
+	buf_ct_accession_numbers = make_unique<char[]>(string_length+1);
+	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), string_length+1);
+    *studies_ids_p = buf_ct_accession_numbers.get();
+	length = string_length;
+  
+	logForJava("GetStudiesIDs_J is finished");
+	return e_successful;
+}
 
 //operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
 //{

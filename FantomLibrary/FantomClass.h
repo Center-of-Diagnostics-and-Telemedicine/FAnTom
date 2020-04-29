@@ -22,7 +22,7 @@ public:
 	axis_t	normal_axis(slice_type st) const;
 	slice_type	normal_slice(axis_t at) const;
 
-	protected:
+protected:
 	vector<Dicom::study_loader> m_studies_heap;
 	shared_ptr<ProcessAcquisition> proc_acquisition_work_ptr;
 	CTAcquisition& ct_acquisition_ptr() { return dynamic_cast<CTAcquisition&>(*proc_acquisition_work_ptr); }
@@ -35,6 +35,7 @@ public:
 	size_t	n_slices(slice_type st) const;
 	frame_t	slice(slice_type st, size_t no);
 
+	unique_ptr<char[]> buf_ct_accession_numbers;
 	unique_ptr<char[]> buffer_detailed_study_info;
 
 	size_t			  GetAccessionHeapPosition(const wstring &accession_number, bool &series_loaded);
@@ -96,14 +97,12 @@ public:
 	int GetStudiesNumber();
 
 	// Java =====================================================================
-//	operation_result InitFantom_J(const char *data_store_path);
-//	operation_result GetStudiesIDs_J(char **studies_ids_p, int &length);
+	operation_result InitFantom_J(const char *data_store_path);
+	operation_result GetStudiesIDs_J(char **studies_ids_p, int &length);
 //	operation_result LoadCTbyAccession_J(const char *accession_number);
 	operation_result GetSlice_J(const unsigned char **imgData, int &length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t slice_aprox, mip_method_type mip_method);
 
 	operation_result GetDetailedStudyInfo_J(char **info_json_p, int &length);
-
-	unique_ptr<char[]> buf_ct_accession_numbers;
 
 private:
 	operation_result  GetTomogramSlice(frame_t &buffer, double native_slice_position, slice_type st, size_t aprox_size, mip_method_type mip_method);

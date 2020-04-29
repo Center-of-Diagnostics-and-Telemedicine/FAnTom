@@ -41,10 +41,10 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image,
 //	return tomogram.GetAccessionNumbers(accession_numbers);
 //}
 
-operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &study_ids)
-{
-	return tomogram.GetStudiesIDs(study_ids);
-}
+//operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &study_ids)
+//{
+//	return tomogram.GetStudiesIDs(study_ids);
+//}
 
 
 
@@ -87,7 +87,10 @@ operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> 
 //{
 //	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
 //}
-
+operation_result FANTOM_DLL_EI GetNumbersOfAccessions(vector<wstring> *accession_numbers)
+{
+	return tomogram.GetNumbersOfAccessions(*accession_numbers);
+}
 
 operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
 {
@@ -110,40 +113,14 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 
 
 // Java implementation ==========================================================================
-operation_result FANTOM_DLL_EI InitFantom_J(const char **data_store_path)
+operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 {
-		std::wstringstream buff;
-
-		buff << *data_store_path;
-
-		return tomogram.InitFantom(buff.str());
+		return tomogram.InitFantom_J(data_store_path);
 }
 
-operation_result FANTOM_DLL_EI GetNumbersOfAccessions_J(vector<wstring> *accession_numbers)
+operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length)
 {
-	return tomogram.GetNumbersOfAccessions(*accession_numbers);
-}
-
-operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, size_t *length)
-{
-
-	vector<Dicom::complete_study_id_t> study_ids;
-	tomogram.GetStudiesIDs(study_ids);
-	string string_buffer;
-	for (auto &study_id : study_ids)
-	{
-		//		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
-		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
-		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
-	}
-
-	*length = string_buffer.size() + 1;
-	tomogram.buf_ct_accession_numbers = make_unique<char[]>(*length);
-
-	memcpy(tomogram.buf_ct_accession_numbers.get(), string_buffer.c_str(), *length);
-	*accession_numbers = tomogram.buf_ct_accession_numbers.get();
-
-	return e_successful;
+	return tomogram.GetStudiesIDs_J(accession_numbers,*length);
 }
 
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length)
@@ -151,13 +128,9 @@ operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int 
 	return tomogram.GetDetailedStudyInfo_J(info_json_ptr, *length);
 }
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char **asseccion_number, bool *series_loaded)
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *accession_number, bool *series_loaded)
 {
-	std::wstringstream buff;
-
-	buff << *asseccion_number;
-
-	return tomogram.LoadCTbyAccession(buff.str(), *series_loaded);
+	return tomogram.LoadCTbyAccession(string8_to_wstring(accession_number), *series_loaded);
 }
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)
