@@ -201,16 +201,6 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-	cout << "\n\nPatient info:\n";
-	cout << convert_to_string8(m_patient_id) << endl;
-	cout << convert_to_string8(m_patient_sex) << endl;
-	cout << convert_to_string8(m_patient_age) << endl;
-
-	cout << "\nstudy info:\n";
-	cout << convert_to_string8(m_study_id) << endl;
-	cout << convert_to_string8(m_accession_number) << endl;
-	cout << convert_to_string8(m_study_instance_uid) << endl;
-
 	return e_successful;
 }
 
