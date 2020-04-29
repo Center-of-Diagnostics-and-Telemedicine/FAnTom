@@ -92,12 +92,12 @@ void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &
 }
 
 
-void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
-{
-	double pixel_length(0);
-	GetPixelLengthCoefficient(pixel_length);
-	message << pixel_length;
-}
+//void GeneratePixelLengthData(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
+//{
+//	double pixel_length(0);
+//	GetPixelLengthCoefficient(pixel_length);
+//	message << pixel_length;
+//}
 
 void GetScreenCoordinateFromTomogramLocation(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {

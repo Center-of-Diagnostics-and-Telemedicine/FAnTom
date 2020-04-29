@@ -26,7 +26,7 @@ command_type ParseCommand(QMultiMap<QByteArray,QByteArray> &q_params_map)
 
 	else if ((q_params_map.value("command", "") == "GetTomogramCoordinate") && (q_params_map.size() == 5)) return e_get_tomogram_coordinate;
 
-	else if ((q_params_map.value("command", "") == "GetPixelLength") && (q_params_map.size() == 2)) return e_get_pixel_length;
+//	else if ((q_params_map.value("command", "") == "GetPixelLength") && (q_params_map.size() == 2)) return e_get_pixel_length;
 
 	else if ((q_params_map.value("command", "") == "GetScreenCoordFromTomogramLocation") && (q_params_map.size() == 4)) return e_get_scrn_coord_from_tmgm_lctn;
 

@@ -59,7 +59,7 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type 
 //operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
 operation_result FANTOM_DLL_EI GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
 //operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
+//operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
 
 //Java Реализации

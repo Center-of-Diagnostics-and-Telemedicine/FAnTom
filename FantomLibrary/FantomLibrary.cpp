@@ -92,10 +92,10 @@ operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image,
 //	return tomogram.GetNumbersOfAccessions(*accession_numbers);
 //}
 
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
-{
-	return tomogram.GetPixelLengthCoefficient(length_pixel_coef);
-}
+//operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
+//{
+//	return tomogram.GetPixelLengthCoefficient(length_pixel_coef);
+//}
 
 
 //operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no)

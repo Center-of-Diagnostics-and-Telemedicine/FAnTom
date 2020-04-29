@@ -155,9 +155,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_scrn_coord_from_tmgm_lctn:
 				GetScreenCoordinateFromTomogramLocation(q_params_map, message);
 				break;
-			case e_get_pixel_length:
-				GeneratePixelLengthData(q_params_map, message);
-				break;
+		//	case e_get_pixel_length:
+		//		GeneratePixelLengthData(q_params_map, message);
+		//		break;
 			case e_get_screen_dimension:
 				GetScreenDimension(q_params_map, message);
 

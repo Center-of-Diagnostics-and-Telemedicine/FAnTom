@@ -17,7 +17,7 @@ enum command_type
 //	e_get_coordinate_native,
 //	e_get_coordinate_interpolated,
 	e_get_tomogram_coordinate,
-	e_get_pixel_length,
+//	e_get_pixel_length,
 	e_get_point_HU,
 	e_get_scrn_coord_from_tmgm_lctn, 
 	e_get_studies_ids,
