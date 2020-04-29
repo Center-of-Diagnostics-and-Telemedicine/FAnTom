@@ -592,7 +592,19 @@ operation_result  Fantom::InitFantom_J(const char *data_store_path)
 std::string slice_manager::DetailedStudyInfo()
 {
 	nlohmann::json	j;
+	nlohmann::json	tube_current;
 	stringstream	str;
+	//make indents in json
+	str.width(1);
+	str.fill('\t');
+	
+	auto	currents = ct_acquisition_ptr().currents();
+
+	tube_current["min_tube_current"] = MinValue(currents);
+	tube_current["max_tube_current"] = MaxValue(currents);
+	tube_current["average_tube_current"] = AverageValue(currents);
+	std::sort(currents.begin(), currents.end());
+	tube_current["median_tube_current"] = currents[currents.size()/2];
 
 	j["accession_number"] = convert_to_string8(m_accession_number);
 	j["study_id"] = convert_to_string8(m_study_id);
@@ -600,7 +612,7 @@ std::string slice_manager::DetailedStudyInfo()
 	j["patient_id"] = convert_to_string8(m_patient_id);
 	j["patient_sex"] = convert_to_string8(m_patient_sex);
 	j["patient_age"] = convert_to_string8(m_patient_age);
-
+	j["tube_current"] = tube_current;
 	str << j;
 
 	return str.str();
