@@ -8,6 +8,8 @@
 #include <cstring>
 #include <iostream>
 #include <sstream>
+#include "FantomLogger.h"
+
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
@@ -175,7 +177,7 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 		series_loaded = true;
 		return e_successful;
 	}
-	
+
 	size_t chosen_accession_number = GetAccessionHeapPosition(accession_number, series_loaded);
 
 	if (!series_loaded) return e_out_of_range;
@@ -198,16 +200,6 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
-
-	cout << "\n\nPatient info:\n";
-	cout << convert_to_string8(m_patient_id) << endl;
-	cout << convert_to_string8(m_patient_sex) << endl;
-	cout << convert_to_string8(m_patient_age) << endl;
-
-	cout << "\nstudy info:\n";
-	cout << convert_to_string8(m_study_id) << endl;
-	cout << convert_to_string8(m_accession_number) << endl;
-	cout << convert_to_string8(m_study_instance_uid) << endl;
 
 	return e_successful;
 }
@@ -569,22 +561,12 @@ operation_result slice_manager::CalculateInterpolationScales()
 
 
 
-void logForJava(const char *val)
-{
-	printf("%s", val); //todo (Kovbas) лог для Джава
-}
-
-void logForJava(wstring val)
-{
-	logForJava(convert_to_string(val).c_str());
-}
-
 // Java ========================================================================================================
 operation_result  Fantom::InitFantom_J(const char *data_store_path)
 {
-	logForJava("InitFantom_J is started");
+	START_LOG;
 	InitFantom(string8_to_wstring(data_store_path));
-	logForJava("InitFantom_J is finished");
+	END_LOG;
 	return e_successful;
 }
 
@@ -592,7 +574,13 @@ operation_result  Fantom::InitFantom_J(const char *data_store_path)
 std::string slice_manager::DetailedStudyInfo()
 {
 	nlohmann::json	j;
-	stringstream	str;
+	nlohmann::json	tube_current;
+
+	auto	&first_frame = *ct_acquisition_ptr().get_loader()->front();
+
+	j["series_description"] = convert_to_string8(first_frame.get_wstring(Dicom::e_series_description));
+	j["convolution_kernel"] = convert_to_string8(first_frame.get_wstring(Dicom::e_convolution_kernel));
+	j["protocol_name"] = convert_to_string8(first_frame.get_wstring(Dicom::e_protocol_name));
 
 	j["accession_number"] = convert_to_string8(m_accession_number);
 	j["study_id"] = convert_to_string8(m_study_id);
@@ -600,7 +588,21 @@ std::string slice_manager::DetailedStudyInfo()
 	j["patient_id"] = convert_to_string8(m_patient_id);
 	j["patient_sex"] = convert_to_string8(m_patient_sex);
 	j["patient_age"] = convert_to_string8(m_patient_age);
+	j["tube_current"] = tube_current;
 
+
+	auto	currents = ct_acquisition_ptr().currents();
+
+	tube_current["min"] = MinValue(currents);
+	tube_current["max"] = MaxValue(currents);
+	tube_current["average"] = AverageValue(currents);
+	std::sort(currents.begin(), currents.end());
+	tube_current["median"] = currents[currents.size()/2];
+
+	stringstream	str;
+	//make tab indents in json
+	str.width(1);
+	str.fill('\t');
 	str << j;
 
 	return str.str();
@@ -610,51 +612,54 @@ std::string slice_manager::DetailedStudyInfo()
 
 operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
 {
-	logForJava("GetDetailedStudyInfo_J is started");
+	START_LOG;
+
 	string string_buffer = DetailedStudyInfo();
 
-	length = string_buffer.size();
-	
-	buffer_detailed_study_info = make_unique<char[]>(length);
-	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), length);
-	*info_json_p = buffer_detailed_study_info.get();
+	auto string_length = string_buffer.size();
 
-	logForJava("GetDetailedStudyInfo_J is finished");
+	buffer_detailed_study_info = make_unique<char[]>(string_length+1);
+	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), string_length+1);
+	*info_json_p = buffer_detailed_study_info.get();
+	length = int(string_length);
+
+	END_LOG;
+
 	return e_successful;
 }
 
 
 operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 {
-	logForJava("GetStudiesIDs_J is started");
+	START_LOG;
+
 	vector<Dicom::complete_study_id_t> study_ids;
 	GetStudiesIDs(study_ids);
 	string string_buffer;
 	for (auto &study_id : study_ids)
 	{
 //		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
-		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
+		//TODO следующая строчка временно. Нужно вернуть ту информацию, что выше, только в json
 		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
 	auto string_length = string_buffer.size();
 	buf_ct_accession_numbers = make_unique<char[]>(string_length+1);
 	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), string_length+1);
-    *studies_ids_p = buf_ct_accession_numbers.get();
-	length = string_length;
-  
-	logForJava("GetStudiesIDs_J is finished");
+	*studies_ids_p = buf_ct_accession_numbers.get();
+	length = int(string_length);
+
+	END_LOG;
 	return e_successful;
 }
 
 //operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
 //{
-//	logForJava("LoadCTbyAccession_J is started");
-//
+//	START_LOG;
 //	bool res;
 //	LoadCTbyAccession(convert_to_wstring(accession_number), res);
 //
-//	logForJava("LoadCTbyAccession_J is finished");
+//	END_LOG;
 //	return e_successful;
 //}
 
@@ -669,7 +674,7 @@ operation_result Fantom::GetSlice_J(
 	size_t slice_aprox,
 	mip_method_type mip_method)
 {
-	logForJava("GetSlice_J is started");
+	START_LOG;
 	frame_t screen_image;
 
 	if (GetScreenSlice(screen_image, st, dicom_slice_no, black, white, gamma, slice_aprox, mip_method) != e_successful)
@@ -687,20 +692,9 @@ operation_result Fantom::GetSlice_J(
 	bmp.CopyData(screen_image);
 
 	length = static_cast<int>(bmp.GetBitmapFileSize());
-
-	auto bitmap_to_buffer = [&bmp, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
-
-	{
-		buf = make_unique<unsigned char[]>(length);
-		memcpy(buf.get(), bmp.GetBitmapFile(), length);
-		*imgData = buf.get();
-		logForJava("GetSlice_J is finished (normal)");
-		return e_successful;
-	};
-
-	return bitmap_to_buffer(bitmap_buffers[st], imgData);
-
-	logForJava("GetSlice_J is finished (error)");
-	return e_other;
+	bitmap_buffers[st] = make_unique<unsigned char[]>(length);
+	memcpy(bitmap_buffers[st].get(), bmp.GetBitmapFile(), length);
+	*imgData = bitmap_buffers[st].get();
+	END_LOG;
+	return e_successful;
 }
-

@@ -90,9 +90,6 @@
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\WebServerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

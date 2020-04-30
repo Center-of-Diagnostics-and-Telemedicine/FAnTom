@@ -121,15 +121,6 @@ void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 	{
 		wstring	ws_dicom_page_data = ReadDocument(L"DICOM_Viewer.html");
 		message << ws_dicom_page_data;
-
-		char *buf;
-		int len;
-		GetDetailedStudyInfo_J(&buf, &len);
-
-		printf("\nDetailed study info\n");
-		printf(buf);
-		printf("\n-----------------\n");
-
 	}
 	else
 	{

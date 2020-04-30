@@ -48,11 +48,6 @@ Fantom	tomogram;
 
 
 
-//operation_result FANTOM_DLL_EI  CloseCTStudyAcession(const wstring &accession_number)
-//{
-//	return tomogram.CloseCTStudyAcession(accession_number);
-//}
-
 //operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
 //{
 //	return tomogram.InitFantom(data_store_path);
@@ -115,7 +110,7 @@ Fantom	tomogram;
 // Java implementation ==========================================================================
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 {
-		return tomogram.InitFantom_J(data_store_path);
+	return tomogram.InitFantom_J(data_store_path);
 }
 
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length)
