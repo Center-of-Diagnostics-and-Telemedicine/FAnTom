@@ -29,7 +29,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomSettingsEdit", "Fanto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FantomConsoleTest", "FantomConsoleTest\FantomConsoleTest.vcxproj", "{00000001-0001-0001-0001-158565548100}"
 	ProjectSection(ProjectDependencies) = postProject
-		{B12702AD-ABFB-343A-A199-8E24837244A3} = {B12702AD-ABFB-343A-A199-8E24837244A3}
 		{833849F2-DB61-4A47-85DC-925C061BDE48} = {833849F2-DB61-4A47-85DC-925C061BDE48}
 	EndProjectSection
 EndProject
