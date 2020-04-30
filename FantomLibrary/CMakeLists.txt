@@ -24,6 +24,8 @@ set(Project_Sources_All
 	FantomDefs.h
 	FantomLibrary.cpp
 	FantomLibrary.h
+	FantomLogger.cpp
+	FantomLogger.h
 	)
 
 add_library(${Project} SHARED ${Project_Sources_All})
