@@ -14,6 +14,12 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	set(FantomLibrary_Libraries "${CMAKE_CURRENT_BINARY_DIR}/../../../../FantomLibrary/${XRAD_MSVCRelativeBuildDir}FantomLibrary.lib")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	set(FantomLibrary_Libraries "${CMAKE_CURRENT_BINARY_DIR}/../FantomLibrary/libFantomLibrary.so")
+
+	# TODO: Отключаем RPATH по умолчанию и добавляем . в путь поиска библиотек.
+	set(CMAKE_SKIP_RPATH TRUE)
+	# CMAKE_SKIP_RPATH=TRUE отключает CMAKE_BUILD_RPATH. Надо использовать ключ линкера.
+	#set(CMAKE_BUILD_RPATH .)
+	#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--rpath=.")
 else()
 	message(FATAL_ERROR "Unsupported CMAKE_CXX_COMPILER_ID: \"${CMAKE_CXX_COMPILER_ID}\".")
 endif()

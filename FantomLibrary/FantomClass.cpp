@@ -177,7 +177,7 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 		series_loaded = true;
 		return e_successful;
 	}
-	
+
 	size_t chosen_accession_number = GetAccessionHeapPosition(accession_number, series_loaded);
 
 	if (!series_loaded) return e_out_of_range;
@@ -624,11 +624,12 @@ operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
 
 	string string_buffer = DetailedStudyInfo();
 
-	length = int(string_buffer.size()+1);
-	
-	buffer_detailed_study_info = make_unique<char[]>(length);
-	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), length);
+	auto string_length = string_buffer.size();
+
+	buffer_detailed_study_info = make_unique<char[]>(string_length+1);
+	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), string_length+1);
 	*info_json_p = buffer_detailed_study_info.get();
+	length = int(string_length);
 
 	END_LOG;
 
@@ -650,10 +651,11 @@ operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
-	length = int(string_buffer.size() + 1);
-	buf_ct_accession_numbers = make_unique<char[]>(length);
-	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), length);
+	auto string_length = string_buffer.size();
+	buf_ct_accession_numbers = make_unique<char[]>(string_length+1);
+	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), string_length+1);
 	*studies_ids_p = buf_ct_accession_numbers.get();
+	length = int(string_length);
 
 	END_LOG;
 	return e_successful;
@@ -703,4 +705,3 @@ operation_result Fantom::GetSlice_J(
 	END_LOG;
 	return e_successful;
 }
-
