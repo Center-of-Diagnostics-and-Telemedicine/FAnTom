@@ -115,16 +115,19 @@ void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 	
 	const char* cbuff = s_buff.c_str();
 
-	LoadCTbyAccession_J(cbuff, &series_loaded);
-
-	if (series_loaded)
+	if (LoadCTbyAccession_J(cbuff) != e_successful)
 	{
-		wstring	ws_dicom_page_data = ReadDocument(L"DICOM_Viewer.html");
-		message << ws_dicom_page_data;
+		if (q_params_map.contains("accession_number"))
+		{
+			message << std::wstring(L"Введеный идентификатор не найден. Вы ввели: <b>") << interpret_url(q_params_map.value("accession_number", "")) << L"</b><br>";
+
+			GenerateLoginPage(q_params_map, message);
+		}
 	}
 	else
 	{
-		GenerateLoginPage(q_params_map, message);
+		wstring	ws_dicom_page_data = ReadDocument(L"DICOM_Viewer.html");
+		message << ws_dicom_page_data;
 	}
 }
 
@@ -143,10 +146,6 @@ wstring ReadDocument(wstring file_name_no_slash)
 void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	wstring	ws_login_page_data = ReadDocument(L"login_page.html");
-	if (q_params_map.contains("accession_number"))
-	{
-		message << std::wstring(L"Введеный идентификатор не найден. Вы ввели: <b>") << interpret_url(q_params_map.value("accession_number", "")) << L"</b><br>";
-	}
 	message << ws_login_page_data;
 }
 

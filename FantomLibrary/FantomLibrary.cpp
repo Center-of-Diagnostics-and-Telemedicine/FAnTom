@@ -123,9 +123,10 @@ operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int 
 	return tomogram.GetDetailedStudyInfo_J(info_json_ptr, *length);
 }
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *accession_number, bool *series_loaded)
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *accession_number)
 {
-	return tomogram.LoadCTbyAccession(string8_to_wstring(accession_number), *series_loaded);
+	bool tmp;
+	return tomogram.LoadCTbyAccession(string8_to_wstring(accession_number),tmp);
 }
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)

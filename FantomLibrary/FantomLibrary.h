@@ -73,7 +73,7 @@ operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *le
 //!	Записываются ключи patient_id, patient_age, patient_sex, study_id, study_instance_uid, accession_number
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length);
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *assesion_number, bool *series_loaded);
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *assesion_number);
 
 operation_result FANTOM_DLL_EI GetTomogramDimension_J(size_t *frames_no, slice_type st);
 
