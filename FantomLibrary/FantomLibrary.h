@@ -32,34 +32,33 @@ XRAD_USING
 extern "C"
 {
 //инициализация библиотеки: загрузка всех исследований по указанному пути
-operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
+//operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path);
 
-operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
+//operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers);
 // Если функция понадобится, переделать прототип. Не должно быть привязки к типам из Dicom,
 // вернуть составные части структуры complete_study_id_t.
 //operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 //operation_result FANTOM_DLL_EI GetStudiesIDs(string &accession_numbers);
-
-operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
+//	operation_result FANTOM_DLL_EI GetNumbersOfAccessions(vector<wstring> *accession_numbers);
+//operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
 //operation_result FANTOM_DLL_EI CloseCTStudyAcession(const wstring &accession_number);
 
-operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number);
+
 
 // кол-во фреймов в соответствующем срезе
-operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);
-operation_result FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st);
+//operation_result FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st);
+//operation_result FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st);
 
-operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
+//operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
 
-operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position);
-operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no);
-operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z);
+//operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position);
+//operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no);
+//operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z);
 
 //
 //operation_result FANTOM_DLL_EI GetPointHU(double &value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
-operation_result FANTOM_DLL_EI GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
-operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
+//operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
+//operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
 
 //Java Реализации
@@ -68,16 +67,21 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_co
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path); //todo (Kovbas) баблиотека должна получить путь к папке с исследованиями
 operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length); //todo (Kovbas) сделать, чтобы возвращался указатель на значения, разделённые \t
 
+
 //! \brief Функция помещает в info_json_ptr указатель на строку, содержащую json c подробной информацией об исследовании
 //!	для записи в БД разметки.
 //!	Записываются ключи patient_id, patient_age, patient_sex, study_id, study_instance_uid, accession_number
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length);
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path);
-operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *assesion_number);
 
 operation_result FANTOM_DLL_EI GetTomogramDimension_J(size_t *frames_no, slice_type st);
+
 operation_result FANTOM_DLL_EI GetScreenDimension_J(size_t *frames_no, slice_type st);
+
+operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method);
+
+operation_result FANTOM_DLL_EI GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord);
 
 operation_result FANTOM_DLL_EI GetMillimeterCoordinateFromTomogramPosition_J(double *coord, slice_type st, size_t native_slice_position);
 operation_result FANTOM_DLL_EI GetDatabaseCoordinateFromScreenPosition_J(double *coord, slice_type st, size_t rescaled_slice_no);

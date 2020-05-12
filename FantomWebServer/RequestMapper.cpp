@@ -14,7 +14,7 @@
 #include "RequestMapper.h"
 
 #include <sstream>
-
+#include <iostream>
 #include <XRADBasic/Core.h>
 #include <XRADBasic/ContainersAlgebra.h>
 #include <XRADSystem/Sources/CFile/shared_cfile.h>
@@ -37,8 +37,11 @@ extern QString	data_store_path;
 RequestMapper::RequestMapper(QObject* parent)
 	:HttpRequestHandler(parent)
 {
-	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
-	InitFantom(convert_to_wstring(data_store_path.toStdString()));
+	std::string s_buff = data_store_path.toStdString();
+
+	const char* cbuff = s_buff.c_str();
+
+	InitFantom_J(cbuff);
 }
 
 
@@ -99,7 +102,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						}
 						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
 						{
-							GenerateDICOMPage(q_params_map, message);
+							LoadCTbyAccession(q_params_map, message);
 						}
 				/*		else if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{
@@ -135,7 +138,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
 					{
 						QByteArray bmp;
-						bmp = ParseSliceBMP(q_params_map);
+						bmp = GetSlice(q_params_map);
 						response.setStatus(200, "OK");
 						response.write(bmp);
 						//@@@@@@@@@@prokudaylo
@@ -146,42 +149,40 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						return;
 					}
 				break;
-			case e_get_original_coordinate:
-				GenerateOriginalPixelCoordData(q_params_map, message);
+			case e_get_tomogram_coordinate:
+				GetTomogramLocationFromScreenCoordinate(q_params_map, message);
 				break;
-			case e_get_pixel_interpolated:
-				GenerateInterpolatedPixelData(q_params_map, message);
+			case e_get_scrn_coord_from_tmgm_lctn:
+				GetScreenCoordinateFromTomogramLocation(q_params_map, message);
 				break;
-			case e_get_pixel_length:
-				GeneratePixelLengthData(q_params_map, message);
-				break;
-			case e_get_n_frames_interpolated:
-				GenerateNFramesInterpolatedData(q_params_map, message);
-				break;
-			case e_get_n_frames_real:
-				GenerateNFramesRealData(q_params_map, message);
-				break;
-			case e_get_point_HU:
-				GenerateHUValueData(q_params_map, message);
-				break;
-			case e_get_coordinate_native:
-				GenerateNativeCoordData(q_params_map, message);
-				break;
-			case e_get_coordinate_interpolated:
-				GenerateInterpolatedCoordData(q_params_map, message);
-				break;
-			case e_get_accession_numbers:
-				GetAccNamesData(message);
+		//	case e_get_pixel_length:
+		//		GeneratePixelLengthData(q_params_map, message);
+		//		break;
+			case e_get_screen_dimension:
+				GetScreenDimension(q_params_map, message);
 
-				qDebug() << "GetAccNamesData called ";
+				qDebug() << "GetScreenDimension called ";
 				qDebug() << u16tou8(message.str()).c_str();
 
 				break;
-			case e_delete_ct:
-				//CloseTomogram(q_params_map);
+			case e_get_tomogram_dimension:
+				GetTomogramDimension(q_params_map, message);
 				break;
-			case e_get_study_accession:
-				GenerateStudyAccessionNumberData(message);
+			case e_get_point_HU:
+				GetPointHU(q_params_map, message);
+				break;
+//			case e_get_coordinate_native:
+//				GenerateNativeCoordData(q_params_map, message);
+//				break;
+//			case e_get_coordinate_interpolated:
+//				GenerateInterpolatedCoordData(q_params_map, message);
+//				break;
+			case e_get_studies_ids:
+				GetStudiesIDs(message);
+
+				qDebug() << "GetStudiesIDs called ";
+				qDebug() << u16tou8(message.str()).c_str();
+
 				break;
 			default:
 				break;

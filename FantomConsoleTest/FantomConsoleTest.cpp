@@ -17,29 +17,35 @@ namespace
 
 void TestLibraryImage(const wstring &folder_path_p)
 {
-	InitFantom(folder_path_p);
+	std::string tmp = convert_to_string8(folder_path_p);
+	InitFantom_J(tmp.c_str());
 
-	vector<wstring> accession_numbers;
-	GetAccessionNumbers(accession_numbers);
-	if (accession_numbers.empty())
+	char* accession_numbers;
+	int length;
+
+	GetStudiesIDs_J(&accession_numbers, &length);
+
+	printf("GetStudiesIDs_J: n=%i, data=%s\n",
+		EnsureType<int>(length),
+		EnsureType<char*>(accession_numbers));
+
+	if (length == 0)
 		return;
 
-	char *acc = nullptr;
-	int n;
-	auto op = GetStudiesIDs_J(&acc, &n);
-	printf("GetStudiesIDs_J: n=%i, data=%s\n",
-			EnsureType<int>(n),
-			EnsureType<char*>(acc));
+	std::string tmp1;
+	int i = 0;
+	while (accession_numbers[i] != '\t')
+	{
+		tmp1.append(1u, accession_numbers[i]);
+		i++;
+	}
 
-	bool is_series_loaded;
-	LoadCTbyAccession(accession_numbers.front(), is_series_loaded);
+	LoadCTbyAccession_J(tmp1.c_str());
 
-	wstring accession_number;
-	GetStudyAccessionNumber(accession_number);
 	slice_type st = e_axial;
 	size_t frames_number;
 	//GetNFrames_interpolated(frames_number, st);
-	GetNFrames_real(frames_number, st);
+	GetTomogramDimension_J(&frames_number, st);
 
 	if (!frames_number)
 		return;
@@ -49,15 +55,21 @@ void TestLibraryImage(const wstring &folder_path_p)
 	double black(0);
 	double white(255);
 	double gamma(1);
-	double coord;
-	GetCoordinateNative(coord, st, slice_no);
+	size_t coord;
+//	GetCoordinateNative(coord, st, slice_no);
+	GetTomogramLocationFromScreenCoordinate_J(&coord, st, slice_no, true);
+
 	mip_method_type mip_method = e_average;
-	printf("Coord for chosen slice = %lf\n", EnsureType<double>(coord));
-	GetSlice(image, st, slice_no, black, white, gamma, 0, mip_method);
+
+	printf("Coord for chosen slice = %zu\n", EnsureType<size_t>(coord));
+
+//	GetSlice(image, st, slice_no, black, white, gamma, 0, mip_method);
+
 	printf("Image size: %zu x %zu\n",
 			EnsureType<size_t>(image.hsize()),
 			EnsureType<size_t>(image.vsize()));
 	// TODO: save image
+	getchar();
 }
 
 //--------------------------------------------------------------
