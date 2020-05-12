@@ -180,7 +180,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			case e_get_studies_ids:
 				GetStudiesIDs(message);
 
-				qDebug() << "GetNumbersOfAccessions called ";
+				qDebug() << "GetStudiesIDs called ";
 				qDebug() << u16tou8(message.str()).c_str();
 
 				break;
