@@ -38,6 +38,12 @@ void HttpRequest::readRequest(QTcpSocket* socket)
         #endif
         return;
     }
+
+			qDebug() << "-----request---------";
+			qDebug() << dataRead;
+			qDebug() << "---------------------";
+
+
     QByteArray newData=lineBuffer.trimmed();
     lineBuffer.clear();
     if (!newData.isEmpty())
@@ -64,6 +70,11 @@ void HttpRequest::readHeader(QTcpSocket* socket)
 {
     int toRead=maxSize-currentSize+1; // allow one byte more to be able to detect overflow
     QByteArray dataRead = socket->readLine(toRead);
+
+//	qDebug() << "----- header --------";
+//	qDebug() << dataRead;
+//	qDebug() << "---------------------";
+
     currentSize += dataRead.size();
     lineBuffer.append(dataRead);
     if (!lineBuffer.contains("\r\n"))
@@ -159,6 +170,11 @@ void HttpRequest::readBody(QTcpSocket* socket)
         #endif
         int toRead=expectedBodySize-bodyData.size();
         QByteArray newData=socket->read(toRead);
+
+		qDebug() << "-------body----------";
+		qDebug() << newData;
+		qDebug() << "---------------------";
+
         currentSize+=newData.size();
         bodyData.append(newData);
         if (bodyData.size()>=expectedBodySize)

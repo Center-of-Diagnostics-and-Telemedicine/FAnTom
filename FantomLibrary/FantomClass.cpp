@@ -601,11 +601,12 @@ std::string slice_manager::DetailedStudyInfo()
 
 	stringstream	str;
 	//make tab indents in json
-	str.width(1);
-	str.fill('\t');
-	str << j;
+//	str.width(1);
+//	str.fill('\t');
+//	str << j;
 
-	return str.str();
+//	return str.str();
+	return j.dump('\n');
 }
 
 

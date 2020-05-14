@@ -2,6 +2,11 @@
 
 #include <QtCore/QCoreApplication>
 
+#include <QtConcurrent/qtconcurrentrun.h>
+
+#include <QtCore/QFuture>
+#include <QtCore/QThread>
+
 #include "RequestMapper.h"
 
 #include <FantomLibrary/FantomLibrary.h>
@@ -22,7 +27,10 @@ QString	web_server_path;
 QString	data_store_path;
 
 
+void test()
+{
 
+}
 
 
  int xrad::xrad_main(int argc, char *argv[])
@@ -48,6 +56,16 @@ QString	data_store_path;
 	RequestMapper* handler = new RequestMapper(&app);
 
 	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
+
+	//QFuture<void> future = QtConcurrent::run(this, &RequestMapper::LoadFantom);
+
+	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
+
+	//QThread myThrd;
+
+	//handler->moveToThread(&myThrd);
+
+	//(&myThrd, &QThread::started, handler, &RequestMapper::LoadFantom);
 
 	return app.exec();
 }

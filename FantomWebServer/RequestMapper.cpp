@@ -15,18 +15,23 @@
 
 #include <sstream>
 #include <iostream>
+
 #include <XRADBasic/Core.h>
 #include <XRADBasic/ContainersAlgebra.h>
 #include <XRADSystem/Sources/CFile/shared_cfile.h>
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
 #include <QTGui/QImage.h>
 #include <QTCore/QBuffer.h>
 #include <QTCore/QThread>
+#include <QTCore/QTextCodec>
+
+#include <QtTest/QTest>
+
 #include "ManageStrings.h"
 #include "ManageBitmap.h"
 #include "ManageTomogram.h"
 #include "ManageWebPages.h"
 #include "ManageServerCommands.h"
-
 
 extern QString	web_server_path;
 extern QString	data_store_path;
@@ -35,13 +40,26 @@ extern QString	data_store_path;
 
 
 RequestMapper::RequestMapper(QObject* parent)
-	:HttpRequestHandler(parent)
+	:HttpRequestHandler(parent), isLoaded(false)
+{
+	qDebug() << "RequestMapper constructor finished";
+}
+
+void RequestMapper::LoadFantom()
 {
 	std::string s_buff = data_store_path.toStdString();
 
 	const char* cbuff = s_buff.c_str();
 
 	InitFantom_J(cbuff);
+
+	int a;
+	cout << "Enter a digit to complete" << endl;
+	std::cin >> a;
+
+//	QTest::qSleep(10000);
+
+	isLoaded = true;
 }
 
 
@@ -58,6 +76,20 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 // Get a request parameters
 
 	lock_guard<std::mutex> lck(m_RequestMapperMutex);
+
+	if (!isLoaded)
+	{
+		nlohmann::json	j;
+
+		j["response"] = nullptr;
+		j["error"] = 22;
+
+		response.setHeader("Content-Type", "text/html; charset=utf-8");
+
+		response.write(QByteArray(j.dump('\t').c_str()));
+
+		return;
+	}
 
 		qDebug() << "############";
 		qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
@@ -82,6 +114,13 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 	QMultiMap<QByteArray, QByteArray> q_params_map = request.getParameterMap();
 	command_type com_t = ParseCommand(q_params_map);
 
+	QByteArray myBody = request.getBody();
+
+	QString DataAsString(myBody);
+
+//	wstring ws = DataAsString.toStdWString();
+
+
 	switch (com_t)
 	{
 			case e_no_command:
@@ -92,6 +131,20 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						{
 							GenerateLoginPage(q_params_map, message);
 						}
+
+						if (ws_path_name_no_slash == L"research/init")
+						{
+							nlohmann::json	j;
+
+							j["response"] = "success";
+							j["error"] = nullptr;
+
+							response.setHeader("Content-Type", "text/html; charset=utf-8");
+							response.write(QByteArray(j.dump('\t').c_str()));
+
+							return;
+						}
+
 						else if ( ws_path_name_no_slash == L"favicon.ico" )
 						{
 							qDebug() << " favicon asked";
@@ -170,6 +223,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 				break;
 			case e_get_point_HU:
 				GetPointHU(q_params_map, message);
+
 				break;
 //			case e_get_coordinate_native:
 //				GenerateNativeCoordData(q_params_map, message);
