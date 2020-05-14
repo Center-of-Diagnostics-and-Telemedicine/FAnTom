@@ -53,11 +53,14 @@ void RequestMapper::LoadFantom()
 
 	InitFantom_J(cbuff);
 
-	int a;
-	cout << "Enter a digit to complete" << endl;
-	std::cin >> a;
+	char* accession_number;
+	int acc_number_length;
+	GetStudiesIDs_J(&accession_number, &acc_number_length);
 
-//	QTest::qSleep(10000);
+	string str(accession_number);
+	str.erase(acc_number_length - 1, 1);
+
+	LoadCTbyAccession_J(str.c_str());
 
 	isLoaded = true;
 }
@@ -155,7 +158,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						}
 						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
 						{
-							LoadCTbyAccession(q_params_map, message);
+						//	LoadCTbyAccession(q_params_map, message);
+							
+							message << ReadDocument(L"DICOM_Viewer.html");
 						}
 				/*		else if ( is_filetype(ws_path_name_no_slash, L"txt") )
 						{

@@ -171,6 +171,7 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
 //	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+	START_LOG;
 
 	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
 	{
@@ -200,6 +201,8 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	END_LOG;
 
 	return e_successful;
 }
