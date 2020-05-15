@@ -114,8 +114,6 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 //Определение параметров запроса
 
-	QMultiMap<QByteArray, QByteArray> q_params_map = request.getParameterMap();
-	command_type com_t = ParseCommand(q_params_map);
 
 	QByteArray myBody = request.getBody();
 
@@ -124,16 +122,16 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //	wstring ws = DataAsString.toStdWString();
 
 
-	switch (com_t)
-	{
-			case e_no_command:
+//	switch (com_t)
+//	{
+//			case e_no_command:
 
 					if (q_request_method == "GET")
 					{
-						if ( ws_path_name_no_slash == L"" )
-						{
-							GenerateLoginPage(q_params_map, message);
-						}
+					//	if ( ws_path_name_no_slash == L"" )
+					//	{
+					//		GenerateLoginPage(q_params_map, message);
+					//	}
 
 						if (ws_path_name_no_slash == L"research/init")
 						{
@@ -185,52 +183,46 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 							return;
 						}
-
-						else if ( ws_path_name_no_slash == L"favicon.ico" )
-						{
-							qDebug() << " favicon asked";
-						}
-						else if ( ws_path_name_no_slash == L"login_page.html" )
-						{
-							GenerateLoginPage(q_params_map, message);
-						}
-						else if ( ws_path_name_no_slash == L"DICOM_Viewer.html" )
-						{
-						//	LoadCTbyAccession(q_params_map, message);
-							
-							message << ReadDocument(L"DICOM_Viewer.html");
-						}
-				/*		else if ( is_filetype(ws_path_name_no_slash, L"txt") )
-						{
-							shared_cfile	opened_file;
-							string document_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
-							opened_file.open(document_path, "rb");
-							DataArray<char>	document_data(opened_file.size() + 1, 0);
-							opened_file.read_numbers(document_data, ioI8);
-							wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
-							message << ws_data;
-						}   */
-
-						else if ( is_filetype(ws_path_name_no_slash, L"js") )
-						{
-							wstring	wjsdata = ReadDocument(ws_path_name_no_slash);
-							message << wjsdata;
-						}
 					}
 
-				/*	else if (q_request_method == "POST")
+					else if (q_request_method == "POST")
 					{
-						if ( is_filetype(ws_path_name_no_slash, L"txt") )
-						{
-							QByteArray text_saved = request.getBody();
-							shared_cfile	file;
-							string file_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
-							file.open(file_path, "wb");
-							file.write(text_saved.data(), text_saved.size(), 1);
-						}
-					} */
+					
+						if(ws_path_name_no_slash == L"research/hounsfield")
+						{ 
+							QByteArray myBody = request.getBody();
+							if (myBody.isEmpty())
+							{
+								qDebug() << "The body of request is empty";
+								return;
+							}
+							QString DataAsString(myBody);
 
-			case e_get_one_slice:
+							string str = convert_to_string8(qs_to_ws(DataAsString));
+
+							nlohmann::json	j_request;
+
+							j_request = nlohmann::json::parse(str);
+						
+							double huValue;
+							//	GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord)
+							GetPointHU_J(&huValue, j_request["axialCoord"], j_request["frontalCoord"], j_request["sagittalCoord"]);
+
+							nlohmann::json	j_response;
+
+
+							j_response["response"]["huValue"] = huValue;
+							j_response["error"] = nullptr;
+
+							response.setHeader("Content-Type", "application/json; charset=utf-8");
+							response.write(QByteArray(j_response.dump('\t').c_str()));
+
+							return;
+						}
+						
+					} 
+
+/*			case e_get_one_slice:
 					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
 					{
 						QByteArray bmp;
@@ -307,7 +299,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //		qDebug() << "Some msgstr.c_str()is written to response" ;
 //		qDebug() << "";
 	//@@@@@@@@
-
+	*/
 		qDebug() << "############";
 		qDebug() << "SERVICE COMPLETED ID = " << QThread::currentThreadId();
 		qDebug() << "############";
