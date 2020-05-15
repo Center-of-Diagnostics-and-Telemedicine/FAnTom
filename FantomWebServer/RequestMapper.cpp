@@ -87,7 +87,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 		j["response"] = nullptr;
 		j["error"] = 22;
 
-		response.setHeader("Content-Type", "text/html; charset=utf-8");
+		response.setHeader("Content-Type", "application/json; charset=utf-8");
 
 		response.write(QByteArray(j.dump('\t').c_str()));
 
@@ -139,10 +139,48 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						{
 							nlohmann::json	j;
 
-							j["response"] = "success";
+							size_t dimension;
+
+							GetTomogramDimension_J(&dimension, slice_type::e_axial);
+							j["response"]["axialTomogram"] = dimension;
+
+							GetTomogramDimension_J(&dimension, slice_type::e_frontal);
+							j["response"]["frontalTomogram"] = dimension;
+
+							GetTomogramDimension_J(&dimension, slice_type::e_sagittal);
+							j["response"]["sagittalTomogram"] = dimension;
+
+
+							GetScreenDimension_J(&dimension, slice_type::e_axial);
+							j["response"]["axialScreen"] = dimension;
+
+							GetScreenDimension_J(&dimension, slice_type::e_frontal);
+							j["response"]["frontalScreen"] = dimension;
+
+							GetScreenDimension_J(&dimension, slice_type::e_sagittal);
+							j["response"]["sagittalScreen"] = dimension;
+
+
+							double length_pixel_coef;
+							GetPixelLengthCoefficient_J(&length_pixel_coef);
+
+							j["response"]["pixelLength"] = length_pixel_coef;
+
+							size_t pixel_coord;
+							GetTomogramLocationFromScreenCoordinate_J(&pixel_coord, slice_type::e_axial, 0, true);
+							
+							if (pixel_coord > 0)
+							{
+								j["response"]["reversed"] = true;
+							}
+							else
+							{
+								j["response"]["reversed"] = false;
+							}
+			
 							j["error"] = nullptr;
 
-							response.setHeader("Content-Type", "text/html; charset=utf-8");
+							response.setHeader("Content-Type", "application/json; charset=utf-8");
 							response.write(QByteArray(j.dump('\t').c_str()));
 
 							return;
