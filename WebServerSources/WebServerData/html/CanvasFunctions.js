@@ -282,12 +282,12 @@ window.addEventListener('keyup', ctrlUnPressed, true);
 
   function InitCanvas()
   {
-    document.getElementById('axialCanvas').width = document.getElementById('NFramesFrontal').value;
-    document.getElementById('axialCanvas').height = document.getElementById('NFramesSagittal').value;
-    document.getElementById('frontalCanvas').width = document.getElementById('NFramesSagittal').value;
-    document.getElementById('frontalCanvas').height = document.getElementById('NFramesAxial').value;
-    document.getElementById('sagittalCanvas').width = document.getElementById('NFramesFrontal').value;
-    document.getElementById('sagittalCanvas').height = document.getElementById('NFramesAxial').value;
+    document.getElementById('axialCanvas').width = document.getElementById('ScreenDimensionFrontal').value;
+    document.getElementById('axialCanvas').height = document.getElementById('ScreenDimensionSagittal').value;
+    document.getElementById('frontalCanvas').width = document.getElementById('ScreenDimensionSagittal').value;
+    document.getElementById('frontalCanvas').height = document.getElementById('ScreenDimensionAxial').value;
+    document.getElementById('sagittalCanvas').width = document.getElementById('ScreenDimensionFrontal').value;
+    document.getElementById('sagittalCanvas').height = document.getElementById('ScreenDimensionAxial').value;
     InitAllImageDraw();
   }
 
@@ -320,12 +320,12 @@ window.addEventListener('keyup', ctrlUnPressed, true);
       lines_position.horizontal = document.getElementById('sagittalRange').value;
         break;
       case 'frontal':
-      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
       '&img_type=axial&slice_no='+ document.getElementById('axialRange').value));
       lines_position.horizontal = document.getElementById('sagittalRange').value;
         break;
       case 'sagittal':
-      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+      lines_position.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
       '&img_type=axial&slice_no='+ document.getElementById('axialRange').value));
       lines_position.horizontal = document.getElementById('frontalRange').value;
         break;
@@ -439,13 +439,13 @@ window.addEventListener('keyup', ctrlUnPressed, true);
     length_text = Math.sqrt(Math.pow(current_coord_x - start_coord_x, 2)+Math.pow(current_coord_y - start_coord_y, 2));
     length_text = length_text.toFixed(1);
 
-    cell_Z.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    cell_Z.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=axial&coord='+  coords_local.z + '&coord_interpolation=' +coords_local.z_interpolation));
 
-    cell_X.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    cell_X.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=sagittal&coord='+  coords_local.x + '&coord_interpolation=' +coords_local.x_interpolation));
 
-    cell_Y.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    cell_Y.innerHTML = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=frontal&coord='+  coords_local.y + '&coord_interpolation=' +coords_local.y_interpolation));
 
     cell_S.innerHTML = length_text;
@@ -489,13 +489,13 @@ window.addEventListener('keyup', ctrlUnPressed, true);
     }
 
 
-    coords_local.int_z = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    coords_local.int_z = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=axial&coord='+  coords_local.z + '&coord_interpolation=' +coords_local.z_interpolation));
 
-    coords_local.int_x = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    coords_local.int_x = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=sagittal&coord='+  coords_local.x + '&coord_interpolation=' +coords_local.x_interpolation));
 
-    coords_local.int_y = parseInt(ReturnResponseFromCommand('?command=GetOriginalPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+    coords_local.int_y = parseInt(ReturnResponseFromCommand('?command=GetTomogramCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
     '&img_type=frontal&coord='+  coords_local.y + '&coord_interpolation=' +coords_local.y_interpolation));
 
 
@@ -528,14 +528,14 @@ window.addEventListener('keyup', ctrlUnPressed, true);
         coords_local.main =  coords.y;
         coords_local.horizontal =   coords.x;
 
-        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
         '&img_type=axial&slice_no='+ coords.z));
 
         break;
       case 'sagittal':
         coords_local.main =  coords.x;
         coords_local.horizontal =   coords.y;
-        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetInterpolatedPixelCoordinate&accession_number=' + document.getElementById('study_SOP').innerHTML +
+        coords_local.vertical = parseInt(ReturnResponseFromCommand('?command=GetScreenCoordFromTomogramLocation&accession_number=' + document.getElementById('study_SOP').innerHTML +
         '&img_type=axial&slice_no='+ coords.z));
         break;
     }

@@ -87,7 +87,7 @@ operation_result Fantom::InitFantom(const wstring &data_store_path)
 	return e_successful;
 }
 
-operation_result Fantom::GetAccessionNumbers(vector<wstring> &accession_numbers)
+operation_result Fantom::GetNumbersOfAccessions(vector<wstring> &accession_numbers)
 {
 	if (m_studies_heap.size() == 0) return e_other;
 	for (auto &study: m_studies_heap)
@@ -171,6 +171,7 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
 //	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+	START_LOG;
 
 	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
 	{
@@ -200,6 +201,8 @@ operation_result slice_manager::LoadCTbyAccession(const wstring &accession_numbe
 	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	END_LOG;
 
 	return e_successful;
 }
@@ -538,15 +541,7 @@ operation_result Fantom::GetDatabaseCoordinateFromScreenPosition(double &coord, 
 }
 
 
-operation_result Fantom::GetStudyAccessionNumber(wstring &accession_number)
-{
-	if ((ct_acquisition_ptr().accession_number() != L""))
-	{
-		accession_number = ct_acquisition_ptr().accession_number(), e_encode_literals;
-		return e_successful;
-	}
-	else return e_other;
-}
+
 
 operation_result slice_manager::CalculateInterpolationScales()
 {
@@ -573,7 +568,7 @@ operation_result slice_manager::CalculateInterpolationScales()
 operation_result  Fantom::InitFantom_J(const char *data_store_path)
 {
 	START_LOG;
-	InitFantom(convert_to_wstring(data_store_path));
+	InitFantom(string8_to_wstring(data_store_path));
 	END_LOG;
 	return e_successful;
 }
@@ -609,11 +604,12 @@ std::string slice_manager::DetailedStudyInfo()
 
 	stringstream	str;
 	//make tab indents in json
-	str.width(1);
-	str.fill('\t');
-	str << j;
+//	str.width(1);
+//	str.fill('\t');
+//	str << j;
 
-	return str.str();
+//	return str.str();
+	return j.dump('\n');
 }
 
 
@@ -661,15 +657,15 @@ operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 	return e_successful;
 }
 
-operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
-{
-	START_LOG;
-	bool res;
-	LoadCTbyAccession(convert_to_wstring(accession_number), res);
-
-	END_LOG;
-	return e_successful;
-}
+//operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
+//{
+//	START_LOG;
+//	bool res;
+//	LoadCTbyAccession(convert_to_wstring(accession_number), res);
+//
+//	END_LOG;
+//	return e_successful;
+//}
 
 operation_result Fantom::GetSlice_J(
 	const unsigned char **imgData,
@@ -684,6 +680,7 @@ operation_result Fantom::GetSlice_J(
 {
 	START_LOG;
 	frame_t screen_image;
+
 	if (GetScreenSlice(screen_image, st, dicom_slice_no, black, white, gamma, slice_aprox, mip_method) != e_successful)
 	{
 		return e_other;

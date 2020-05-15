@@ -45,8 +45,13 @@ public:
     */
     void service(HttpRequest& request, HttpResponse& response);
 
+	void LoadFantom();
+
 private:
 	std::mutex m_RequestMapperMutex;
+	
+
+	bool isLoaded;
 
 };
 

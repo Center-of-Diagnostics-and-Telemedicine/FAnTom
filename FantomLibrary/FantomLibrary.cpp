@@ -2,102 +2,107 @@
 #include "FantomLibrary.h"
 
 #include "FantomClass.h"
+
+#include <sstream>
+#include <iostream>
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
 //TODO list<MarketTomogram> sessions;
 Fantom	tomogram;
 
 
-operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
-									   slice_type st, 
-									   size_t rescaled_slice_no, 
-									   double black, 
-									   double white, 
-									   double gamma, 
-									   size_t aprox_size, 
-									   mip_method_type mip_method)
-{
-	return tomogram.GetScreenSlice(interpolated_image, 
-							 st, 
-							 rescaled_slice_no, 
-							 black, 
-							 white, 
-							 gamma, 
-							 aprox_size, 
-							 mip_method);
-}
+//operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
+//									   slice_type st, 
+//									   size_t rescaled_slice_no, 
+//									   double black, 
+//									   double white, 
+//									   double gamma, 
+//									   size_t aprox_size, 
+//									   mip_method_type mip_method)
+//{
+//	return tomogram.GetScreenSlice(interpolated_image, 
+//							 st, 
+//							 rescaled_slice_no, 
+//							 black, 
+//							 white, 
+//							 gamma, 
+//							 aprox_size, 
+//							 mip_method);
+//}
 
 
-operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number)
-{
-	return tomogram.GetStudyAccessionNumber(accession_number);
-}
+//operation_result FANTOM_DLL_EI GetStudyAccessionNumber(wstring &accession_number)
+//{
+//	return tomogram.GetStudyAccessionNumber(accession_number);
+//}
+
+//operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers)
+//{
+//	return tomogram.GetAccessionNumbers(accession_numbers);
+//}
+
+//operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &study_ids)
+//{
+//	return tomogram.GetStudiesIDs(study_ids);
+//}
 
 
-operation_result FANTOM_DLL_EI GetAccessionNumbers(vector<wstring> &accession_numbers)
-{
-	return tomogram.GetAccessionNumbers(accession_numbers);
-}
 
-operation_result FANTOM_DLL_EI GetStudiesIDs(vector<Dicom::complete_study_id_t> &study_ids)
-{
-	return tomogram.GetStudiesIDs(study_ids);
-}
+//operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
+//{
+//	return tomogram.InitFantom(data_store_path);
+//}
 
 
-
-operation_result FANTOM_DLL_EI InitFantom(const wstring &data_store_path)
-{
-	return tomogram.InitFantom(data_store_path);
-}
-
-
-operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no)
-{
-	return tomogram.GetScreenCoordinateFromDicomLocation(rescaled_pixel_coord, st, original_slice_no);
-}
+//operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no)
+//{
+//	return tomogram.GetScreenCoordinateFromDicomLocation(rescaled_pixel_coord, st, original_slice_no);
+//}
 
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
-{
-	return tomogram.LoadCTbyAccession(accession_number, series_loaded);
-}
+//operation_result FANTOM_DLL_EI LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
+//{
+//	return tomogram.LoadCTbyAccession(accession_number, series_loaded);
+//}
 
 
-operation_result  FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st)
-{
-	return tomogram.GetScreenDimension(frames_no, st);
-}
+//operation_result  FANTOM_DLL_EI GetNFrames_interpolated(size_t &frames_no, slice_type st)
+//{
+//	return tomogram.GetScreenDimension(frames_no, st);
+//}
 
 
-operation_result  FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st)
-{
-	return tomogram.GetTomogramDimension(frames_no, st);
-}
+//operation_result  FANTOM_DLL_EI GetNFrames_real(size_t &frames_no, slice_type st)
+//{
+//	return tomogram.GetTomogramDimension(frames_no, st);
+//}
 
 
-operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
-{
-	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
-}
+//operation_result FANTOM_DLL_EI GetCoordinateNative(double &coord, slice_type st, size_t native_slice_position)
+//{
+//	return tomogram.GetMillimeterCoordinateFromTomogramPosition(coord, st, native_slice_position);
+//}
+////operation_result FANTOM_DLL_EI GetNumbersOfAccessions(vector<wstring> *accession_numbers)
+//{
+//	return tomogram.GetNumbersOfAccessions(*accession_numbers);
+//}
+
+//operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
+//{
+//	return tomogram.GetPixelLengthCoefficient(length_pixel_coef);
+//}
 
 
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef)
-{
-	return tomogram.GetPixelLengthCoefficient(length_pixel_coef);
-}
+//operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no)
+//{
+//	return tomogram.GetDatabaseCoordinateFromScreenPosition(coord, st, rescaled_slice_no);
+//}
 
 
-operation_result FANTOM_DLL_EI GetCoordinateInterpolated(double &coord, slice_type st, size_t rescaled_slice_no)
-{
-	return tomogram.GetDatabaseCoordinateFromScreenPosition(coord, st, rescaled_slice_no);
-}
-
-
-operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z)
-{
-	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
-}
+//operation_result FANTOM_DLL_EI GetOriginalPixelCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z)
+//{
+//	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
+//}
 
 
 
@@ -108,9 +113,9 @@ operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
 	return tomogram.InitFantom_J(data_store_path);
 }
 
-operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers_in, int *length)
+operation_result FANTOM_DLL_EI GetStudiesIDs_J(char **accession_numbers, int *length)
 {
-	return tomogram.GetStudiesIDs_J(accession_numbers_in, *length);
+	return tomogram.GetStudiesIDs_J(accession_numbers,*length);
 }
 
 operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int *length)
@@ -118,9 +123,10 @@ operation_result FANTOM_DLL_EI GetDetailedStudyInfo_J(char **info_json_ptr, int 
 	return tomogram.GetDetailedStudyInfo_J(info_json_ptr, *length);
 }
 
-operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *data_store_path)
+operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *accession_number)
 {
-	return tomogram.LoadCTbyAccession_J(data_store_path);
+	bool tmp;
+	return tomogram.LoadCTbyAccession(string8_to_wstring(accession_number),tmp);
 }
 
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)

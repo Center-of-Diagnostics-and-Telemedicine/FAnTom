@@ -32,6 +32,23 @@ bool	SaveImageFormat(const QByteArray &raw_image_body, QString filename,  char* 
 	else return false;
 }
 
+
+void	CreateQByteArrayPngFromChar(QByteArray &raw_bitmap, const unsigned char *img, int length, const wstring &format)
+{
+	QImage q_image;
+
+	if (q_image.loadFromData(img, length, ".bmp"))
+	{
+		QBuffer buffer;
+		buffer.open(QIODevice::ReadWrite);
+																	//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
+		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
+																	//q_image.save("D:/_kovbas/tmp/__/ttt.png", "png");
+		raw_bitmap = buffer.buffer();
+	}
+}
+
+
 void	CreateBitMap(QByteArray &raw_bitmap, const RealFunction2D_UI8 &img, const wstring &format)
 {
 	BitmapContainerIndexed	bmp;

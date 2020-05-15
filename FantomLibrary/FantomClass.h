@@ -73,7 +73,6 @@ class Fantom : protected slice_manager
 
 	map<slice_type, unique_ptr<unsigned char[]>> bitmap_buffers;
 
-
 public:
 	using parent::LoadCTbyAccession;
 	operation_result	InitFantom(const wstring &data_store_path);
@@ -84,10 +83,12 @@ public:
 	operation_result	GetScreenDimension(size_t &frames_no, slice_type st);
 	operation_result	GetMillimeterCoordinateFromTomogramPosition(double &coord, slice_type st, size_t rescaled_slice_no);
 	operation_result	GetDatabaseCoordinateFromScreenPosition(double &coord, slice_type st, size_t rescaled_slice_no);
-	operation_result	GetAccessionNumbers(vector<wstring> &accession_numbers);
+
+	operation_result	GetNumbersOfAccessions(vector<wstring> &accession_numbers);
+
 	operation_result	GetStudiesIDs(vector<Dicom::complete_study_id_t> &accession_numbers);
 	operation_result	GetTomogramSampleHU(double &value, point3_ST rescaled_value_coord);
-	operation_result	GetStudyAccessionNumber(wstring &accession_number);
+
  	operation_result	GetDicomLocationFromScreenCoordinate(size_t &pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z);
 	operation_result	GetScreenCoordinateFromDicomLocation(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
 	operation_result	GetPixelLengthCoefficient(double &length_pixel_coef);
@@ -98,12 +99,10 @@ public:
 	// Java =====================================================================
 	operation_result InitFantom_J(const char *data_store_path);
 	operation_result GetStudiesIDs_J(char **studies_ids_p, int &length);
-	operation_result LoadCTbyAccession_J(const char *accession_number);
+//	operation_result LoadCTbyAccession_J(const char *accession_number);
 	operation_result GetSlice_J(const unsigned char **imgData, int &length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t slice_aprox, mip_method_type mip_method);
 
 	operation_result GetDetailedStudyInfo_J(char **info_json_p, int &length);
-
-
 
 private:
 	operation_result  GetTomogramSlice(frame_t &buffer, double native_slice_position, slice_type st, size_t aprox_size, mip_method_type mip_method);
