@@ -210,8 +210,63 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 							nlohmann::json	j_response;
 
-
 							j_response["response"]["huValue"] = huValue;
+							j_response["error"] = nullptr;
+
+							response.setHeader("Content-Type", "application/json; charset=utf-8");
+							response.write(QByteArray(j_response.dump('\t').c_str()));
+
+							return;
+						}
+
+						if (ws_path_name_no_slash == L"research/slice")
+						{
+							QByteArray myBody = request.getBody();
+							if (myBody.isEmpty())
+							{
+								qDebug() << "The body of request is empty";
+								return;
+							}
+							QString DataAsString(myBody);
+
+							string str = convert_to_string8(qs_to_ws(DataAsString));
+
+							nlohmann::json	j_request;
+
+							j_request = nlohmann::json::parse(str);
+
+							string tmp = j_request["sliceType"];
+
+							slice_type st = GetImageType(convert_to_wstring(tmp));
+
+							string tmp1 = j_request["mipMethod"];
+
+							mip_method_type mip_method = GetMIPMethod(convert_to_wstring(tmp1));
+
+							int tmp2 = j_request["sliceNumber"];
+
+							size_t slice_no = GetSliceNo(tmp2, st);
+
+							const unsigned char *img;
+							int  length;
+
+							GetSlice_J(&img, &length,
+								st,
+								slice_no,
+								j_request["black"],
+								j_request["white"],
+								j_request["gamma"],
+								j_request["mipValue"],
+								mip_method
+							);
+
+							QByteArray png = QByteArray();
+
+							CreateQByteArrayPngFromChar(png, img, length, L"png");
+
+							nlohmann::json	j_response;
+
+							j_response["response"]["image"] = png.toBase64();
 							j_response["error"] = nullptr;
 
 							response.setHeader("Content-Type", "application/json; charset=utf-8");

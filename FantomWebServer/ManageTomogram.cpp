@@ -34,7 +34,7 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 
 	mip_method_type mip_method = GetMIPMethod(interpret_url(q_params_map.value("mip_method", "")));
 
-	size_t slice_no = GetSliceNo(interpret_url(q_params_map.value("accession_number", "")), interpret_url(q_params_map.value("slice_no", "")), st);
+	size_t slice_no = GetSliceNo(interpret_url(q_params_map.value("slice_no", "")), st);
 
 	const unsigned char *img;
 	int  length;
@@ -98,12 +98,24 @@ mip_method_type GetMIPMethod(wstring mip_method_wstring)
 	}
 }
 
-size_t GetSliceNo(wstring accession_number_ws, wstring slice_no_wstring, slice_type st)//todo первый аргумент на удаление
+size_t GetSliceNo(wstring slice_no_wstring, slice_type st)
 {
 	size_t frames_no;
 	GetTomogramDimension_J(&frames_no, st);
 	size_t slice_no = _wtoi(slice_no_wstring.c_str());
 
+	if (slice_no > frames_no)
+	{
+		slice_no = frames_no;
+	}
+	return slice_no;
+}
+
+size_t GetSliceNo(size_t slice_no, slice_type st)
+{
+	size_t frames_no;
+	GetTomogramDimension_J(&frames_no, st);
+	
 	if (slice_no > frames_no)
 	{
 		slice_no = frames_no;
