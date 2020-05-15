@@ -98,7 +98,6 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 		qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
 		qDebug() << "############";
 
-	std::wstringstream	message;
 
 //Определение чистого адреса без параметров
 
@@ -114,24 +113,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 //Определение параметров запроса
 
-
-	QByteArray myBody = request.getBody();
-
-	QString DataAsString(myBody);
-
-//	wstring ws = DataAsString.toStdWString();
-
-
-//	switch (com_t)
-//	{
-//			case e_no_command:
-
 					if (q_request_method == "GET")
 					{
-					//	if ( ws_path_name_no_slash == L"" )
-					//	{
-					//		GenerateLoginPage(q_params_map, message);
-					//	}
+
 
 						if (ws_path_name_no_slash == L"research/init")
 						{
@@ -277,84 +261,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						
 					} 
 
-/*			case e_get_one_slice:
-					if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
-					{
-						QByteArray bmp;
-						bmp = GetSlice(q_params_map);
-						response.setStatus(200, "OK");
-						response.write(bmp);
-						//@@@@@@@@@@prokudaylo
-						qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
-						qDebug() << "Some bmp QByteArray written ID = " <<  QThread::currentThreadId();
-						qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@";
-						//@@@@@@@@@@prokudaylo
-						return;
-					}
-				break;
-			case e_get_tomogram_coordinate:
-				GetTomogramLocationFromScreenCoordinate(q_params_map, message);
-				break;
-			case e_get_scrn_coord_from_tmgm_lctn:
-				GetScreenCoordinateFromTomogramLocation(q_params_map, message);
-				break;
-		//	case e_get_pixel_length:
-		//		GeneratePixelLengthData(q_params_map, message);
-		//		break;
-			case e_get_screen_dimension:
-				GetScreenDimension(q_params_map, message);
 
-				qDebug() << "GetScreenDimension called ";
-				qDebug() << u16tou8(message.str()).c_str();
-
-				break;
-			case e_get_tomogram_dimension:
-				GetTomogramDimension(q_params_map, message);
-				break;
-			case e_get_point_HU:
-				GetPointHU(q_params_map, message);
-
-				break;
-//			case e_get_coordinate_native:
-//				GenerateNativeCoordData(q_params_map, message);
-//				break;
-//			case e_get_coordinate_interpolated:
-//				GenerateInterpolatedCoordData(q_params_map, message);
-//				break;
-			case e_get_studies_ids:
-				GetStudiesIDs(message);
-
-				qDebug() << "GetStudiesIDs called ";
-				qDebug() << u16tou8(message.str()).c_str();
-
-				break;
-			default:
-				break;
-			
-		}
-	
-	// Set a response header
-	response.setHeader("Content-Type", "text/html; charset=utf-8");
-
-
-	// Generate the HTML document
-	string	msgstr = u16tou8(message.str());
-
-	//@@@@@@@@ prokudaylo
-//	qDebug() << "RequestMapper::service msgstr.c_str()";
-//	qDebug() << msgstr.c_str() ;
-//	qDebug() << "End of msgstr.c_str()";
-	//@@@@@@@@
-
-
-	response.write(msgstr.c_str());
-
-	//@@@@@@@@ prokudaylo
-//		qDebug() << "";
-//		qDebug() << "Some msgstr.c_str()is written to response" ;
-//		qDebug() << "";
-	//@@@@@@@@
-	*/
 		qDebug() << "############";
 		qDebug() << "SERVICE COMPLETED ID = " << QThread::currentThreadId();
 		qDebug() << "############";
