@@ -14,6 +14,8 @@
 #include <iostream>
 
 #include <Common/WebServerSettings.h>
+#include <Common/StringConverters_Qt_Fantom.h>
+
 
 #ifdef _MSC_VER
 	#include <XRADConsoleUI/Sources/PlatformSpecific/MSVC/MSVC_XRADConsoleUILink.h>
@@ -23,14 +25,8 @@
 #endif //_MSC_VER
 
 
-QString	web_server_path;
+//QString	web_server_path;
 QString	data_store_path;
-
-
-void test()
-{
-
-}
 
 
  int xrad::xrad_main(int argc, char *argv[])
@@ -39,33 +35,36 @@ void test()
 
 	QCoreApplication app(argc, argv);
 
-		WebServerSettings wss;
+	WebServerSettings wss;
+
+	QString server_ini_file;
+
+	if (argc == 3) 
+	{
+		data_store_path = string_to_qstring(argv[1]);
+		server_ini_file = string_to_qstring(argv[2]);
+	}
+	else 
+	{
 		ImportSettngs(wss);
 
-	web_server_path = QString::fromStdWString(wss.html_source_path) +"/";
+		data_store_path = wstring_to_qstring(wss.dicom_folder);
+		server_ini_file = wstring_to_qstring(wss.server_ini_file);
+	}
 
-	data_store_path = QString::fromStdWString(wss.dicom_folder);
-
-	QString server_ini_file = QString::fromStdWString(wss.server_ini_file);
 	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 
 
 	settings_webserver->beginGroup("listener");
-	int port = settings_webserver->value("port").toInt();
+
 
 	RequestMapper* handler = new RequestMapper(&app);
 
 	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
 
-	//QFuture<void> future = QtConcurrent::run(this, &RequestMapper::LoadFantom);
-
 	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
 
-	//QThread myThrd;
 
-	//handler->moveToThread(&myThrd);
-
-	//(&myThrd, &QThread::started, handler, &RequestMapper::LoadFantom);
 
 	return app.exec();
 }

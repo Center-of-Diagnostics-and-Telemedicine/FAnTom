@@ -17,6 +17,11 @@
 
 XRAD_BEGIN
 
+
+
+
+
+
 wstring DeleteSlash(wstring params)
 {
 	auto slash = std::find(params.begin(), params.end(), '/');

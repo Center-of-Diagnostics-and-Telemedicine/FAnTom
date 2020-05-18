@@ -10,7 +10,7 @@
 
 
 using namespace std;
-extern QString	web_server_path;
+//extern QString	web_server_path;
 
 
 XRAD_BEGIN
@@ -106,7 +106,7 @@ void GetScreenCoordinateFromTomogramLocation(QMultiMap<QByteArray, QByteArray> &
 	GetScreenCoordinateFromTomogramLocation_J(&pixel_coord, st, wcstod(interpret_url(q_params_map.value("slice_no", "")).c_str(), NULL));
 	message << pixel_coord;
 }
-
+/*
 void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	bool series_loaded(false);
@@ -130,8 +130,8 @@ void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 		message << ws_dicom_page_data;
 	}
 }
-
-
+*/
+/*
 wstring ReadDocument(wstring file_name_no_slash)
 {
 	shared_cfile	opened_file;
@@ -142,6 +142,7 @@ wstring ReadDocument(wstring file_name_no_slash)
 	wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
 	return ws_data;
 }
+
 
 void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
@@ -159,6 +160,6 @@ void GenerateStartPage(std::wstringstream &message)
 	wstring	wjsdata = ReadDocument(L"start_page.html");
 	message << wjsdata;
 }
-
+*/
 
 XRAD_END

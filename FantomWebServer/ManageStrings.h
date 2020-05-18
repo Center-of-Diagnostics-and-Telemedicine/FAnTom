@@ -26,6 +26,7 @@ bool	is_filetype(const wstring &s, const wstring &t);
 wstring DeleteSlash(wstring params);
 
 
+
 XRAD_END
 
 #endif // ManageStrings_h__

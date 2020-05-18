@@ -93,6 +93,9 @@
     <ClCompile Include="..\Common\WebServerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\StringConverters_Qt_Fantom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandler.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="..\Common\WebServerSettings.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\StringConverters_Qt_Fantom.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

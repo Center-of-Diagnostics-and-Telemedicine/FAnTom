@@ -33,7 +33,8 @@
 #include "ManageWebPages.h"
 #include "ManageServerCommands.h"
 
-extern QString	web_server_path;
+#include <Common/StringConverters_Qt_Fantom.h>
+
 extern QString	data_store_path;
 
 
@@ -42,16 +43,15 @@ extern QString	data_store_path;
 RequestMapper::RequestMapper(QObject* parent)
 	:HttpRequestHandler(parent), isLoaded(false)
 {
-	qDebug() << "RequestMapper constructor finished";
+//	qDebug() << "RequestMapper constructor finished";
 }
 
 void RequestMapper::LoadFantom()
 {
-	std::string s_buff = data_store_path.toStdString();
 
-	const char* cbuff = s_buff.c_str();
+	wstring ws = qs_to_ws(data_store_path);
 
-	InitFantom_J(cbuff);
+	InitFantom_J(convert_to_string8(ws).c_str());
 
 	char* accession_number;
 	int acc_number_length;

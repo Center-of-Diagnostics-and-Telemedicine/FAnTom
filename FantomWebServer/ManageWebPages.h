@@ -11,11 +11,11 @@ XRAD_BEGIN
 
 using namespace std;
 
-void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
+//void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
-void GenerateStartPage(std::wstringstream &message);
+//void GenerateStartPage(std::wstringstream &message);
 
 void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message);
 
@@ -38,7 +38,7 @@ void GetPointHU(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstr
 void GetStudiesIDs(std::wstringstream &message);
 
 
-wstring ReadDocument(wstring file_name_no_slash);
+//wstring ReadDocument(wstring file_name_no_slash);
 
 
 XRAD_END
