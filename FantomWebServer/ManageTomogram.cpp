@@ -63,21 +63,19 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 ////	size_t vs(img_buf.vsize()), hs(img_buf.hsize());
 //	img.MakeCopy(img_buf);
 //}
-
-
-slice_type GetImageType(wstring st_wstring)
+slice_type GetImageTypeFromInt(int img_type)
 {
-	if (st_wstring == L"axial")
+	if (img_type == 0)
 	{
 		return e_axial;
 	}
-	else if (st_wstring == L"sagittal")
-	{
-		return e_sagittal;
-	}
-	else if (st_wstring == L"frontal")
+	else if (img_type == 1)
 	{
 		return e_frontal;
+	}
+	else if (img_type == 2)
+	{
+		return e_sagittal;
 	}
 	else return e_axial;
 }
@@ -97,6 +95,46 @@ mip_method_type GetMIPMethod(wstring mip_method_wstring)
 		return e_no_mip;
 	}
 }
+
+slice_type GetImageType(wstring st_wstring)
+{
+	if (st_wstring == L"axial")
+	{
+		return e_axial;
+	}
+	else if (st_wstring == L"sagittal")
+	{
+		return e_sagittal;
+	}
+	else if (st_wstring == L"frontal")
+	{
+		return e_frontal;
+	}
+	else return e_axial;
+}
+
+
+
+mip_method_type GetMIPMethodFromInt(int mip_method)
+{
+	if (mip_method == 0)
+	{
+		return e_average;
+	}
+	else if (mip_method == 1)
+	{
+		return e_maxvalue;
+	}
+	else if (mip_method == 2)
+	{
+		return e_minvalue;
+	}
+	else
+	{
+		return e_no_mip;
+	}
+}
+
 
 size_t GetSliceNo(wstring slice_no_wstring, slice_type st)
 {

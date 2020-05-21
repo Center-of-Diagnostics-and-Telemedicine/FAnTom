@@ -256,29 +256,17 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 							j_request = nlohmann::json::parse(str);
 
-							string tmp = j_request["sliceType"];
-
-							slice_type st = GetImageType(convert_to_wstring(tmp));
-
-							string tmp1 = j_request["mipMethod"];
-
-							mip_method_type mip_method = GetMIPMethod(convert_to_wstring(tmp1));
-
-							int tmp2 = j_request["sliceNumber"];
-
-							size_t slice_no = GetSliceNo(tmp2, st);
-
 							const unsigned char *img;
 							int  length;
 
 							GetSlice_J(&img, &length,
-								st,
-								slice_no,
+								GetImageTypeFromInt(j_request["sliceType"]),
+								j_request["sliceNumber"],
 								j_request["black"],
 								j_request["white"],
 								j_request["gamma"],
 								j_request["mipValue"],
-								mip_method
+								GetMIPMethodFromInt(j_request["mipMethod"])
 							);
 
 							QByteArray png = QByteArray();
