@@ -73,9 +73,8 @@ void f(HttpListener* listener)
 
 	QThread  thread;
 	QObject::connect(&thread, SIGNAL(started()), handler, SLOT(LoadFantom()));//Qt::QueuedConnection
-
-		handler->moveToThread(&thread);
-		thread.start();
+    handler->moveToThread(&thread);
+	thread.start();
 
 
 	//	QObject::connect(handler, SIGNAL(CloseApp()), &thread, SLOT(deleteLater()));//Qt::QueuedConnection
@@ -86,9 +85,13 @@ void f(HttpListener* listener)
 //		QMetaObject::invokeMethod(listener, "myDestroy", Qt::QueuedConnection); 
 //	});//Qt::QueuedConnection
 
-	QObject::connect(handler, &RequestMapper::CloseApp, &thread, &QThread::exit);
+//		QObject::connect(handler, &RequestMapper::CloseApp, [&thread]() {thread.exit(0);});
+
+	QObject::connect(handler, &RequestMapper::CloseApp, &thread, &QThread::quit);
 
 	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::myDestroy);
+
+//	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
 
     QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
 
