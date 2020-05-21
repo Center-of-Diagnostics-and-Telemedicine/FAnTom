@@ -49,7 +49,7 @@ RequestMapper::RequestMapper(QObject* parent)
 void RequestMapper::LoadFantom()
 {
 
-	wstring ws = qs_to_ws(data_store_path);
+	wstring ws = qstring_to_wstring(data_store_path);
 
 	InitFantom_J(convert_to_string8(ws).c_str());
 
@@ -182,7 +182,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							}
 							QString DataAsString(myBody);
 
-							string str = convert_to_string8(qs_to_ws(DataAsString));
+							string str = convert_to_string8(qstring_to_wstring(DataAsString));
 
 							nlohmann::json	j_request;
 
@@ -213,7 +213,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							}
 							QString DataAsString(myBody);
 
-							string str = convert_to_string8(qs_to_ws(DataAsString));
+							string str = convert_to_string8(qstring_to_wstring(DataAsString));
 
 							nlohmann::json	j_request;
 
