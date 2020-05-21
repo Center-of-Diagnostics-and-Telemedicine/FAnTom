@@ -8,7 +8,7 @@
 
 
 #include <XRADBasic/ContainersAlgebra.h>
-#include <QTCore/QByteArray.h>
+#include <QtCore/QByteArray>
 
 XRAD_BEGIN
 

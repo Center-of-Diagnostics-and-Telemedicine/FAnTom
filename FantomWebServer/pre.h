@@ -1,7 +1,5 @@
-﻿// file pre.h
-//--------------------------------------------------------------
-#ifndef __pre_h
-#define __pre_h
+﻿#ifndef File__pre_h
+#define File__pre_h
 //--------------------------------------------------------------
 
 #ifndef _DEBUG
@@ -13,4 +11,4 @@
 #include <XRADDicom/XRADDicom.h>
 
 //--------------------------------------------------------------
-#endif // __pre_h
+#endif // File__pre_h

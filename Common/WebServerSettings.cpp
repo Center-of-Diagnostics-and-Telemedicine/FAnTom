@@ -1,5 +1,5 @@
 #include "pre.h"
-#include <QtCore/QSettings.h>
+#include <QtCore/QSettings>
 
 
 //#include "WebServerSettings.h"

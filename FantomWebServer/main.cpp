@@ -2,7 +2,7 @@
 
 #include <QtCore/QCoreApplication>
 
-#include <QtConcurrent/qtconcurrentrun.h>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <QtCore/QFuture>
 #include <QtCore/QThread>
@@ -39,12 +39,12 @@ QString	data_store_path;
 
 	QString server_ini_file;
 
-	if (argc == 3) 
+	if (argc == 3)
 	{
 		data_store_path = string_to_qstring(argv[1]);
 		server_ini_file = string_to_qstring(argv[2]);
 	}
-	else 
+	else
 	{
 		ImportSettngs(wss);
 
@@ -68,6 +68,3 @@ QString	data_store_path;
 
 	return app.exec();
 }
-
-
-

@@ -20,10 +20,10 @@
 #include <XRADBasic/ContainersAlgebra.h>
 #include <XRADSystem/Sources/CFile/shared_cfile.h>
 #include <XRADBasic/ThirdParty/nlohmann/json.hpp>
-#include <QTGui/QImage.h>
-#include <QTCore/QBuffer.h>
-#include <QTCore/QThread>
-#include <QTCore/QTextCodec>
+#include <QtGui/QImage>
+#include <QtCore/QBuffer>
+#include <QtCore/QThread>
+#include <QtCore/QTextCodec>
 
 #include <QtTest/QTest>
 
@@ -150,7 +150,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 							size_t pixel_coord;
 							GetTomogramLocationFromScreenCoordinate_J(&pixel_coord, slice_type::e_axial, 0, true);
-							
+
 							if (pixel_coord > 0)
 							{
 								j["response"]["reversed"] = true;
@@ -159,7 +159,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							{
 								j["response"]["reversed"] = false;
 							}
-			
+
 							j["error"] = nullptr;
 
 							response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -171,9 +171,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 					else if (q_request_method == "POST")
 					{
-					
+
 						if(ws_path_name_no_slash == L"research/hounsfield")
-						{ 
+						{
 							QByteArray myBody = request.getBody();
 							if (myBody.isEmpty())
 							{
@@ -187,7 +187,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							nlohmann::json	j_request;
 
 							j_request = nlohmann::json::parse(str);
-						
+
 							double huValue;
 							//	GetPointHU_J(double *value, size_t axial_coord, size_t frontal_coord, size_t sagittal_coord)
 							GetPointHU_J(&huValue, j_request["axialCoord"], j_request["frontalCoord"], j_request["sagittalCoord"]);
@@ -258,12 +258,11 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 							return;
 						}
-						
-					} 
+
+					}
 
 
 		qDebug() << "############";
 		qDebug() << "SERVICE COMPLETED ID = " << QThread::currentThreadId();
 		qDebug() << "############";
 }
-

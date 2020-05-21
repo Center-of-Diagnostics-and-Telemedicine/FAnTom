@@ -14,7 +14,7 @@
 #define ManageStrings_h__
 
 
-#include <QTCore/QByteArray.h>
+#include <QtCore/QByteArray>
 
 XRAD_BEGIN
 
@@ -25,7 +25,7 @@ wstring	filetype(const wstring &s);
 bool	is_filetype(const wstring &s, const wstring &t);
 wstring DeleteSlash(wstring params);
 
-
+int string_to_int(const wstring &s);
 
 XRAD_END
 

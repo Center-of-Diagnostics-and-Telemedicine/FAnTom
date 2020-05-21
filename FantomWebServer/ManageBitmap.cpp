@@ -15,9 +15,9 @@
 
 #include <XRADBasic/Sources/Utils/StatisticUtils.h>
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
-#include <QTGui/QPixMap.h>
-#include <QTGui/QImage.h>
-#include <QTCore/QBuffer.h>
+#include <QtGui/QPixmap>
+#include <QtGui/QImage>
+#include <QtCore/QBuffer>
 
 XRAD_BEGIN
 
@@ -81,4 +81,3 @@ void	CreateBitMap(QByteArray &raw_bitmap, const RealFunction2D_UI8 &img, const w
 
 
 XRAD_END
-

@@ -12,7 +12,7 @@
  * \note
 */
 #include "ManageStrings.h"
-#include <QTCore/QString.h>
+#include <QtCore/QString>
 
 
 XRAD_BEGIN
@@ -73,6 +73,9 @@ bool	is_filetype(const wstring &s, const wstring &t)
 	return filetype(s) == get_lower(t);
 }
 
+int string_to_int(const wstring &s)
+{
+	return wcstol(s.c_str(), nullptr, 10);
+}
 
 XRAD_END
-
