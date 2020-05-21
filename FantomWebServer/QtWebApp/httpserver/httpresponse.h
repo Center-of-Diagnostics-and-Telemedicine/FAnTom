@@ -6,9 +6,9 @@
 #ifndef HTTPRESPONSE_H
 #define HTTPRESPONSE_H
 
-#include <QTCore/QMap>
-#include <QTCore/QString>
-#include <QTNetwork/QTcpSocket>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtNetwork/QTcpSocket>
 #include "httpglobal.h"
 #include "httpcookie.h"
 

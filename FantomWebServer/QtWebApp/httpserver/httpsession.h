@@ -6,9 +6,9 @@
 #ifndef HTTPSESSION_H
 #define HTTPSESSION_H
 
-#include <QTCore/QByteArray>
-#include <QTCore/QVariant>
-#include <QTCore/QReadWriteLock>
+#include <QtCore/QByteArray>
+#include <QtCore/QVariant>
+#include <QtCore/QReadWriteLock>
 #include "httpglobal.h"
 
 namespace stefanfrings {

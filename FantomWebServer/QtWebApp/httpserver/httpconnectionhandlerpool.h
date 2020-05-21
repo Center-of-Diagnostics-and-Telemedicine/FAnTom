@@ -1,10 +1,10 @@
 ﻿#ifndef HTTPCONNECTIONHANDLERPOOL_H
 #define HTTPCONNECTIONHANDLERPOOL_H
 
-#include <QTCore/QList>
-#include <QTCore/QTimer>
-#include <QTCore/QObject>
-#include <QTCore/QMutex>
+#include <QtCore/QList>
+#include <QtCore/QTimer>
+#include <QtCore/QObject>
+#include <QtCore/QMutex>
 #include "httpglobal.h"
 #include "httpconnectionhandler.h"
 

@@ -5,8 +5,8 @@
 */
 
 #include "httpsession.h"
-#include <QTCore/QDateTime>
-#include <QTCore/QUuid>
+#include <QtCore/QDateTime>
+#include <QtCore/QUuid>
 
 using namespace stefanfrings;
 

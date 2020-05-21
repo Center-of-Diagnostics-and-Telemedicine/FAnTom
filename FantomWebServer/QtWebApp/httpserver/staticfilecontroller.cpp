@@ -5,9 +5,9 @@
 */
 
 #include "staticfilecontroller.h"
-#include <QTCore/QFileInfo>
-#include <QTCore/QDir>
-#include <QTCore/QDateTime>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
+#include <QtCore/QDateTime>
 
 using namespace stefanfrings;
 
