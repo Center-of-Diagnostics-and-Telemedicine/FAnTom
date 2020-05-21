@@ -54,7 +54,7 @@ void HttpListener::listen()
 
 void HttpListener::myDestroy()
 {
-	pool->~HttpConnectionHandlerPool();
+	delete pool;
 	pool = nullptr;
 	emit  readyToClose();
 //	this->~HttpListener();	
@@ -64,7 +64,6 @@ void HttpListener::close() {
     QTcpServer::close();
     qDebug("HttpListener: closed");
     if (pool) {
-		//pool->~HttpConnectionHandlerPool();
         delete pool;
         pool=nullptr;
     }
