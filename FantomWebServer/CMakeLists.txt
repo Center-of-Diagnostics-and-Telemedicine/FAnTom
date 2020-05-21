@@ -9,13 +9,11 @@ if("${XRAD_Root}" STREQUAL "")
 endif()
 
 include(${XRAD_Root}/XRADConsoleUI/CMake/Package.cmake)
+include(../FantomLibrary/CMake/Package.cmake)
 include(CMake/DetectQtConfiguration.cmake)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-	set(FantomLibrary_Libraries "${CMAKE_CURRENT_BINARY_DIR}/../../../../FantomLibrary/${XRAD_MSVCRelativeBuildDir}FantomLibrary.lib")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-	set(FantomLibrary_Libraries "${CMAKE_CURRENT_BINARY_DIR}/../FantomLibrary/libFantomLibrary.so")
-
 	# TODO: Отключаем RPATH по умолчанию и добавляем . в путь поиска библиотек.
 	set(CMAKE_SKIP_RPATH TRUE)
 	# CMAKE_SKIP_RPATH=TRUE отключает CMAKE_BUILD_RPATH. Надо использовать ключ линкера.
@@ -31,7 +29,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(Project_IncludeDirs ${Project_IncludeDirs}
 	.
-	..
+	${FantomLibrary_IncludeDir}
 	${XRAD_IncludeDir}
 	${Qt5Widgets_INCLUDE_DIRS}
 	)
@@ -135,4 +133,4 @@ target_link_libraries(${Project}
 	${XRADConsoleUI_Libraries}
 	Qt5::Core Qt5::Gui Qt5::Network
 	)
-xrad_add_dependencies(${Project} "XRADConsoleUI")
+xrad_add_dependencies(${Project} "XRADConsoleUI;FantomLibrary")
