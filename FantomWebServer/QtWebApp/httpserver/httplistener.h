@@ -75,6 +75,13 @@ public:
     */
     void close();
 
+public slots:
+
+	void myDestroy();
+
+signals:
+	void readyToClose();
+
 protected:
 
     /** Serves new incoming connection requests */

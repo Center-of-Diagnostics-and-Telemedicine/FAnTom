@@ -28,6 +28,11 @@
 //QString	web_server_path;
 QString	data_store_path;
 
+void f(HttpListener* listener)
+{
+	cout << "test" << endl;
+}
+
 
  int xrad::xrad_main(int argc, char *argv[])
 {
@@ -52,21 +57,61 @@ QString	data_store_path;
 		server_ini_file = wstring_to_qstring(wss.server_ini_file);
 	}
 
-	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 
+	auto kill = [](HttpListener* listener) { listener->~HttpListener();
+		return;
+	};
+
+
+	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 
 	settings_webserver->beginGroup("listener");
 
-
-	RequestMapper* handler = new RequestMapper(&app);
-
+//	RequestMapper* handler = new RequestMapper(&app);
+	RequestMapper* handler = new RequestMapper();
 	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
 
-	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
+	QThread  thread;
+	QObject::connect(&thread, SIGNAL(started()), handler, SLOT(LoadFantom()));//Qt::QueuedConnection
+
+		handler->moveToThread(&thread);
+		thread.start();
+
+
+	//	QObject::connect(handler, SIGNAL(CloseApp()), &thread, SLOT(deleteLater()));//Qt::QueuedConnection
+
+//	QObject::connect(handler, SIGNAL(CloseApp()), settings_webserver, SLOT(deleteLater()), Qt::QueuedConnection);
+
+//	QObject::connect(handler, &RequestMapper::CloseApp, [listener]() {
+//		QMetaObject::invokeMethod(listener, "myDestroy", Qt::QueuedConnection); 
+//	});//Qt::QueuedConnection
+
+	QObject::connect(handler, &RequestMapper::CloseApp, &thread, &QThread::exit);
+
+	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::myDestroy);
+
+    QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
+//	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
+
+//	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
+
+//	QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
+//	QObject::connect(listener, SIGNAL(readyToClose()), &thread, SLOT(terminate()));//Qt::QueuedConnection
+
+//	QObject::connect(&thread, SIGNAL(finished()), &app, SLOT(quit()));
+
+//	QMetaObject::invokeMethod(freeHandler, "handleConnection", Qt::QueuedConnection, Q_ARG(tSocketDescriptor, socketDescriptor))
+
+
+
+	//	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
 
 
 
 	return app.exec();
+//	return 0;
 }
 
 

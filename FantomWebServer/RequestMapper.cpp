@@ -48,9 +48,9 @@ RequestMapper::RequestMapper(QObject* parent)
 
 void RequestMapper::LoadFantom()
 {
-
 	wstring ws = qs_to_ws(data_store_path);
 
+//	InitFantom_J(convert_to_string8(ws).c_str());
 	InitFantom_J(convert_to_string8(ws).c_str());
 
 	char* accession_number;
@@ -59,6 +59,8 @@ void RequestMapper::LoadFantom()
 
 	string str(accession_number);
 	str.erase(acc_number_length - 1, 1);
+
+	cout << str << endl;
 
 	LoadCTbyAccession_J(str.c_str());
 
@@ -76,46 +78,81 @@ using namespace xrad;
 
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-// Get a request parameters
+	// Get a request parameters
 
 	lock_guard<std::mutex> lck(m_RequestMapperMutex);
 
-	if (!isLoaded)
-	{
-		nlohmann::json	j;
-
-		j["response"] = nullptr;
-		j["error"] = 22;
-
-		response.setHeader("Content-Type", "application/json; charset=utf-8");
-
-		response.write(QByteArray(j.dump('\t').c_str()));
-
-		return;
-	}
-
-		qDebug() << "############";
-		qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
-		qDebug() << "############";
+	qDebug() << "############";
+	qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
+	qDebug() << "############";
 
 
-//Определение чистого адреса без параметров
+	//Определение чистого адреса без параметров
 
 	wstring	ws_path_name = interpret_url(request.getRawPath());
 	wstring	ws_path_name_no_slash = DeleteSlash(ws_path_name);
 
-//Определение имени сайта (хоста)
+	//Определение имени сайта (хоста)
 
 	QByteArray q_host_name = request.getHeader("host");
 
-//Type = POST, SEND, GET ...
+	//Type = POST, SEND, GET ...
 	QByteArray q_request_method = request.getMethod();
 
-//Определение параметров запроса
+
+	if (!isLoaded)
+	{
+		if (q_request_method == "GET" && ws_path_name_no_slash == L"research/close")
+		{
+			nlohmann::json	j;
+
+			j["response"] = nullptr;
+			j["error"] = 22;
+
+			response.setHeader("Content-Type", "application/json; charset=utf-8");
+
+			response.write(QByteArray(j.dump('\t').c_str()));
+
+//			qApp->quit();
+			
+			emit CloseApp();
+
+//			quit_application q("Exception during LoadFantom", 0);
+//			throw q;
+
+			return;
+		}
+	
+		else
+		{
+			nlohmann::json	j;
+
+			j["response"] = nullptr;
+			j["error"] = 22;
+
+			response.setHeader("Content-Type", "application/json; charset=utf-8");
+
+			response.write(QByteArray(j.dump('\t').c_str()));
+
+			return;
+		}
+	}
 
 					if (q_request_method == "GET")
 					{
+						if (ws_path_name_no_slash == L"research/close")
+						{
+							response.setStatus(200, "OK");
 
+						//	qApp->quit();
+							
+							emit CloseApp();
+
+//							quit_application q("Exception after LoadFantom", 0);
+//							throw q;
+
+							return;
+						}
 
 						if (ws_path_name_no_slash == L"research/init")
 						{

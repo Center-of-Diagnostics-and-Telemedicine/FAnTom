@@ -45,7 +45,11 @@ public:
     */
     void service(HttpRequest& request, HttpResponse& response);
 
+public slots:
 	void LoadFantom();
+
+signals: 
+	void CloseApp();
 
 private:
 	std::mutex m_RequestMapperMutex;
