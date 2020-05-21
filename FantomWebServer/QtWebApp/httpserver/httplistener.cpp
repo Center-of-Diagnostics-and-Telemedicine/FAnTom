@@ -52,7 +52,7 @@ void HttpListener::listen()
 }
 
 
-void HttpListener::myDestroy()
+void HttpListener::ForcedDestroy()
 {
 	delete pool;
 	pool = nullptr;

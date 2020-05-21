@@ -77,7 +77,7 @@ public:
 
 public slots:
 
-	void myDestroy();
+	void ForcedDestroy();
 
 signals:
 	void readyToClose();

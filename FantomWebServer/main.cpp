@@ -68,12 +68,12 @@ void f(HttpListener* listener)
 	settings_webserver->beginGroup("listener");
 
 //	RequestMapper* handler = new RequestMapper(&app);
-	RequestMapper* handler = new RequestMapper();
-	HttpListener* listener = new HttpListener(settings_webserver, handler, &app);
+	RequestMapper* mapper = new RequestMapper();
+	HttpListener* listener = new HttpListener(settings_webserver, mapper, &app);
 
 	QThread  thread;
-	QObject::connect(&thread, SIGNAL(started()), handler, SLOT(LoadFantom()));//Qt::QueuedConnection
-    handler->moveToThread(&thread);
+	QObject::connect(&thread, SIGNAL(started()), mapper, SLOT(LoadFantom()));//Qt::QueuedConnection
+    mapper->moveToThread(&thread);
 	thread.start();
 
 
@@ -87,9 +87,9 @@ void f(HttpListener* listener)
 
 //		QObject::connect(handler, &RequestMapper::CloseApp, [&thread]() {thread.exit(0);});
 
-	QObject::connect(handler, &RequestMapper::CloseApp, &thread, &QThread::quit);
+	QObject::connect(mapper, &RequestMapper::CloseApp, &thread, &QThread::quit);
 
-	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::myDestroy);
+	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::ForcedDestroy);
 
 //	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
 
