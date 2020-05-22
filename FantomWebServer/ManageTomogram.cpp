@@ -16,12 +16,12 @@
 #include "ManageTomogram.h"
 #include "ManageBitmap.h"
 #include "ManageStrings.h"
-#include <QTCore/QBuffer.h>
+#include <QtCore/QBuffer>
 
 #include "ManageWebPages.h"
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
-#include <QTGui/QPixMap.h>
+#include <QtGui/QPixmap>
 
 
 XRAD_BEGIN
@@ -45,7 +45,7 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 		stod(interpret_url(q_params_map.value("black_var", ""))),
 		stod(interpret_url(q_params_map.value("white_var", ""))),
 		stod(interpret_url(q_params_map.value("gamma_var", ""))),
-		_wtoi(interpret_url(q_params_map.value("aprox_value", "")).c_str()),
+		string_to_int(interpret_url(q_params_map.value("aprox_value", ""))),
 		mip_method
 	);
 
@@ -140,7 +140,7 @@ size_t GetSliceNo(wstring slice_no_wstring, slice_type st)
 {
 	size_t frames_no;
 	GetTomogramDimension_J(&frames_no, st);
-	size_t slice_no = _wtoi(slice_no_wstring.c_str());
+	size_t slice_no = string_to_int(slice_no_wstring);
 
 	if (slice_no > frames_no)
 	{
@@ -153,7 +153,7 @@ size_t GetSliceNo(size_t slice_no, slice_type st)
 {
 	size_t frames_no;
 	GetTomogramDimension_J(&frames_no, st);
-	
+
 	if (slice_no > frames_no)
 	{
 		slice_no = frames_no;

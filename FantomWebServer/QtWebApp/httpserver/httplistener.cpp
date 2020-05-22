@@ -7,7 +7,7 @@
 #include "httplistener.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"
-#include <QTCore/QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 using namespace stefanfrings;
 

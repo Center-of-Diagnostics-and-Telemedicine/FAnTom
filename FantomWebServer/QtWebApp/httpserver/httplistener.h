@@ -6,9 +6,9 @@
 #ifndef HTTPLISTENER_H
 #define HTTPLISTENER_H
 
-#include <QTNetwork/QTcpServer>
-#include <QTCore/QSettings>
-#include <QTCore/QBasicTimer>
+#include <QtNetwork/QTcpServer>
+#include <QtCore/QSettings>
+#include <QtCore/QBasicTimer>
 #include "httpglobal.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"

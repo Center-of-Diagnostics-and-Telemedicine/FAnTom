@@ -2,8 +2,8 @@
 #define ManageTomogram_h__
 
 #include <XRADBasic/ContainersAlgebra.h>
-#include <QTCore/QByteArray.h>
-#include <QTCore/QMap.h>
+#include <QtCore/QByteArray>
+#include <QtCore/QMap>
 #include <FantomLibrary/FantomLibrary.h>
 #include <vector>
 

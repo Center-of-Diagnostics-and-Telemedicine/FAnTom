@@ -16,6 +16,7 @@
 
 #include "QtWebApp/httpserver/httpconnectionhandler.h"
 #include "QtWebApp/httpserver/httplistener.h"
+#include <mutex>
 
 using namespace stefanfrings;
 
@@ -53,7 +54,7 @@ signals:
 
 private:
 	std::mutex m_RequestMapperMutex;
-	
+
 
 	bool isLoaded;
 
