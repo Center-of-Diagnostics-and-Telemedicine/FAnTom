@@ -60,7 +60,7 @@ void RequestMapper::LoadFantom()
 	string str(accession_number);
 	str.erase(acc_number_length - 1, 1);
 
-	cout << str << endl;
+	cout << "Accession number = " << str << endl;
 
 	LoadCTbyAccession_J(str.c_str());
 

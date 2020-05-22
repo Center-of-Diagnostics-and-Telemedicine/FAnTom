@@ -58,11 +58,6 @@ void f(HttpListener* listener)
 	}
 
 
-	auto kill = [](HttpListener* listener) { listener->~HttpListener();
-		return;
-	};
-
-
 	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 
 	settings_webserver->beginGroup("listener");
