@@ -14,7 +14,7 @@
 #include <iostream>
 
 #include <Common/WebServerSettings.h>
-#include <Common/StringConverters_Qt_Fantom.h>
+#include <XRADQt/QtStringConverters.h>
 
 
 #ifdef _MSC_VER
@@ -77,7 +77,7 @@ void f(HttpListener* listener)
 //	QObject::connect(handler, SIGNAL(CloseApp()), settings_webserver, SLOT(deleteLater()), Qt::QueuedConnection);
 
 //	QObject::connect(handler, &RequestMapper::CloseApp, [listener]() {
-//		QMetaObject::invokeMethod(listener, "myDestroy", Qt::QueuedConnection); 
+//		QMetaObject::invokeMethod(listener, "myDestroy", Qt::QueuedConnection);
 //	});//Qt::QueuedConnection
 
 //		QObject::connect(handler, &RequestMapper::CloseApp, [&thread]() {thread.exit(0);});

@@ -93,7 +93,7 @@
     <ClCompile Include="..\Common\WebServerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\StringConverters_Qt_Fantom.cpp">
+    <ClCompile Include="$(XRADRoot)\XRADQt\QtStringConverters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -148,10 +148,10 @@
     <ClInclude Include="ManageWebPages.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\WebServerSettings.h">
-      <Filter>Generated Files</Filter>
+    <ClInclude Include="$(XRADRoot)\XRADQt\QtStringConverters.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\StringConverters_Qt_Fantom.h">
+    <ClInclude Include="..\Common\WebServerSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
