@@ -33,7 +33,7 @@
 #include "ManageWebPages.h"
 #include "ManageServerCommands.h"
 
-#include <Common/StringConverters_Qt_Fantom.h>
+#include <XRADQt/QtStringConverters.h>
 
 extern QString	data_store_path;
 
@@ -114,7 +114,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 			response.write(QByteArray(j.dump('\t').c_str()));
 
 //			qApp->quit();
-			
+
 			emit CloseApp();
 
 //			quit_application q("Exception during LoadFantom", 0);
@@ -122,7 +122,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			return;
 		}
-	
+
 		else
 		{
 			nlohmann::json	j;
@@ -145,7 +145,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							response.setStatus(200, "OK");
 
 						//	qApp->quit();
-							
+
 							emit CloseApp();
 
 //							quit_application q("Exception after LoadFantom", 0);

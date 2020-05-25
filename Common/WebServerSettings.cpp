@@ -1,10 +1,8 @@
 #include "pre.h"
+#include "WebServerSettings.h"
+
 #include <QtCore/QSettings>
-
-
-//#include "WebServerSettings.h"
-#include <Common/WebServerSettings.h>
-#include <Common/StringConverters_Qt_Fantom.h>
+#include <XRADQt/QtStringConverters.h>
 
 XRAD_BEGIN
 

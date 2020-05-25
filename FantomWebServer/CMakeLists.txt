@@ -113,10 +113,10 @@ set(Project_Sources_CXX
 	ManageWebPages.h
 	RequestMapper.cpp
 	RequestMapper.h
-	../Common/StringConverters_Qt_Fantom.cpp
-	../Common/StringConverters_Qt_Fantom.h
 	../Common/WebServerSettings.cpp
 	../Common/WebServerSettings.h
+	${XRAD_Root}/XRADQt/QtStringConverters.cpp
+	${XRAD_Root}/XRADQt/QtStringConverters.h
 	)
 # FantomWebServer_QtLink.h
 

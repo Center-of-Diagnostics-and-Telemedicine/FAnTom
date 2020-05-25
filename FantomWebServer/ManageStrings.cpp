@@ -7,7 +7,7 @@
 #include "ManageStrings.h"
 #include <QtCore/QString>
 
-#include <Common/StringConverters_Qt_Fantom.h>
+#include <XRADQt/QtStringConverters.h>
 
 XRAD_BEGIN
 
