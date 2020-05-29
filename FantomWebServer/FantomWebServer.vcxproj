@@ -193,6 +193,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_httpsessionstore.cpp" />
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp" />
     <!--   <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp" /> -->
+    <ClCompile Include="$(XRADRoot)\XRADQt\QtStringConverters.cpp" />
     <ClCompile Include="..\Common\WebServerSettings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManageBitmap.cpp" />
@@ -277,6 +278,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(XRADRoot)\XRADQt\QtStringConverters.h" />
     <ClInclude Include="..\Common\WebServerSettings.h" />
     <ClInclude Include="ManageBitmap.h" />
     <ClInclude Include="ManageServerCommands.h" />

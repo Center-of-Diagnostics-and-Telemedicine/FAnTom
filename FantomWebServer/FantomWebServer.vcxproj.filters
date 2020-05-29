@@ -93,6 +93,9 @@
     <ClCompile Include="..\Common\WebServerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(XRADRoot)\XRADQt\QtStringConverters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="QtWebApp\httpserver\httpconnectionhandler.h">
@@ -145,8 +148,11 @@
     <ClInclude Include="ManageWebPages.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(XRADRoot)\XRADQt\QtStringConverters.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common\WebServerSettings.h">
-      <Filter>Generated Files</Filter>
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

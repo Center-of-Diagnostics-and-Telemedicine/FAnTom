@@ -6,9 +6,9 @@
 #ifndef HTTPLISTENER_H
 #define HTTPLISTENER_H
 
-#include <QTNetwork/QTcpServer>
-#include <QTCore/QSettings>
-#include <QTCore/QBasicTimer>
+#include <QtNetwork/QTcpServer>
+#include <QtCore/QSettings>
+#include <QtCore/QBasicTimer>
 #include "httpglobal.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"
@@ -74,6 +74,13 @@ public:
      then closes the connection pool.
     */
     void close();
+
+public slots:
+
+	void ForcedDestroy();
+
+signals:
+	void readyToClose();
 
 protected:
 

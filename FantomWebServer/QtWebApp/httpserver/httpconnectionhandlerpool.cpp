@@ -1,11 +1,11 @@
 ﻿#include "pre.h"
 #ifndef QT_NO_SSL
-    #include <QTNetwork/QSslSocket>
-    #include <QTNetwork/QSslKey>
-    #include <QTNetwork/QSslCertificate>
-    #include <QTNetwork/QSslConfiguration>
+    #include <QtNetwork/QSslSocket>
+    #include <QtNetwork/QSslKey>
+    #include <QtNetwork/QSslCertificate>
+    #include <QtNetwork/QSslConfiguration>
 #endif
-#include <QTCore/QDir>
+#include <QtCore/QDir>
 #include "httpconnectionhandlerpool.h"
 
 using namespace stefanfrings;
@@ -28,7 +28,7 @@ HttpConnectionHandlerPool::~HttpConnectionHandlerPool()
     // delete all connection handlers and wait until their threads are closed
     foreach(HttpConnectionHandler* handler, pool)
     {
-       delete handler;
+     delete handler;
     }
     delete sslConfiguration;
     qDebug("HttpConnectionHandlerPool (%p): destroyed", this);

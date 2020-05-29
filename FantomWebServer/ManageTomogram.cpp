@@ -16,12 +16,12 @@
 #include "ManageTomogram.h"
 #include "ManageBitmap.h"
 #include "ManageStrings.h"
-#include <QTCore/QBuffer.h>
+#include <QtCore/QBuffer>
 
 #include "ManageWebPages.h"
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
-#include <QTGui/QPixMap.h>
+#include <QtGui/QPixmap>
 
 
 XRAD_BEGIN
@@ -34,7 +34,7 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 
 	mip_method_type mip_method = GetMIPMethod(interpret_url(q_params_map.value("mip_method", "")));
 
-	size_t slice_no = GetSliceNo(interpret_url(q_params_map.value("accession_number", "")), interpret_url(q_params_map.value("slice_no", "")), st);
+	size_t slice_no = GetSliceNo(interpret_url(q_params_map.value("slice_no", "")), st);
 
 	const unsigned char *img;
 	int  length;
@@ -45,7 +45,7 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 		stod(interpret_url(q_params_map.value("black_var", ""))),
 		stod(interpret_url(q_params_map.value("white_var", ""))),
 		stod(interpret_url(q_params_map.value("gamma_var", ""))),
-		_wtoi(interpret_url(q_params_map.value("aprox_value", "")).c_str()),
+		string_to_int(interpret_url(q_params_map.value("aprox_value", ""))),
 		mip_method
 	);
 
@@ -63,21 +63,19 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 ////	size_t vs(img_buf.vsize()), hs(img_buf.hsize());
 //	img.MakeCopy(img_buf);
 //}
-
-
-slice_type GetImageType(wstring st_wstring)
+slice_type GetImageTypeFromInt(int img_type)
 {
-	if (st_wstring == L"axial")
+	if (img_type == 0)
 	{
 		return e_axial;
 	}
-	else if (st_wstring == L"sagittal")
-	{
-		return e_sagittal;
-	}
-	else if (st_wstring == L"frontal")
+	else if (img_type == 1)
 	{
 		return e_frontal;
+	}
+	else if (img_type == 2)
+	{
+		return e_sagittal;
 	}
 	else return e_axial;
 }
@@ -98,11 +96,63 @@ mip_method_type GetMIPMethod(wstring mip_method_wstring)
 	}
 }
 
-size_t GetSliceNo(wstring accession_number_ws, wstring slice_no_wstring, slice_type st)//todo первый аргумент на удаление
+slice_type GetImageType(wstring st_wstring)
+{
+	if (st_wstring == L"axial")
+	{
+		return e_axial;
+	}
+	else if (st_wstring == L"sagittal")
+	{
+		return e_sagittal;
+	}
+	else if (st_wstring == L"frontal")
+	{
+		return e_frontal;
+	}
+	else return e_axial;
+}
+
+
+
+mip_method_type GetMIPMethodFromInt(int mip_method)
+{
+	if (mip_method == 0)
+	{
+		return e_average;
+	}
+	else if (mip_method == 1)
+	{
+		return e_maxvalue;
+	}
+	else if (mip_method == 2)
+	{
+		return e_minvalue;
+	}
+	else
+	{
+		return e_no_mip;
+	}
+}
+
+
+size_t GetSliceNo(wstring slice_no_wstring, slice_type st)
 {
 	size_t frames_no;
 	GetTomogramDimension_J(&frames_no, st);
-	size_t slice_no = _wtoi(slice_no_wstring.c_str());
+	size_t slice_no = string_to_int(slice_no_wstring);
+
+	if (slice_no > frames_no)
+	{
+		slice_no = frames_no;
+	}
+	return slice_no;
+}
+
+size_t GetSliceNo(size_t slice_no, slice_type st)
+{
+	size_t frames_no;
+	GetTomogramDimension_J(&frames_no, st);
 
 	if (slice_no > frames_no)
 	{

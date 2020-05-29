@@ -7,12 +7,12 @@
 #define HTTPCONNECTIONHANDLER_H
 
 #ifndef QT_NO_SSL
-   #include <QTNetwork/QSslConfiguration>
+   #include <QtNetwork/QSslConfiguration>
 #endif
-#include <QTNetwork/QTcpSocket>
-#include <QTCore/QSettings>
-#include <QTCore/QTimer>
-#include <QTCore/QThread>
+#include <QtNetwork/QTcpSocket>
+#include <QtCore/QSettings>
+#include <QtCore/QTimer>
+#include <QtCore/QThread>
 #include "httpglobal.h"
 #include "httprequest.h"
 #include "httprequesthandler.h"

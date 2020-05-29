@@ -6,14 +6,14 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <QTCore/QByteArray>
-#include <QTNetwork/QHostAddress>
-#include <QTNetwork/QTcpSocket>
-#include <QTCore/QMap>
-#include <QTCore/QMultiMap>
-#include <QTCore/QSettings>
-#include <QTCore/QTemporaryFile>
-#include <QTCore/QUuid>
+#include <QtCore/QByteArray>
+#include <QtNetwork/QHostAddress>
+#include <QtNetwork/QTcpSocket>
+#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
+#include <QtCore/QSettings>
+#include <QtCore/QTemporaryFile>
+#include <QtCore/QUuid>
 #include "httpglobal.h"
 
 namespace stefanfrings {

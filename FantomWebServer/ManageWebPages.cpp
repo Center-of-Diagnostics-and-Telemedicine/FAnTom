@@ -10,7 +10,7 @@
 
 
 using namespace std;
-extern QString	web_server_path;
+//extern QString	web_server_path;
 
 
 XRAD_BEGIN
@@ -42,7 +42,7 @@ void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::ws
 //{
 //	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 //	double coord_dbl;
-//	GetCoordinateNative(coord_dbl, st, _wtoi(interpret_url(q_params_map.value("slice_no", "")).c_str()));
+//	GetCoordinateNative(coord_dbl, st, string_to_int(interpret_url(q_params_map.value("slice_no", ""))));
 //	message << coord_dbl;
 //}
 
@@ -51,7 +51,7 @@ void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::ws
 //{
 //	slice_type st = GetImageType(interpret_url(q_params_map.value("img_type", "")));
 //	double coord_dbl;
-//	GetCoordinateInterpolated(coord_dbl, st, _wtoi(interpret_url(q_params_map.value("coord", "")).c_str()));
+//	GetCoordinateInterpolated(coord_dbl, st, string_to_int(interpret_url(q_params_map.value("coord", ""))));
 //	message << coord_dbl;
 //}
 
@@ -59,9 +59,9 @@ void GetScreenDimension(QMultiMap<QByteArray, QByteArray> &q_params_map, std::ws
 void GetPointHU(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	double hu_value;
-	GetPointHU_J(&hu_value, _wtoi(interpret_url(q_params_map.value("coords_z", "")).c_str()),
-	_wtoi(interpret_url(q_params_map.value("coords_y", "")).c_str()),
-		_wtoi(interpret_url(q_params_map.value("coords_x", "")).c_str()));
+	GetPointHU_J(&hu_value, string_to_int(interpret_url(q_params_map.value("coords_z", ""))),
+		string_to_int(interpret_url(q_params_map.value("coords_y", ""))),
+		string_to_int(interpret_url(q_params_map.value("coords_x", ""))));
 	message << hu_value;
 }
 
@@ -87,7 +87,7 @@ void GetTomogramLocationFromScreenCoordinate(QMultiMap<QByteArray, QByteArray> &
 	{
 		interpolate_z = true;
 	}
-	GetTomogramLocationFromScreenCoordinate_J(&pixel_coord, st, _wtoi(interpret_url(q_params_map.value("coord", "")).c_str()), interpolate_z);
+	GetTomogramLocationFromScreenCoordinate_J(&pixel_coord, st, string_to_int(interpret_url(q_params_map.value("coord", ""))), interpolate_z);
 	message << pixel_coord;
 }
 
@@ -106,13 +106,13 @@ void GetScreenCoordinateFromTomogramLocation(QMultiMap<QByteArray, QByteArray> &
 	GetScreenCoordinateFromTomogramLocation_J(&pixel_coord, st, wcstod(interpret_url(q_params_map.value("slice_no", "")).c_str(), NULL));
 	message << pixel_coord;
 }
-
+/*
 void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
 	bool series_loaded(false);
 
 	std::string s_buff = convert_to_string( interpret_url(q_params_map.value("accession_number", "")) );
-	
+
 	const char* cbuff = s_buff.c_str();
 
 	if (LoadCTbyAccession_J(cbuff) != e_successful)
@@ -130,8 +130,8 @@ void LoadCTbyAccession(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wst
 		message << ws_dicom_page_data;
 	}
 }
-
-
+*/
+/*
 wstring ReadDocument(wstring file_name_no_slash)
 {
 	shared_cfile	opened_file;
@@ -142,6 +142,7 @@ wstring ReadDocument(wstring file_name_no_slash)
 	wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
 	return ws_data;
 }
+
 
 void GenerateLoginPage(QMultiMap<QByteArray, QByteArray> &q_params_map, std::wstringstream &message)
 {
@@ -159,6 +160,6 @@ void GenerateStartPage(std::wstringstream &message)
 	wstring	wjsdata = ReadDocument(L"start_page.html");
 	message << wjsdata;
 }
-
+*/
 
 XRAD_END

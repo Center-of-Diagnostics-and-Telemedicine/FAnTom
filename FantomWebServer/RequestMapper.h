@@ -16,6 +16,7 @@
 
 #include "QtWebApp/httpserver/httpconnectionhandler.h"
 #include "QtWebApp/httpserver/httplistener.h"
+#include <mutex>
 
 using namespace stefanfrings;
 
@@ -45,11 +46,15 @@ public:
     */
     void service(HttpRequest& request, HttpResponse& response);
 
+public slots:
 	void LoadFantom();
+
+signals: 
+	void CloseApp();
 
 private:
 	std::mutex m_RequestMapperMutex;
-	
+
 
 	bool isLoaded;
 

@@ -25,7 +25,7 @@ int xrad::xrad_main(int,char * * const)
 
 		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог с исследованиями для разметки", &wss.dicom_folder, DynamicDialog::Layout::Horizontal);
 
-		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог html файлов сервера", &wss.html_source_path, DynamicDialog::Layout::Horizontal);
+//		dialog->CreateControl<DynamicDialog::ValueDirectoryReadEdit>(L"Каталог html файлов сервера", &wss.html_source_path, DynamicDialog::Layout::Horizontal);
 
 		dialog->CreateControl<DynamicDialog::ValueFileLoadEdit>(L"Выбор файла внутренних настроек сервера", &wss.server_ini_file,  L"*.ini", DynamicDialog::Layout::Horizontal);
 

@@ -1,21 +1,17 @@
-﻿#include "pre.h"
-/*!
- * \file ManageStrings.cpp
- * \date 2017/10/05 12:29
- *
- * \author kulberg
- *
- * \brief
- *
- * TODO: long description
- *
- * \note
+﻿/*!
+	\file
+	\date 2017/10/05 12:29
+	\author kulberg
 */
+#include "pre.h"
 #include "ManageStrings.h"
-#include <QTCore/QString.h>
+#include <QtCore/QString>
 
+#include <XRADQt/QtStringConverters.h>
 
 XRAD_BEGIN
+
+
 
 wstring DeleteSlash(wstring params)
 {
@@ -28,26 +24,10 @@ wstring DeleteSlash(wstring params)
 	return params_no_slash;
 }
 
-
-string	u16tou8(const wstring s)
-{
-	ustring	buffer = wstring_to_ustring(s);
-	string	result(buffer.begin(), buffer.end());
-	return result;
-}
-
-wstring	qs_to_ws(const QString &qs)
-{
-	wstring	ws;
-	ws.resize(qs.length());
-	for(int i = 0; i < qs.length(); ++i) ws[i] = qs[i].unicode();
-	return ws;
-}
-
 wstring	interpret_url(const QByteArray &url)
 {
 	QString	decoded = QByteArray::fromPercentEncoding(url);
-	return qs_to_ws(decoded);
+	return qstring_to_wstring(decoded);
 
 }
 
@@ -68,6 +48,9 @@ bool	is_filetype(const wstring &s, const wstring &t)
 	return filetype(s) == get_lower(t);
 }
 
+int string_to_int(const wstring &s)
+{
+	return wcstol(s.c_str(), nullptr, 10);
+}
 
 XRAD_END
-

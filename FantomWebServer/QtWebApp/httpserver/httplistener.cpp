@@ -7,7 +7,7 @@
 #include "httplistener.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"
-#include <QTCore/QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 using namespace stefanfrings;
 
@@ -51,6 +51,14 @@ void HttpListener::listen()
     }
 }
 
+
+void HttpListener::ForcedDestroy()
+{
+	delete pool;
+	pool = nullptr;
+	emit  readyToClose();
+//	this->~HttpListener();	
+}
 
 void HttpListener::close() {
     QTcpServer::close();
