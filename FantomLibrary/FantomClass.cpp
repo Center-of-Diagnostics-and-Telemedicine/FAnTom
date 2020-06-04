@@ -144,6 +144,89 @@ size_t slice_manager::GetAccessionHeapPosition(const wstring &accession_number, 
 }
 
 
+operation_result slice_manager::LoadXRbyAccession(const wstring &accession_number, bool &series_loaded)
+{
+	//	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+	START_LOG;
+
+	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
+	{
+		series_loaded = true;
+		return e_successful;
+	}
+
+	size_t chosen_accession_number = GetAccessionHeapPosition(accession_number, series_loaded);
+
+	if (!series_loaded) return e_out_of_range;
+
+//	Dicom::acquisition_loader &chosen_acquisition = GetLargestAcquisition(m_studies_heap[chosen_accession_number]);
+
+	Dicom::acquisition_loader chosen_acquisition = CreateXRayAcqusition(m_studies_heap[chosen_accession_number]);
+
+	proc_acquisition_work_ptr = CreateProcessAcquisition(chosen_acquisition, ConsoleProgressProxy());
+	//	proc_acquisition_work_ptr->open_instancestorages();
+	ProcessAcquisitionOpenClose prcAcq(*proc_acquisition_work_ptr);
+
+	//	ProcessAcquisition_ptr proc_acquisition{ CreateProcessAcquisition(chosen_acquisition, GUIProgressProxy()) };
+	//	ProcessAcquisitionOpenClose prcAcq(*proc_acquisition);
+
+	//	m_slices = ct_acquisition_ptr().slices();
+	//	m_scales = ct_acquisition_ptr().scales();
+	//	m_image_positions_patient = ct_acquisition_ptr().image_positions_patient();
+
+	//	CalculateInterpolationScales();
+
+
+	m_XRslices = dynamic_cast<XRAYAcquisition&>(*proc_acquisition_work_ptr).slices();
+
+	m_accession_number = accession_number;
+
+	auto sample_instance = dynamic_cast<XRAYAcquisition&>(*proc_acquisition_work_ptr).loader().front();//[1];//
+
+		m_patient_id = sample_instance->get_wstring(Dicom::e_patient_id);
+	//	m_patient_sex = sample_instance.get_wstring(Dicom::e_patient_sex);
+	//	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
+	//	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
+	//	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	END_LOG;
+
+	return e_successful;
+}
+
+Dicom::acquisition_loader CreateXRayAcqusition(Dicom::study_loader &study)
+{
+	//Dicom::acquisition_loader result;
+	vector<Dicom::instance_ptr> result;
+	
+
+	for (auto &ser : study)
+	{
+		for (auto &stack : ser)
+		{
+			for (auto &acq : stack)
+			{
+				for (auto &instance : acq)
+				{
+					result.push_back(instance);
+				}
+			}
+		}
+	}
+
+	Dicom::acquisition_loader al( result.size(),L"" );
+//	size_t sz{ result.size() };
+
+
+	for (size_t i = 0; i < result.size(); i++)
+	{
+		al.push_back(result[i]);
+	}
+
+	return al;
+}
+
+
 // получение acquisition с самым большим размером
 Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 {
@@ -167,7 +250,13 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 	return *result;
 }
 
+
+
+
 //Загрузка данных выбранного КТ в свойства текущего объекта
+
+
+
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
 //	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);

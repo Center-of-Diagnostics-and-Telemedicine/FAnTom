@@ -15,6 +15,12 @@
     <ClCompile Include="TestFunctions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="NewClass.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapDump.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pre.h">
@@ -23,5 +29,15 @@
     <ClInclude Include="TestFunctions.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="NewClass.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="NewClassDefs.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FantomTest.rc" />
   </ItemGroup>
 </Project>

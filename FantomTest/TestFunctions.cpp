@@ -2,13 +2,53 @@
 
 */
 #include "pre.h"
+
 #include "TestFunctions.h"
 
-#include <FantomLibrary/FantomLibrary.h>
+#include "NewClass.h"
 
+
+
+#include <FantomLibrary/FantomLibrary.h>
+#include <FantomLibrary/FantomClass.h>
 
 XRAD_BEGIN
 
+void	TestNewClasses()
+{
+	CTomogram tomogram;
+
+	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/19");
+
+	tomogram.HeapDump(L"test.ct.txt");
+
+//	tomogram.GetBrightness({ modality::CT, image_t::e_ct_axial, 0 }, 100, 100);
+}
+
+void	TestXRAYImage(const wstring &folder_path_p)
+{
+	InitFantom_J(convert_to_string8(folder_path_p).c_str());
+
+	char* accession_number;
+	int acc_number_length;
+	GetStudiesIDs_J(&accession_number, &acc_number_length);
+
+	string str(accession_number);
+	string firstAccessionNumber = str.substr(0, str.find(string("\t")));
+	//str.erase(acc_number_length - 1, 1);
+
+	cout << "Accession number = " << firstAccessionNumber << endl;
+
+	bool flag;
+
+	LoadXRbyAccession_J(firstAccessionNumber.c_str(), &flag);
+
+	RealFunction2D_F32 img;
+
+	GetXRSlice(img,1);
+
+	DisplayMathFunction2D(img, L"Выбраный срез");
+}
 
 void	TestLibraryImage(const wstring &folder_path_p)
 {

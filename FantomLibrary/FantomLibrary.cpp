@@ -129,6 +129,18 @@ operation_result FANTOM_DLL_EI LoadCTbyAccession_J(const char *accession_number)
 	return tomogram.LoadCTbyAccession(string8_to_wstring(accession_number),tmp);
 }
 
+operation_result FANTOM_DLL_EI LoadXRbyAccession_J(const char *accession_number, bool *flag)
+{
+	return tomogram.LoadXRbyAccession(string8_to_wstring(accession_number), *flag);
+}
+
+
+operation_result FANTOM_DLL_EI GetXRSlice(RealFunction2D_F32 &img, size_t slice)
+{
+	img = tomogram.XRslice(slice);
+	return e_successful;
+}
+
 operation_result FANTOM_DLL_EI GetSlice_J(const unsigned char **imgData, int *length, slice_type st, size_t rescaled_slice_no, double black, double white, double gamma, size_t aprox_size, mip_method_type mip_method)
 {
 	return tomogram.GetSlice_J(imgData, *length, st, rescaled_slice_no, black, white, gamma, aprox_size, mip_method);

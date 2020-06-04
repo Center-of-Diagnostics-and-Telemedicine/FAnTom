@@ -18,17 +18,21 @@ int	xrad::xrad_main(int n, char *names[])
 		{
 			//foldername = L"D:/websrv_marktomogram/data_store/2015_08_KT_subsets/subset";
 			//foldername = L"D:/websrv_marktomogram/data_store/multiple_accession_test";
-			foldername = L"c:/Dicom";
+			foldername = L"C:/xray/tuberculosis";//L"c:/Dicom";
+	
 		}
 		//auto m_studies_heap = GetDicomStudiesHeap(Dicom::datasource_folder(foldername, true), MakeDicomStudiesFilters(), VoidProgressProxy());
 		//Dicom::acquisition_loader ct = SelectSeriesInteractive(m_studies_heap);
-		size_t continue_option = 0;
-		do
-		{
-			TestLibraryImage(foldername);
-			continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
-		}
-		while (continue_option == 0);
+	//	size_t continue_option = 0;
+	//	do
+	//	{
+			
+			TestNewClasses();
+			//TestXRAYImage(foldername);
+			Pause();
+	//		continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
+	//	}
+	//	while (continue_option == 0);
 		return 0;
 	}
 

@@ -1,16 +1,26 @@
 ﻿#ifndef FantomClass_h__
 #define FantomClass_h__
 
+#include <iostream>
+
+
 #include <XRADBasic/MathFunctionTypesMD.h>
 #include <XRADDicom/XRADDicom.h>
 #include "FantomDefs.h"
 
+#include "XRADDicom\Sources\DicomClasses\ProcessContainers\XRAYAcquisition.h"
+
 XRAD_USING
+
+Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study);
+
+Dicom::acquisition_loader CreateXRayAcqusition(Dicom::study_loader &study);
 
 class slice_manager
 {
 public:
 	operation_result	LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
+	operation_result    LoadXRbyAccession(const wstring &accession_number, bool &series_loaded);
 
 	enum axis_t
 	{
@@ -52,6 +62,8 @@ protected:
 
 	const RealFunctionMD_F32	&slices() const{ return m_slices; }
 
+public:
+	const RealFunction2D_F32	XRslice(size_t n) const { return m_XRslices[n]; }
 
 private:
 	wstring m_patient_id;
@@ -65,6 +77,7 @@ private:
 
 	point3_F64		  m_interpolation_factor;
 	RealFunctionMD_F32 m_slices;
+	vector<RealFunction2D_F32> m_XRslices;
 };
 
 class Fantom : protected slice_manager
@@ -75,6 +88,8 @@ class Fantom : protected slice_manager
 
 public:
 	using parent::LoadCTbyAccession;
+	using parent::LoadXRbyAccession;
+	using parent::XRslice;
 	operation_result	InitFantom(const wstring &data_store_path);
 	//operation_result	CloseCTStudyAcession(const wstring &accession_number);
 
