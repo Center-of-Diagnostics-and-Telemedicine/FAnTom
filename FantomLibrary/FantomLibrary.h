@@ -94,9 +94,7 @@ operation_result FANTOM_DLL_EI GetPixelLengthCoefficient_J(double *length_pixel_
 
 //--------------------------------------------------------------------------------------------------
 
-operation_result FANTOM_DLL_EI LoadXRbyAccession_J(const char *accession_number, bool *flag);
 
-operation_result FANTOM_DLL_EI GetXRSlice(RealFunction2D_F32 &img, size_t slice);
 
 }
 

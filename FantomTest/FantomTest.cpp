@@ -27,8 +27,8 @@ int	xrad::xrad_main(int n, char *names[])
 	//	do
 	//	{
 			
-			TestNewClasses();
-			//TestXRAYImage(foldername);
+			//TestTomogram();
+			TestXRAYImage();
 			Pause();
 	//		continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
 	//	}

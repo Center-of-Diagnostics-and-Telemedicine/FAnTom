@@ -1,53 +1,55 @@
-﻿/*
-
-*/
-#include "pre.h"
+﻿#include "pre.h"
 
 #include "TestFunctions.h"
 
-#include "NewClass.h"
-
-
+#include "CTomogram.h"
+#include "XRay.h"
 
 #include <FantomLibrary/FantomLibrary.h>
 #include <FantomLibrary/FantomClass.h>
 
 XRAD_BEGIN
 
-void	TestNewClasses()
+void	TestTomogram()
 {
 	CTomogram tomogram;
 
-	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/19");
+	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/003");
+//	tomogram.InitHeap(L"C:/dicom");
 
-	tomogram.HeapDump(L"test.ct.txt");
+//	tomogram.HeapDump(L"test.ct.txt");
+	wstring acc_no = tomogram.GetAccNumber(0);
+
+	tomogram.LoadByAccession(acc_no);
+
+	frame_t img;
+
+	tomogram.GetImage(img, { modality_t::CT, image_t::e_ct_frontal, 251 });
+
+	DisplayMathFunction2D(img, L"Выбраный срез");
 
 //	tomogram.GetBrightness({ modality::CT, image_t::e_ct_axial, 0 }, 100, 100);
 }
 
-void	TestXRAYImage(const wstring &folder_path_p)
+void	TestXRAYImage()
 {
-	InitFantom_J(convert_to_string8(folder_path_p).c_str());
+	XRay radiogram;
 
-	char* accession_number;
-	int acc_number_length;
-	GetStudiesIDs_J(&accession_number, &acc_number_length);
+	radiogram.InitHeap(L"C:/xray/туберкулез/14");
+//	tomogram.HeapDump(L"test.ct.txt");
 
-	string str(accession_number);
-	string firstAccessionNumber = str.substr(0, str.find(string("\t")));
-	//str.erase(acc_number_length - 1, 1);
+	wstring acc_no = radiogram.GetAccNumber(0);
 
-	cout << "Accession number = " << firstAccessionNumber << endl;
+	radiogram.LoadByAccession(acc_no);
 
-	bool flag;
+	frame_t img;
 
-	LoadXRbyAccession_J(firstAccessionNumber.c_str(), &flag);
-
-	RealFunction2D_F32 img;
-
-	GetXRSlice(img,1);
+	radiogram.GetImage(img, { modality_t::DX, image_t::e_dx_generic, 2 });
 
 	DisplayMathFunction2D(img, L"Выбраный срез");
+
+//	tomogram.GetBrightness({ modality::CT, image_t::e_ct_axial, 0 }, 100, 100);
+
 }
 
 void	TestLibraryImage(const wstring &folder_path_p)

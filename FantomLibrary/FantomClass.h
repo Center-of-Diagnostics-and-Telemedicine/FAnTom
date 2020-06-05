@@ -20,7 +20,6 @@ class slice_manager
 {
 public:
 	operation_result	LoadCTbyAccession(const wstring &accession_number, bool &series_loaded);
-	operation_result    LoadXRbyAccession(const wstring &accession_number, bool &series_loaded);
 
 	enum axis_t
 	{
@@ -62,9 +61,6 @@ protected:
 
 	const RealFunctionMD_F32	&slices() const{ return m_slices; }
 
-public:
-	const RealFunction2D_F32	XRslice(size_t n) const { return m_XRslices[n]; }
-
 private:
 	wstring m_patient_id;
 	wstring m_patient_sex;
@@ -77,7 +73,7 @@ private:
 
 	point3_F64		  m_interpolation_factor;
 	RealFunctionMD_F32 m_slices;
-	vector<RealFunction2D_F32> m_XRslices;
+
 };
 
 class Fantom : protected slice_manager
@@ -89,7 +85,7 @@ class Fantom : protected slice_manager
 public:
 	using parent::LoadCTbyAccession;
 	using parent::LoadXRbyAccession;
-	using parent::XRslice;
+
 	operation_result	InitFantom(const wstring &data_store_path);
 	//operation_result	CloseCTStudyAcession(const wstring &accession_number);
 

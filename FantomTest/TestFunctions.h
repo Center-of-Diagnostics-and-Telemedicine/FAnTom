@@ -8,9 +8,9 @@ XRAD_BEGIN
 
 void	TestLibraryImage(const wstring &folder_path_p);
 
-void	TestXRAYImage(const wstring &folder_path_p);
+void	TestXRAYImage();
 
-void	TestNewClasses();
+void	TestTomogram();
 
 XRAD_END
 

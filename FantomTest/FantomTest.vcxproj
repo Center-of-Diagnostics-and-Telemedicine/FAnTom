@@ -132,8 +132,9 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CTomogram.cpp" />
     <ClCompile Include="HeapDump.cpp" />
-    <ClCompile Include="NewClass.cpp" />
+    <ClCompile Include="SliceManager.cpp" />
     <ClCompile Include="pre.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -144,16 +145,15 @@
     </ClCompile>
     <ClCompile Include="FantomTest.cpp" />
     <ClCompile Include="TestFunctions.cpp" />
+    <ClCompile Include="XRay.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NewClass.h" />
-    <ClInclude Include="NewClassDefs.h" />
+    <ClInclude Include="CTomogram.h" />
+    <ClInclude Include="SliceManager.h" />
+    <ClInclude Include="SliceDefs.h" />
     <ClInclude Include="pre.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="TestFunctions.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="FantomTest.rc" />
+    <ClInclude Include="XRay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

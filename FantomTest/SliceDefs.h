@@ -1,6 +1,6 @@
-//--------------------------------------------------------------
-#ifndef NewClassDef_h__
-#define NewClassDef_h__
+п»ї//--------------------------------------------------------------
+#ifndef NewClassDefs_h__
+#define NewClassDefs_h__
 //--------------------------------------------------------------
 
 #include <XRADBasic/MathFunctionTypes2D.h>
@@ -12,7 +12,7 @@ XRAD_USING
 
 typedef RealFunction2D_F32 frame_t;
 
-enum modality
+enum modality_t
 {
 	CT,
 	DX,
@@ -27,7 +27,7 @@ enum image_t
 	e_ct_sagittal = 2,
 
 	//lung
-	// выяснить правильное название проекций и их признаки в Dicom файлах
+	// РІС‹СЏСЃРЅРёС‚СЊ РїСЂР°РІРёР»СЊРЅРѕРµ РЅР°Р·РІР°РЅРёРµ РїСЂРѕРµРєС†РёР№ Рё РёС… РїСЂРёР·РЅР°РєРё РІ Dicom С„Р°Р№Р»Р°С…
 
 	e_dx_generic,
 	e_dx_postero_anterior,
@@ -36,10 +36,10 @@ enum image_t
 
 
 	//mammomgraphy
-	// Для Fujifilm информация о типе проекции содержится в тэге
+	// Р”Р»СЏ Fujifilm РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ С‚РёРїРµ РїСЂРѕРµРєС†РёРё СЃРѕРґРµСЂР¶РёС‚СЃСЏ РІ С‚СЌРіРµ
 	// (0018,1400) Acquisition Device Processing Description LO
 	//	RMLO                                              # 1, 4 
-	//	для других аппаратов выяснять
+	//	РґР»СЏ РґСЂСѓРіРёС… Р°РїРїР°СЂР°С‚РѕРІ РІС‹СЏСЃРЅСЏС‚СЊ
 	e_mg_Rcc,
 	e_mg_Lcc,
 	e_mg_Rmlo,
@@ -48,10 +48,10 @@ enum image_t
 
 struct image_index_t
 {
-	modality	modality;
+	modality_t	modality;
 	image_t	image_type;
 	size_t	image_no;
 };
 
 
-#endif // NewClassDef_h__
+#endif // NewClassDefs_h__
