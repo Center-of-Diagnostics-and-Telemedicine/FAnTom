@@ -40,10 +40,10 @@ enum image_t
 	// (0018,1400) Acquisition Device Processing Description LO
 	//	RMLO                                              # 1, 4 
 	//	для других аппаратов выяснять
-	e_mg_Rcc,
-	e_mg_Lcc,
-	e_mg_Rmlo,
-	e_mg_Lmlo,
+	e_mg_rcc,
+	e_mg_lcc,
+	e_mg_rmlo,
+	e_mg_lmlo,
 };
 
 struct image_index_t

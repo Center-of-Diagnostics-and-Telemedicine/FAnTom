@@ -4,6 +4,7 @@
 
 #include "CTomogram.h"
 #include "XRay.h"
+#include "Mamogram.h"
 
 #include <FantomLibrary/FantomLibrary.h>
 #include <FantomLibrary/FantomClass.h>
@@ -33,22 +34,43 @@ void	TestTomogram()
 
 void	TestXRAYImage()
 {
+//	Mamogram mamogram;
+
 	XRay radiogram;
 
 	radiogram.InitHeap(L"C:/xray/туберкулез/14");
+//	mamogram.InitHeap(L"C:/temp/2D_modes/ММГ");
 //	tomogram.HeapDump(L"test.ct.txt");
 
 	wstring acc_no = radiogram.GetAccNumber(0);
 
 	radiogram.LoadByAccession(acc_no);
 
+//	cout << mamogram.MMSlices()[L"LCC"].sizes(1) << endl;
+
+//	cout << mamogram.MMSlices()[L"LCC"].sizes(0) << endl;
+
+	cout << radiogram.XRSlices()[1].sizes(1) << endl;
+	fflush(stdout);
+
+	cout << radiogram.XRSlices()[1].sizes(0) << endl;
+	fflush(stdout);
+
 	frame_t img;
 
-	radiogram.GetImage(img, { modality_t::DX, image_t::e_dx_generic, 2 });
+//	radiogram.GetImage(img, { modality_t::DX, image_t::e_dx_generic, 0 });
 
-	DisplayMathFunction2D(img, L"Выбраный срез");
+	//mamogram.GetImage(img, { modality_t::DX, image_t::e_mg_rcc, 0 });
 
-//	tomogram.GetBrightness({ modality::CT, image_t::e_ct_axial, 0 }, 100, 100);
+	//DisplayMathFunction2D(img, L"Выбраный срез");
+
+	double value;
+
+	radiogram.GetBrightness(value, { modality_t::DX, image_t::e_dx_generic, 1 }, 1510, 486);
+//	mamogram.GetBrightness(value, { modality_t::MG, image_t::e_mg_lcc, 2 }, 6000,  6000);
+
+	cout << value << endl;
+	fflush(stdout);
 
 }
 

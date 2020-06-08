@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="CTomogram.cpp" />
     <ClCompile Include="HeapDump.cpp" />
+    <ClCompile Include="Mamogram.cpp" />
     <ClCompile Include="SliceManager.cpp" />
     <ClCompile Include="pre.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTomogram.h" />
+    <ClInclude Include="Mamogram.h" />
     <ClInclude Include="SliceManager.h" />
     <ClInclude Include="SliceDefs.h" />
     <ClInclude Include="pre.h" />

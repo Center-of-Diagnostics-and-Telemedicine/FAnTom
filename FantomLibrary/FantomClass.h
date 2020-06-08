@@ -84,7 +84,6 @@ class Fantom : protected slice_manager
 
 public:
 	using parent::LoadCTbyAccession;
-	using parent::LoadXRbyAccession;
 
 	operation_result	InitFantom(const wstring &data_store_path);
 	//operation_result	CloseCTStudyAcession(const wstring &accession_number);

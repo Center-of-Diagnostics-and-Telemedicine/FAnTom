@@ -23,7 +23,7 @@ int XRay::LoadByAccession(const wstring accession_number)
 	ProcessAcquisitionOpenClose prcAcq(*m_proc_acquisition_ptr);
 	//	proc_acquisition_work_ptr->open_instancestorages();
 
-	m_XRslices = XrayAcquisition_ptr().slices();
+	m_XR_slices = XrayAcquisition_ptr().slices();
 
 	m_accession_number = accession_number;
 
@@ -35,17 +35,27 @@ int XRay::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-	size_t number = 1577984U;
-	for (Dicom::instance_ptr inst_ptr : XrayAcquisition_ptr().loader())
-	{
-		wstring str = inst_ptr->get_wstring(reinterpret_cast<Dicom::tag_e&>(number));
-	}
-
 	return 0;
 }
 
-
 void XRay::GetImage(frame_t &img, image_index_t idx)
 {
-	img.MakeCopy(XRSlices()[idx.image_no]);
+	XRAD_ASSERT_THROW(idx.modality == modality_t::DX);
+
+	size_t no = range(idx.image_no, 0, XRSlices().size() - 1);
+
+	img.MakeCopy(XRSlices()[no]);
+}
+
+
+void XRay::GetBrightness(double &value, image_index_t idx, size_t y, size_t x)
+{ 
+	XRAD_ASSERT_THROW(idx.modality == modality_t::DX);
+
+	size_t no = range(idx.image_no, 0, XRSlices().size() - 1);
+
+	x = range(x, 0, XRSlices()[no].sizes(1) - 1);
+	y = range(y, 0, XRSlices()[no].sizes(0) - 1);
+
+	value = XRSlices()[no].at(y, x);
 }

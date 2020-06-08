@@ -24,7 +24,12 @@
     <ClCompile Include="CTomogram.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="XRay.cpp" />
+    <ClCompile Include="XRay.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mamogram.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pre.h">
@@ -43,6 +48,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="XRay.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Mamogram.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

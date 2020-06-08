@@ -68,6 +68,8 @@ int CTomogram::LoadByAccession(const wstring accession_number)
 
 void CTomogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t x)
 {
+	XRAD_ASSERT_THROW(idx.modality == modality_t::CT);
+
 	point3_ST tomogram_sample_position{ idx.image_no, y, x };
 
 	tomogram_sample_position.x() = range(tomogram_sample_position.x(), 0, CTSlices().sizes(2) - 1);
@@ -83,6 +85,8 @@ void CTomogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t
 
 void CTomogram::GetImage(frame_t &img, image_index_t idx)
 {
+	XRAD_ASSERT_THROW(idx.modality == modality_t::CT);
+
 	switch (idx.image_type)
 	{
 	case	e_ct_axial:

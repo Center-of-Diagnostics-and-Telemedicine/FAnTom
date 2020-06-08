@@ -1,5 +1,5 @@
-﻿#ifndef XRay_h__
-#define XRay_h__
+﻿#ifndef Mamogram_h__
+#define Mamogram_h__
 
 #include <iostream>
 
@@ -11,7 +11,7 @@
 
 XRAD_USING
 
-class XRay : protected SliceManager
+class Mamogram : protected SliceManager
 {
 	PARENT(SliceManager);
 public:
@@ -28,15 +28,16 @@ public:
 
 	virtual void GetBrightness(double &value, image_index_t idx, size_t y, size_t x);
 
-	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
+	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	const vector<RealFunction2D_F32>	&XRSlices() const { return m_XR_slices; }
+	map<std::wstring, RealFunction2D_F32> &MMSlices() { return m_MM_slices; }
 
 private:
-	vector<RealFunction2D_F32> m_XR_slices;
+
+	map<std::wstring, RealFunction2D_F32> m_MM_slices;
 };
 
 
 
-#endif // XRay_h__
+#endif // Mamogram_h__
 
