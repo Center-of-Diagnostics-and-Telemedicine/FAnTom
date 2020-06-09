@@ -48,7 +48,7 @@ void XRay::GetImage(frame_t &img, image_index_t idx)
 }
 
 
-void XRay::GetBrightness(double &value, image_index_t idx, size_t y, size_t x)
+void XRay::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 { 
 	XRAD_ASSERT_THROW(idx.modality == modality_t::DX);
 
@@ -57,5 +57,5 @@ void XRay::GetBrightness(double &value, image_index_t idx, size_t y, size_t x)
 	x = range(x, 0, XRSlices()[no].sizes(1) - 1);
 	y = range(y, 0, XRSlices()[no].sizes(0) - 1);
 
-	value = XRSlices()[no].at(y, x);
+	*value = XRSlices()[no].at(y, x);
 }

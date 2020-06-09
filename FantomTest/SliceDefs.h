@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------
-#ifndef NewClassDefs_h__
-#define NewClassDefs_h__
+#ifndef SliceDefs_h__
+#define SliceDefs_h__
 //--------------------------------------------------------------
 
 #include <XRADBasic/MathFunctionTypes2D.h>
@@ -53,5 +53,26 @@ struct image_index_t
 	size_t	image_no;
 };
 
+enum mip_method_t
+{
+	e_mip_average,
+	e_mip_maxvalue,
+	e_mip_minvalue,//TODO сделать
+	e_mip_no_mip
+};
 
-#endif // NewClassDefs_h__
+struct mip_index_t
+{
+	mip_method_t mip_method;
+	size_t       mip_half_size;
+};
+
+
+
+enum axis_t
+{
+	e_z = 0,
+	e_y = 1,
+	e_x = 2
+};
+#endif // SliceDefs_h__

@@ -25,7 +25,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QTextCodec>
 
-#include <QtTest/QTest>
+
 
 #include "ManageStrings.h"
 #include "ManageBitmap.h"

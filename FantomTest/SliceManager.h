@@ -36,7 +36,7 @@ protected:
 	size_t GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found);
 
 	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
-	Dicom::acquisition_loader SliceManager::GetInstancesOfStudy(size_t chosen_position);
+	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
 
 private:
 
@@ -44,7 +44,9 @@ private:
 
 	virtual void GetImage(frame_t &img, image_index_t idx) = 0;
 
-	virtual void GetBrightness(double &value, image_index_t idx, size_t y, size_t x) = 0;
+	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) = 0;
+
+	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
 
 };
 

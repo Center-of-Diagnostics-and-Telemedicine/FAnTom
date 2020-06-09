@@ -84,7 +84,7 @@ void Mamogram::GetImage(frame_t &img, image_index_t idx)
 
 
 
-void  Mamogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t x)
+void  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG);
 
@@ -96,7 +96,7 @@ void  Mamogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t
 		x = range(x, 0, MMSlices()[L"LCC"].sizes(1) - 1);
 		y = range(y, 0, MMSlices()[L"LCC"].sizes(0) - 1);
 
-		value = MMSlices()[L"LCC"].at(y, x);
+		*value = MMSlices()[L"LCC"].at(y, x);
 		return;
 
 	case e_mg_rcc:
@@ -104,7 +104,7 @@ void  Mamogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t
 		x = range(x, 0, MMSlices()[L"RCC"].sizes(1) - 1);
 		y = range(y, 0, MMSlices()[L"RCC"].sizes(0) - 1);
 
-		value = MMSlices()[L"RCC"].at(y, x);
+		*value = MMSlices()[L"RCC"].at(y, x);
 		return;
 
 	case e_mg_lmlo:
@@ -112,7 +112,7 @@ void  Mamogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t
 		x = range(x, 0, MMSlices()[L"LMLO"].sizes(1) - 1);
 		y = range(y, 0, MMSlices()[L"LMLO"].sizes(0) - 1);
 
-		value = MMSlices()[L"LMLO"].at(y, x);
+		*value = MMSlices()[L"LMLO"].at(y, x);
 		return;
 
 	case e_mg_rmlo:
@@ -120,7 +120,7 @@ void  Mamogram::GetBrightness(double &value, image_index_t idx, size_t y, size_t
 		x = range(x, 0, MMSlices()[L"RMLO"].sizes(1) - 1);
 		y = range(y, 0, MMSlices()[L"RMLO"].sizes(0) - 1);
 
-		value = MMSlices()[L"RMLO"].at(y, x);
+		*value = MMSlices()[L"RMLO"].at(y, x);
 		return;
 	default:
 				throw std::invalid_argument("unknown slice type");

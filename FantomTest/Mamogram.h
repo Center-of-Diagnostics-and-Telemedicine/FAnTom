@@ -26,7 +26,7 @@ public:
 
 	virtual void GetImage(frame_t &img, image_index_t idx);
 
-	virtual void GetBrightness(double &value, image_index_t idx, size_t y, size_t x);
+	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
 	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
