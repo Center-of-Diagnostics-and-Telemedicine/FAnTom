@@ -28,6 +28,8 @@ public:
 
 	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) { return; }
 
+	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) { return; }
+
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
 	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }

@@ -16,25 +16,14 @@
 
 XRAD_BEGIN
 
-void	CreateQByteArrayPngFromChar(QByteArray &raw_bitmap, const unsigned char *img, int length, const wstring &format)
-{
-	QImage q_image;
-
-	if (q_image.loadFromData(img, length, ".bmp"))
-	{
-		QBuffer buffer;
-		buffer.open(QIODevice::ReadWrite);
-		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
-																	//q_image.save("D:/_kovbas/tmp/__/ttt.png", "png");
-		raw_bitmap = buffer.buffer();
-	}
-}
 
 void	TestTomogram()
 {
 	Init2DInterpolators(ConsoleProgressProxy());
 	CTomogram tomogram;
+
+	cout << modality_t::CT << endl;
+	fflush(stdout);
 
 //	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/003");
 	tomogram.InitHeap(L"C:/dicom/+AGFA000000015851_AGFA000000015807");
@@ -44,38 +33,38 @@ void	TestTomogram()
 	wstring acc_no = tomogram.GetAccNumber(0);
 
 	tomogram.LoadByAccession(acc_no);
-/*
+
+
+
 	frame_t  frame;
 
-	tomogram.GetImage(frame, { modality_t::CT, image_t::e_ct_sagittal, 225 });
+	tomogram.GetImage(frame, { modality_t::CT, image_t::e_ct_sagittal, 125 });
 
 	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT, image_t::e_ct_sagittal, 225 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 0 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT, image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 0 });
 
 	QByteArray png = QByteArray();
 
-	CreateQByteArrayPngFromChar(png, img, length, L"png");
-
-	QByteArray png2Base64 = png.toBase64();
+	tomogram.CreateQByteArrayPngFromChar(png, img, length, L"png");
 
 	QFile file("C:/temp/new001.txt");
 	file.open(QIODevice::WriteOnly);
-	file.write(png2Base64);
+	file.write(png);
 	file.close();
 
 
 //	tomogram.GetImage(frame, { modality_t::CT, image_t::e_ct_frontal, 251 });
 
 //	DisplayMathFunction2D(img, L"Выбраный срез");
-*/
-	double value;
-	tomogram.GetBrightness(&value, { modality_t::CT, image_t::e_ct_frontal, 150 }, 170, 90);
-	cout << value << endl;
-	fflush(stdout);
+
+//	double value;
+//	tomogram.GetBrightness(&value, { modality_t::CT, image_t::e_ct_frontal, 150 }, 170, 90);
+//	cout << value << endl;
+//	fflush(stdout);
 
 }
 
@@ -92,7 +81,7 @@ void	TestXRAYImage()
 	wstring acc_no = radiogram.GetAccNumber(0);
 
 	radiogram.LoadByAccession(acc_no);
-
+/*
 //	cout << mamogram.MMSlices()[L"LCC"].sizes(1) << endl;
 
 //	cout << mamogram.MMSlices()[L"LCC"].sizes(0) << endl;
@@ -118,7 +107,7 @@ void	TestXRAYImage()
 
 	cout << value << endl;
 	fflush(stdout);
-
+*/
 }
 
 void	TestLibraryImage(const wstring &folder_path_p)

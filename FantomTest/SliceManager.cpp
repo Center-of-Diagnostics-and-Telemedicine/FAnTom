@@ -9,6 +9,10 @@
 
 #include <iostream>
 
+const string modality_t::CT = "CT";
+const string modality_t::DX = "DX";
+const string modality_t::MG = "MG";
+
 
 
 void SliceManager::InitHeap(const wstring& dicom_folder)

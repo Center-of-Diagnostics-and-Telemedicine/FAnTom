@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+
 //#include <XRADBasic/MathFunctionTypesMD.h>
 //#include <XRADDicom/XRADDicom.h>
 #include "SliceManager.h"
@@ -28,8 +29,10 @@ public:
 	virtual void GetImage(frame_t &img, image_index_t idx);
 
 	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
-
+	
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
+
+	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
 
 	CTAcquisition& CTAcquisition_ptr() { return dynamic_cast<CTAcquisition&>(*m_proc_acquisition_ptr); }
 
@@ -37,7 +40,7 @@ public:
 
 	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, image_t slice_type);
 
-	double DicomToScreenCoordinate(double t, axis_t axis);
+		double DicomToScreenCoordinate(double t, axis_t axis);
 
 	double ScreenToDicomCoordinate(double t, axis_t axis);
 
@@ -52,6 +55,7 @@ public:
 	const RealFunctionMD_F32	&CTSlices() const { return m_CTslices; }
 
 private:
+	BitmapContainerIndexed	m_bmp;
 	unique_ptr<unsigned char[]> bitmap_buffer;
 	VectorFunction3_F64 m_image_positions_patient;
 	bool	m_flip_z;

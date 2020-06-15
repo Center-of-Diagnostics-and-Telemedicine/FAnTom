@@ -11,13 +11,32 @@ XRAD_USING
 
 
 typedef RealFunction2D_F32 frame_t;
-
+/*
 enum modality_t
 {
 	CT,
 	DX,
 	MG
 };
+*/
+/*
+ struct mod_t
+{
+	static char* CT = "CT" ;
+	static char* DX = "DX";
+	static char* MG = "MG";
+};
+*/
+
+
+ struct modality_t
+ {
+	 static const string CT;
+	 static const string DX;
+	 static const string MG;
+ };
+
+
 
 enum image_t
 {
@@ -48,7 +67,7 @@ enum image_t
 
 struct image_index_t
 {
-	modality_t	modality;
+	const string	modality;
 	image_t	image_type;
 	size_t	image_no;
 };

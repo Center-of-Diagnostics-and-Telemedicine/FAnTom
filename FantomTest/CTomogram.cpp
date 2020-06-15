@@ -2,12 +2,35 @@
 
 #include "CTomogram.h"
 
+
+
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 //#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
 
 
 #include <iostream>
+
+
+void CTomogram::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
+{
+	QImage q_image;
+	QByteArray tmp;
+
+	if (q_image.loadFromData(img, length, ".bmp"))
+	{
+		QBuffer buffer;
+		buffer.open(QIODevice::ReadWrite);
+		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
+		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
+																	//q_image.save("D:/_kovbas/tmp/__/ttt.png", "png");
+		//tmp = buffer.buffer();
+		png = buffer.buffer().toBase64();
+	}
+	
+}
+
+
 
 void CTomogram::CalculateInterpolationScales()
 {
@@ -68,7 +91,7 @@ int CTomogram::LoadByAccession(const wstring accession_number)
 
 void CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::CT);
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::CT);
 
 	size_t  x1 = 0, y1 = 0, z1 = 0;
 
@@ -161,23 +184,26 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 
 	ApplyFunction(img_screen, [gamma](float x) {return 255.*pow(x / 255., gamma); });
 
-	BitmapContainerIndexed	bmp;
+	//BitmapContainerIndexed	bmp;
 
-	bmp.SetSizes(img_screen.vsize(), img_screen.hsize());
+	m_bmp.SetSizes(img_screen.vsize(), img_screen.hsize());
 
-	bmp.palette.realloc(256);
+	m_bmp.palette.realloc(256);
 
 	for (size_t i = 0; i < 256; ++i)
 	{
-		bmp.palette[i] = static_cast<uint8_t>(i);
+		m_bmp.palette[i] = static_cast<uint8_t>(i);
 	}
-	bmp.CopyData(img_screen);
+	m_bmp.CopyData(img_screen);
 
-	*length = static_cast<int>(bmp.GetBitmapFileSize());
+	*length = static_cast<int>(m_bmp.GetBitmapFileSize());
 
 	bitmap_buffer = make_unique<unsigned char[]>(*length);
-	memcpy(bitmap_buffer.get(), bmp.GetBitmapFile(), *length);
-	*img = bitmap_buffer.get();
+	//memcpy(bitmap_buffer.get(), m_bmp.GetBitmapFile(), *length);
+	//*img = bitmap_buffer.get();
+
+	//*img = (const unsigned char*)(m_bmp.GetBitmapFile());//bitmap_buffer.get();
+	*img = reinterpret_cast<const unsigned char*>(m_bmp.GetBitmapFile());//bitmap_buffer.get();
 
 }
 

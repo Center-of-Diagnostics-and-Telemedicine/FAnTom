@@ -28,6 +28,8 @@ public:
 
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
+	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) { return; }
+
 	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
 	map<std::wstring, RealFunction2D_F32> &MMSlices() { return m_MM_slices; }
