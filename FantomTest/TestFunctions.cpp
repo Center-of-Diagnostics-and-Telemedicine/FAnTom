@@ -22,7 +22,7 @@ void	TestTomogram()
 	Init2DInterpolators(ConsoleProgressProxy());
 	CTomogram tomogram;
 
-	cout << modality_t::CT << endl;
+	cout << modality_t::CT() << endl;
 	fflush(stdout);
 
 //	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/003");
@@ -38,19 +38,19 @@ void	TestTomogram()
 
 	frame_t  frame;
 
-	tomogram.GetImage(frame, { modality_t::CT, image_t::e_ct_sagittal, 125 });
+	tomogram.GetImage(frame, { modality_t::CT(), image_t::e_ct_sagittal, 125 });
 
 	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT, image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 0 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 0 });
 
 	QByteArray png = QByteArray();
 
 	tomogram.CreateQByteArrayPngFromChar(png, img, length, L"png");
-
+	
 	QFile file("C:/temp/new001.txt");
 	file.open(QIODevice::WriteOnly);
 	file.write(png);
@@ -70,44 +70,79 @@ void	TestTomogram()
 
 void	TestXRAYImage()
 {
-//	Mamogram mamogram;
-
+	Init2DInterpolators(ConsoleProgressProxy());
 	XRay radiogram;
 
-	radiogram.InitHeap(L"C:/xray/туберкулез/14");
-//	mamogram.InitHeap(L"C:/temp/2D_modes/ММГ");
-//	tomogram.HeapDump(L"test.ct.txt");
+	radiogram.InitHeap(L"C:/xray/small/44");
+//	radiogram.HeapDump(L"C:/xray/dump.xray.txt");
 
 	wstring acc_no = radiogram.GetAccNumber(0);
 
 	radiogram.LoadByAccession(acc_no);
-/*
-//	cout << mamogram.MMSlices()[L"LCC"].sizes(1) << endl;
 
-//	cout << mamogram.MMSlices()[L"LCC"].sizes(0) << endl;
-
-	cout << radiogram.XRSlices()[1].sizes(1) << endl;
+	cout << radiogram.m_XR_Images()[0].sizes(0) << endl;
 	fflush(stdout);
 
-	cout << radiogram.XRSlices()[1].sizes(0) << endl;
+	cout << radiogram.m_XR_Images()[0].sizes(1) << endl;
+	fflush(stdout);
+
+	frame_t frame;
+
+	radiogram.GetImage(frame, { modality_t::DX(), image_t::e_dx_generic, 0 });
+
+	DisplayMathFunction2D(frame, L"Выбраный срез");
+
+	double value;
+
+	const unsigned char* img;
+	int length;
+
+	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic, 0 }, 4000., 7000., 1., { mip_method_t::e_mip_minvalue, 0 });
+
+	QByteArray png = QByteArray();
+
+	radiogram.CreateQByteArrayPngFromChar(png, img, length, L"png");
+
+	QFile file("C:/temp/xray001.txt");
+	file.open(QIODevice::WriteOnly);
+	file.write(png);
+	file.close();
+
+
+	radiogram.GetBrightness(&value, { modality_t::DX(), image_t::e_dx_generic, 1 }, 1510, 486);
+
+	cout << value << endl;
+	fflush(stdout);
+}
+
+void	TestMamoImage()
+{
+	Mamogram mamogram;
+
+	mamogram.InitHeap(L"C:/temp/2D_modes/ММГ");
+
+	wstring acc_no = mamogram.GetAccNumber(0);
+
+	mamogram.LoadByAccession(acc_no);
+	
+	cout << mamogram.MMSlices()[L"LCC"].sizes(1) << endl;
+	fflush(stdout);
+	cout << mamogram.MMSlices()[L"LCC"].sizes(0) << endl;
 	fflush(stdout);
 
 	frame_t img;
 
-//	radiogram.GetImage(img, { modality_t::DX, image_t::e_dx_generic, 0 });
+	mamogram.GetImage(img, { modality_t::MG(), image_t::e_mg_rcc, 0 });
 
-	//mamogram.GetImage(img, { modality_t::DX, image_t::e_mg_rcc, 0 });
-
-	//DisplayMathFunction2D(img, L"Выбраный срез");
+	DisplayMathFunction2D(img, L"Выбраный срез");
 
 	double value;
 
-	radiogram.GetBrightness(&value, { modality_t::DX, image_t::e_dx_generic, 1 }, 1510, 486);
-//	mamogram.GetBrightness(value, { modality_t::MG, image_t::e_mg_lcc, 2 }, 6000,  6000);
+	mamogram.GetBrightness(&value, { modality_t::MG(), image_t::e_mg_lcc, 2 }, 2500,  2500);
 
 	cout << value << endl;
 	fflush(stdout);
-*/
+	
 }
 
 void	TestLibraryImage(const wstring &folder_path_p)

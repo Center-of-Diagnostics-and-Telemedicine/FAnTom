@@ -42,6 +42,8 @@ protected:
 	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
 	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
 
+//	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
+
 private:
 
 	virtual int LoadByAccession(const wstring accession_number) = 0;
@@ -49,9 +51,7 @@ private:
 	virtual void GetImage(frame_t &img, image_index_t idx) = 0;
 
 	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) = 0;
-
-	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) = 0;
-
+	
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
 
 };

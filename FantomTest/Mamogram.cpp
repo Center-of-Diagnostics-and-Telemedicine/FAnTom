@@ -33,9 +33,9 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-	size_t number = 1577984U;
+//	size_t number = 1577984U;
 
-	for (Dicom::instance_ptr inst_ptr : MMAcquisition_ptr().loader())
+	for (Dicom::instance_ptr &inst_ptr : MMAcquisition_ptr().loader())
 	{
 		Dicom::image &slice_container = dynamic_cast<Dicom::image&>(*inst_ptr);
 
@@ -43,10 +43,11 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 
 		slice_container.get_image(data_slice);
 
-		wstring str = inst_ptr->get_wstring(reinterpret_cast<Dicom::tag_e&>(number));
+	//	wstring str = inst_ptr->get_wstring(reinterpret_cast<Dicom::tag_e&>(number));
+
+		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
 
 		m_MM_slices[str] = std::move(data_slice);
-		//	slices.push_back(std::move(data_slice));
 	}
 
 	return 0;
@@ -56,7 +57,7 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 
 void Mamogram::GetImage(frame_t &img, image_index_t idx)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::MG);
+	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
 	switch (idx.image_type)
 	{
@@ -86,7 +87,7 @@ void Mamogram::GetImage(frame_t &img, image_index_t idx)
 
 void  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::MG);
+	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
 
 	switch (idx.image_type)

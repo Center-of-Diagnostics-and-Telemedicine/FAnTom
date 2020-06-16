@@ -31,9 +31,9 @@ enum modality_t
 
  struct modality_t
  {
-	 static const string CT;
-	 static const string DX;
-	 static const string MG;
+	 static const string CT() { return "CT"; }
+	 static const string DX() { return "DX"; }
+	 static const string MG() { return "MG"; }
  };
 
 

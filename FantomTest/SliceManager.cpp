@@ -8,10 +8,24 @@
 
 
 #include <iostream>
+/* void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
+{
+	QImage q_image;
+	QByteArray tmp;
 
-const string modality_t::CT = "CT";
-const string modality_t::DX = "DX";
-const string modality_t::MG = "MG";
+	if (q_image.loadFromData(img, length, ".bmp"))
+	{
+		QBuffer buffer;
+		buffer.open(QIODevice::ReadWrite);
+		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
+	//	q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
+																	q_image.save("C:/temp/ttt.png", "png");
+																	//tmp = buffer.buffer();
+		png = buffer.buffer().toBase64();
+	}
+
+}
+*/
 
 
 

@@ -6,10 +6,24 @@
 #endif
 
 XRAD_USING
-
+/*
+const char *GetExtendedVersion()
+{
+#ifndef XRAD_COMPILER_CMAKE
+	return
+#include "ProjectVersion.hh"
+		;
+#else
+	// TODO
+	return "<not available>\n";
+#endif // XRAD_COMPILER_CMAKE
+}
+*/
 
 int	xrad::xrad_main(int n, char *names[])
 {
+
+//	SetVersionInfo(GetExtendedVersion());
 	try
 	{
 		XRAD_ASSERT_THROW_M(n <= 2, invalid_argument, "Укажите только одну папку с данными формата DICOM");
@@ -26,9 +40,9 @@ int	xrad::xrad_main(int n, char *names[])
 	//	size_t continue_option = 0;
 	//	do
 	//	{
-			
-			TestTomogram();
-			//TestXRAYImage();
+			//TestMamoImage();
+			//TestTomogram();
+			TestXRAYImage();
 			Pause();
 	//		continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
 	//	}

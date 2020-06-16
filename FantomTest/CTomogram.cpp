@@ -23,7 +23,8 @@ void CTomogram::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char
 		buffer.open(QIODevice::ReadWrite);
 		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
 		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
-																	//q_image.save("D:/_kovbas/tmp/__/ttt.png", "png");
+																	
+		q_image.save("C:/temp/bbb.png", "png");
 		//tmp = buffer.buffer();
 		png = buffer.buffer().toBase64();
 	}
@@ -130,7 +131,7 @@ void CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t
 
 void CTomogram::GetImage(frame_t &img, image_index_t idx)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::CT);
+	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
 
 	switch (idx.image_type)
 	{
@@ -184,7 +185,7 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 
 	ApplyFunction(img_screen, [gamma](float x) {return 255.*pow(x / 255., gamma); });
 
-	//BitmapContainerIndexed	bmp;
+
 
 	m_bmp.SetSizes(img_screen.vsize(), img_screen.hsize());
 
@@ -194,17 +195,13 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 	{
 		m_bmp.palette[i] = static_cast<uint8_t>(i);
 	}
+//	m_bmp[idx.image_type].CopyData(img_screen);
+
 	m_bmp.CopyData(img_screen);
 
 	*length = static_cast<int>(m_bmp.GetBitmapFileSize());
 
-	bitmap_buffer = make_unique<unsigned char[]>(*length);
-	//memcpy(bitmap_buffer.get(), m_bmp.GetBitmapFile(), *length);
-	//*img = bitmap_buffer.get();
-
-	//*img = (const unsigned char*)(m_bmp.GetBitmapFile());//bitmap_buffer.get();
-	*img = reinterpret_cast<const unsigned char*>(m_bmp.GetBitmapFile());//bitmap_buffer.get();
-
+	*img = reinterpret_cast<const unsigned char*>(m_bmp.GetBitmapFile());
 }
 
 //operation_result Fantom::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, slice_type st)

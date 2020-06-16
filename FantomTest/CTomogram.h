@@ -23,6 +23,7 @@ public:
 	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
+//	using parent::CreateQByteArrayPngFromChar;
 
 	virtual int LoadByAccession(const wstring accession_number);
 
@@ -55,8 +56,9 @@ public:
 	const RealFunctionMD_F32	&CTSlices() const { return m_CTslices; }
 
 private:
+	//map < image_t, BitmapContainerIndexed>	m_bmp;
 	BitmapContainerIndexed	m_bmp;
-	unique_ptr<unsigned char[]> bitmap_buffer;
+//	unique_ptr<unsigned char[]> bitmap_buffer;
 	VectorFunction3_F64 m_image_positions_patient;
 	bool	m_flip_z;
 	point3_F64 m_CTscales;

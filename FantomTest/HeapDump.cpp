@@ -37,16 +37,23 @@ void SliceManager::HeapDump(const wstring& dump_file)
 				{
 					for (auto &acq : stack)
 					{
-						for (auto inst : acq)
+						for (auto &inst : acq)
 						{
 							File << "Full instance path: " << endl;
 							File << convert_to_string8(	inst->dicom_container()->last_used_instancestorage()->print() )  << endl;
+							inst->dicom_container()->open_instancestorage();
+							File << convert_to_string8(inst->get_wstring(Dicom::e_acquisition_device_processing_description) ) << endl;
+							File << convert_to_string8(inst->get_wstring(Dicom::e_imager_pixel_spacing)) << endl;
+							File << convert_to_string8(inst->get_wstring(Dicom::e_pixel_spacing)) << endl;
+							inst->dicom_container()->close_instancestorage();
+
 							ii++;
 						}
 					}
 				}
 			}
-			File << "The total number of instances = " << ii;
+			File << "The total number of instances = " << ii  << endl;
+			File << "---------------------------------------" << endl;
 			File << endl;
 		}
 		File.close();

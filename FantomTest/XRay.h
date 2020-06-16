@@ -21,23 +21,38 @@ public:
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
+//	using parent::CreateQByteArrayPngFromChar;
+
+	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
 
 	virtual int LoadByAccession(const wstring accession_number);
 
 	virtual void GetImage(frame_t &img, image_index_t idx);
 
-	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) { return; }
-
-	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) { return; }
+	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
 
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
 	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	const vector<RealFunction2D_F32>	&XRSlices() const { return m_XR_slices; }
+	int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2);
+
+	void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
+
+	const vector<RealFunction2D_F32>	&m_XR_Images() const { return m_XR_images; }
 
 private:
-	vector<RealFunction2D_F32> m_XR_slices;
+	vector<RealFunction2D_F32> m_XR_images;
+
+	vector<pair<double, double>> m_Steps;
+
+	pair<size_t, size_t> m_ScreenSize;
+
+	bool m_EqualSteps;
+
+//	map < image_t, BitmapContainerIndexed>	m_bmp;
+
+	BitmapContainerIndexed	m_bmp;
 };
 
 

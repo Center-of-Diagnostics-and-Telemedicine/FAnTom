@@ -26,6 +26,8 @@ public:
 
 	virtual void GetImage(frame_t &img, image_index_t idx);
 
+	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) { return; }
+
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
 	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) { return; }
