@@ -697,7 +697,11 @@ operation_result Fantom::GetSlice_J(
 	{
 		bmp.palette[i] = static_cast<uint8_t>(i);
 	}
-	bmp.CopyData(screen_image);
+
+	for (size_t i = 0; i < screen_image.vsize(); ++i)
+	{
+	bmp.row(i) = screen_image.row(screen_image.vsize() - i - 1);
+	}
 
 	length = static_cast<int>(bmp.GetBitmapFileSize());
 	bitmap_buffers[st] = make_unique<unsigned char[]>(length);
