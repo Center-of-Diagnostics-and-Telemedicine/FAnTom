@@ -56,7 +56,7 @@ int XRay::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-//	size_t i = 0;
+	//size_t i = 0;
 
 	for (Dicom::instance_ptr &inst_ptr : XrayAcquisition_ptr().loader())
 	{
@@ -73,19 +73,18 @@ int XRay::LoadByAccession(const wstring accession_number)
 		vector<wstring> var1;
 		vector<wstring> var2;
 
-//		if (i == 0)
-//		{
-//		    var2 = { L"0.2",L"0.1" };
-//		}
-//		else
-//		{
+/*		if (i == 0)		
+		{
+		    var2 = { L"0.2",L"0.1" };
+		}
+		else
+		{*/
 			var1 = inst_ptr->get_wstring_values(Dicom::e_imager_pixel_spacing);
 			var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
-//		}
-//		i++;
+		//}
+		//i++;
 
 		this->AddToStepsVector(var1, var2);
-		//if (this->AddToStepsVector(var1, var2) < 0)   return -1;
 	}
 
 	m_bmp.resize(m_XR_images.size());
@@ -117,7 +116,6 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 		img_screen.realloc(m_ScreenSize.first, m_ScreenSize.second);
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
-	
 	}
 
 	ApplyFunction(img_screen, [black, white](float x) {return x<black ? 0 : x>white ? 255 : 255.*(x - black) / (white - black); });
@@ -133,14 +131,18 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 	{
 		m_bmp[N].palette[i] = static_cast<uint8_t>(i);
 	}
-	m_bmp[N].CopyData(img_screen);
 
-//	DisplayMathFunction2D(img_screen, L"Выбраный срез");
+	for (size_t i = 0; i < img_screen.vsize(); ++i)
+	{
+		for (size_t j = 0; j < img_screen.hsize(); ++j)
+		{
+			m_bmp[N].at(i, j) = img_screen.at(img_screen.vsize() - i - 1, j);
+		}
+	}
 
 	*length = static_cast<int>(m_bmp[N].GetBitmapFileSize());
 
-	*img = reinterpret_cast<const unsigned char*>(m_bmp[N].GetBitmapFile());//bitmap_buffer.get();
-
+	*img = reinterpret_cast<const unsigned char*>(m_bmp[N].GetBitmapFile());
 }
 
 

@@ -50,8 +50,6 @@ private:
 
 	vector<bool> m_EqualSteps;
 
-//	map < image_t, BitmapContainerIndexed>	m_bmp;
-
 	vector<BitmapContainerIndexed>	m_bmp;
 };
 

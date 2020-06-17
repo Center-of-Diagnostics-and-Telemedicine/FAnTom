@@ -33,14 +33,14 @@ void	TestTomogram()
 
 	frame_t  frame;
 
-	tomogram.GetImage(frame, { modality_t::CT(), image_t::e_ct_axial, 125 });
+//	tomogram.GetImage(frame, { modality_t::CT(), image_t::e_ct_axial, 125 });
 
-	DisplayMathFunction2D(frame, L"Выбраный срез");
+//	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_axial, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
 
 	QByteArray png = QByteArray();
 
@@ -79,9 +79,9 @@ void	TestXRAYImage()
 
 	frame_t frame;
 
-	radiogram.GetImage(frame, { modality_t::DX(), image_t::e_dx_generic, 0 });
+//	radiogram.GetImage(frame, { modality_t::DX(), image_t::e_dx_generic, 0 });
 
-	DisplayMathFunction2D(frame, L"Выбраный срез");
+//	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	double value;
 

@@ -2,35 +2,7 @@
 
 #include "CTomogram.h"
 
-
-
-//#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
-//#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
-
-
-//#include <iostream>
-
-/*
-void CTomogram::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
-{
-	QImage q_image;
-	QByteArray tmp;
-
-	if (q_image.loadFromData(img, length, ".bmp"))
-	{
-		QBuffer buffer;
-		buffer.open(QIODevice::ReadWrite);
-		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
-																	
-		q_image.save("C:/temp/bbb.png", "png");
-		//tmp = buffer.buffer();
-		png = buffer.buffer().toBase64();
-	}
-	
-}
-*/
 
 
 void CTomogram::CalculateInterpolationScales()
@@ -195,7 +167,13 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 	{
 		m_bmp[idx.image_type].palette[i] = static_cast<uint8_t>(i);
 	}
-	m_bmp[idx.image_type].CopyData(img_screen);
+	for (size_t i = 0; i < img_screen.vsize(); ++i)
+	{
+		for (size_t j = 0; j < img_screen.hsize(); ++j)
+		{
+			m_bmp[idx.image_type].at(i, j) = img_screen.at(img_screen.vsize() - i - 1, j);
+		}
+	}
 
 	*length = static_cast<int>(m_bmp[idx.image_type].GetBitmapFileSize());
 
