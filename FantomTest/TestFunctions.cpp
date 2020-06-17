@@ -40,7 +40,7 @@ void	TestTomogram()
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal(), 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
 
 	QByteArray png = QByteArray();
 
@@ -88,7 +88,7 @@ void	TestXRAYImage()
 	const unsigned char* img;
 	int length;
 
-	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic, 1 }, -1000., 15000., 1., { mip_method_t::e_mip_minvalue, 0 });
+	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic(), 1 }, -1000., 15000., 1., { mip_method_t::e_mip_minvalue, 0 });
 
 	QByteArray png = QByteArray();
 
@@ -100,7 +100,7 @@ void	TestXRAYImage()
 	file.close();
 
 
-	radiogram.GetBrightness(&value, { modality_t::DX(), image_t::e_dx_generic, 1 }, 1510, 486);
+	radiogram.GetBrightness(&value, { modality_t::DX(), image_t::e_dx_generic(), 1 }, 1510, 486);
 
 	cout << value << endl;
 	fflush(stdout);
@@ -116,20 +116,20 @@ void	TestMamoImage()
 
 	mamogram.LoadByAccession(acc_no);
 	
-	cout << mamogram.MMSlices()[L"LCC"].sizes(1) << endl;
+	cout << mamogram.m_MM_Images()[L"LCC"].sizes(1) << endl;
 	fflush(stdout);
-	cout << mamogram.MMSlices()[L"LCC"].sizes(0) << endl;
+	cout << mamogram.m_MM_Images()[L"LCC"].sizes(0) << endl;
 	fflush(stdout);
 
 	frame_t img;
 
-	mamogram.GetImage(img, { modality_t::MG(), image_t::e_mg_rcc, 0 });
+	mamogram.GetImage(img, { modality_t::MG(), image_t::e_mg_rcc(), 0 });
 
 	DisplayMathFunction2D(img, L"Выбраный срез");
 
 	double value;
 
-	mamogram.GetBrightness(&value, { modality_t::MG(), image_t::e_mg_lcc, 2 }, 2500,  2500);
+	mamogram.GetBrightness(&value, { modality_t::MG(), image_t::e_mg_lcc(), 2 }, 2500,  2500);
 
 	cout << value << endl;
 	fflush(stdout);

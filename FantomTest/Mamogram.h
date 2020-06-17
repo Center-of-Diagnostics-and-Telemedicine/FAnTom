@@ -21,24 +21,33 @@ public:
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
+	using parent::CreateQByteArrayPngFromChar;
 
 	virtual int LoadByAccession(const wstring accession_number);
 
 	virtual void GetImage(frame_t &img, image_index_t idx);
 
-	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) { return; }
+	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
 
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
-	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format) { return; }
+	int AddToStepsMap(const wstring image_type, vector<wstring> var1, vector <wstring> var2);
+
+	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
 
 	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	map<std::wstring, RealFunction2D_F32> &MMSlices() { return m_MM_slices; }
+	map<std::wstring, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
 
 private:
 
-	map<std::wstring, RealFunction2D_F32> m_MM_slices;
+	map<std::wstring, RealFunction2D_F32> m_MM_images;
+
+	map<std::wstring, bool> m_EqualSteps;
+
+	map<wstring, pair<double, double>> m_Steps;
+
+	pair<size_t, size_t> m_ScreenSize;
 };
 
 

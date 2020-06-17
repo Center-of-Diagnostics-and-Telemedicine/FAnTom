@@ -31,27 +31,27 @@ enum modality_t
 
  struct modality_t
  {
-	 static const string CT() { return "CT"; }
-	 static const string DX() { return "DX"; }
-	 static const string MG() { return "MG"; }
+	 static const wstring CT() { return L"CT"; }
+	 static const wstring DX() { return L"DX"; }
+	 static const wstring MG() { return L"MG"; }
  };
 
 
 
-enum image_t
+struct image_t
 {
 	//tomographic
-	e_ct_axial = 0,
-	e_ct_frontal = 1,
-	e_ct_sagittal = 2,
+	static const wstring e_ct_axial()	{ return L"e_ct_axial"; }
+	static const wstring e_ct_frontal()	{ return L"e_ct_frontal"; }
+	static const wstring e_ct_sagittal() { return L"e_ct_sagittal"; }
 
 	//lung
 	// выяснить правильное название проекций и их признаки в Dicom файлах
 
-	e_dx_generic,
-	e_dx_postero_anterior,
-	e_dx_left_lateral,
-	e_dx_right_lateral,
+	static const wstring e_dx_generic() { return L"e_dx_generic"; }
+	static const wstring e_dx_postero_anterior() { return L"e_dx_postero_anterior"; }
+	static const wstring e_dx_left_lateral() { return L"e_dx_left_lateral"; }
+	static const wstring e_dx_right_lateral() { return L"e_dx_right_lateral"; }
 
 
 	//mammomgraphy
@@ -59,16 +59,16 @@ enum image_t
 	// (0018,1400) Acquisition Device Processing Description LO
 	//	RMLO                                              # 1, 4 
 	//	для других аппаратов выяснять
-	e_mg_rcc,
-	e_mg_lcc,
-	e_mg_rmlo,
-	e_mg_lmlo,
+	static const wstring e_mg_rcc() { return L"e_mg_rcc"; }
+	static const wstring e_mg_lcc() { return L"e_mg_lcc"; }
+	static const wstring e_mg_rmlo() { return L"e_mg_rmlo"; }
+	static const wstring e_mg_lmlo() { return L"e_mg_lmlo"; }
 };
 
 struct image_index_t
 {
-	const string	modality;
-	image_t	image_type;
+	const wstring	modality;
+	const wstring	image_type;
 	size_t	image_no;
 };
 

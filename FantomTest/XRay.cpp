@@ -219,6 +219,11 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 	else
 	{
 		m_EqualSteps.push_back(true);
+
+		m_Steps.push_back(make_pair(
+			wcstod(var1[0].c_str(), NULL),
+			wcstod(var1[1].c_str(), NULL)
+		));
 	}
 
 	return 0;

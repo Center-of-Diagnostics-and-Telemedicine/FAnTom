@@ -39,15 +39,15 @@ public:
 
 	void CalculateInterpolationScales();
 
-	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, image_t slice_type);
+	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, const wstring slice_type);
 
 	double DicomToScreenCoordinate(double t, axis_t axis);
 
 	double ScreenToDicomCoordinate(double t, axis_t axis);
 
-	point2_ST	SliceSizes(image_t st) const;
+	point2_ST	SliceSizes(const wstring st) const;
 
-	size_t	CTSlicesSize(image_t st) const;
+	size_t	CTSlicesSize(const wstring st) const;
 
 	void GetTomogramSlice(frame_t &img, image_index_t idx, mip_index_t mip);
 
@@ -56,7 +56,7 @@ public:
 	const RealFunctionMD_F32	&CTSlices() const { return m_CTslices; }
 
 private:
-	map < image_t, BitmapContainerIndexed>	m_bmp;
+	map < wstring , BitmapContainerIndexed>	m_bmp;
 //	BitmapContainerIndexed	m_bmp;
 //	unique_ptr<unsigned char[]> bitmap_buffer;
 	VectorFunction3_F64 m_image_positions_patient;
