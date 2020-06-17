@@ -42,7 +42,8 @@ protected:
 	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
 	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
 
-//	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
+	void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length);
+	
 
 private:
 

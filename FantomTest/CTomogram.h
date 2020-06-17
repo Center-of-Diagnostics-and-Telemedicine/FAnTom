@@ -23,7 +23,7 @@ public:
 	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
-//	using parent::CreateQByteArrayPngFromChar;
+	using parent::CreateQByteArrayPngFromChar;
 
 	virtual int LoadByAccession(const wstring accession_number);
 
@@ -33,7 +33,7 @@ public:
 	
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
-	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
+//	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
 
 	CTAcquisition& CTAcquisition_ptr() { return dynamic_cast<CTAcquisition&>(*m_proc_acquisition_ptr); }
 
@@ -41,7 +41,7 @@ public:
 
 	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, image_t slice_type);
 
-		double DicomToScreenCoordinate(double t, axis_t axis);
+	double DicomToScreenCoordinate(double t, axis_t axis);
 
 	double ScreenToDicomCoordinate(double t, axis_t axis);
 
@@ -56,8 +56,8 @@ public:
 	const RealFunctionMD_F32	&CTSlices() const { return m_CTslices; }
 
 private:
-	//map < image_t, BitmapContainerIndexed>	m_bmp;
-	BitmapContainerIndexed	m_bmp;
+	map < image_t, BitmapContainerIndexed>	m_bmp;
+//	BitmapContainerIndexed	m_bmp;
 //	unique_ptr<unsigned char[]> bitmap_buffer;
 	VectorFunction3_F64 m_image_positions_patient;
 	bool	m_flip_z;

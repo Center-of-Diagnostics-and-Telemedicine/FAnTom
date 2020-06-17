@@ -41,7 +41,7 @@ int	xrad::xrad_main(int n, char *names[])
 	//	do
 	//	{
 			//TestMamoImage();
-			//TestTomogram();
+		//	TestTomogram();
 			TestXRAYImage();
 			Pause();
 	//		continue_option = Decide("Choose option", {"Select another slice?", "Exit" });

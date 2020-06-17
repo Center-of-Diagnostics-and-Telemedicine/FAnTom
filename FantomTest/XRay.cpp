@@ -6,24 +6,24 @@
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 
-
-void XRay::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
+/*
+void XRay::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
 {
 	QImage q_image;
-	QByteArray tmp;
-
+	
 	if (q_image.loadFromData(img, length, ".bmp"))
 	{
 		QBuffer buffer;
 		buffer.open(QIODevice::ReadWrite);
 		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-		q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
+		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
 
-		q_image.save("C:/temp/bbb.png", "png");
-		//tmp = buffer.buffer();
+		//q_image.save("C:/temp/bbb.png", "png");
+	
 		png = buffer.buffer().toBase64();
 	}
 }
+*/
 
 int XRay::LoadByAccession(const wstring accession_number)
 {
@@ -56,6 +56,8 @@ int XRay::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
+//	size_t i = 0;
+
 	for (Dicom::instance_ptr &inst_ptr : XrayAcquisition_ptr().loader())
 	{
 		Dicom::image &slice_container = dynamic_cast<Dicom::image&>(*inst_ptr);
@@ -68,12 +70,25 @@ int XRay::LoadByAccession(const wstring accession_number)
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
 
+		vector<wstring> var1;
+		vector<wstring> var2;
 
-		vector<wstring> var1 = inst_ptr->get_wstring_values(Dicom::e_imager_pixel_spacing);
-		vector<wstring> var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
+//		if (i == 0)
+//		{
+//		    var2 = { L"0.2",L"0.1" };
+//		}
+//		else
+//		{
+			var1 = inst_ptr->get_wstring_values(Dicom::e_imager_pixel_spacing);
+			var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
+//		}
+//		i++;
 
-		if (this->AddToStepsVector(var1, var2) < 0)   return -1;
+		this->AddToStepsVector(var1, var2);
+		//if (this->AddToStepsVector(var1, var2) < 0)   return -1;
 	}
+
+	m_bmp.resize(m_XR_images.size());
 
 	return 0;
 }
@@ -85,7 +100,7 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 
 	size_t N = idx.image_no;
 
-	if(m_EqualSteps)
+	if(m_EqualSteps[N])
 	{
 		this->GetImage(img_screen, idx);
 	}
@@ -110,21 +125,21 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 	ApplyFunction(img_screen, [gamma](float x) {return 255.*pow(x / 255., gamma); });
 
 
-	m_bmp.SetSizes(img_screen.vsize(), img_screen.hsize());
+	m_bmp[N].SetSizes(img_screen.vsize(), img_screen.hsize());
 
-	m_bmp.palette.realloc(256);
+	m_bmp[N].palette.realloc(256);
 
 	for (size_t i = 0; i < 256; ++i)
 	{
-		m_bmp.palette[i] = static_cast<uint8_t>(i);
+		m_bmp[N].palette[i] = static_cast<uint8_t>(i);
 	}
-	m_bmp.CopyData(img_screen);
+	m_bmp[N].CopyData(img_screen);
 
-	DisplayMathFunction2D(img_screen, L"Выбраный срез");
+//	DisplayMathFunction2D(img_screen, L"Выбраный срез");
 
-	*length = static_cast<int>(m_bmp.GetBitmapFileSize());
+	*length = static_cast<int>(m_bmp[N].GetBitmapFileSize());
 
-	*img = reinterpret_cast<const unsigned char*>(m_bmp.GetBitmapFile());//bitmap_buffer.get();
+	*img = reinterpret_cast<const unsigned char*>(m_bmp[N].GetBitmapFile());//bitmap_buffer.get();
 
 }
 
@@ -154,35 +169,45 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 {
 	if (var1.size() == 2 && var2.size() == 2)
 	{
-		if (var1 != var2)
+		if (var1[0] != var1[1])
 		{
-			m_EqualSteps = false;
-			return -1;
+			m_EqualSteps.push_back(false) ;
 		}
 		else
 		{
-			m_EqualSteps = true;
-
+			m_EqualSteps.push_back(true);
+		}
 			m_Steps.push_back(make_pair(
 				wcstod(var1[0].c_str(), NULL), 
 				wcstod(var1[1].c_str(), NULL)
 			));
-		}
-
 	}
 	else if (var1.size() == 0 && var2.size() == 2)
 	{
-		m_EqualSteps = true;
+		if (var2[0] != var2[1])
+		{
+			m_EqualSteps.push_back(false);
+		}
+		else
+		{
+			m_EqualSteps.push_back(true);
+		}
 
 		m_Steps.push_back(make_pair(
 			wcstod(var2[0].c_str(), NULL),
 			wcstod(var2[1].c_str(), NULL)
 		));
-
 	}
 	else if (var1.size() == 2 && var2.size() == 0)
 	{
-		m_EqualSteps = true;
+		if (var1[0] != var1[1])
+		{
+			m_EqualSteps.push_back(false);
+		}
+		else
+		{
+			m_EqualSteps.push_back(true);
+		}
 
 		m_Steps.push_back(make_pair(
 			wcstod(var1[0].c_str(), NULL),
@@ -191,7 +216,7 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 	}
 	else
 	{
-		m_EqualSteps = true;
+		m_EqualSteps.push_back(true);
 	}
 
 	return 0;

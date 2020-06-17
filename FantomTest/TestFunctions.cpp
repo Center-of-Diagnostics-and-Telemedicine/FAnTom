@@ -22,9 +22,6 @@ void	TestTomogram()
 	Init2DInterpolators(ConsoleProgressProxy());
 	CTomogram tomogram;
 
-	cout << modality_t::CT() << endl;
-	fflush(stdout);
-
 //	tomogram.InitHeap(L"C:/dicom/7 LUNG RADS 4A/003");
 	tomogram.InitHeap(L"C:/dicom/+AGFA000000015851_AGFA000000015807");
 //	tomogram.InitHeap(L"C:/dicom");
@@ -34,32 +31,26 @@ void	TestTomogram()
 
 	tomogram.LoadByAccession(acc_no);
 
-
-
 	frame_t  frame;
 
-	tomogram.GetImage(frame, { modality_t::CT(), image_t::e_ct_sagittal, 125 });
+	tomogram.GetImage(frame, { modality_t::CT(), image_t::e_ct_axial, 125 });
 
 	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 0 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_axial, 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
 
 	QByteArray png = QByteArray();
 
-	tomogram.CreateQByteArrayPngFromChar(png, img, length, L"png");
+	tomogram.CreateQByteArrayPngFromChar(png, img, length);
 	
-	QFile file("C:/temp/new001.txt");
+	QFile file("C:/temp/tomo001.txt");
 	file.open(QIODevice::WriteOnly);
 	file.write(png);
 	file.close();
 
-
-//	tomogram.GetImage(frame, { modality_t::CT, image_t::e_ct_frontal, 251 });
-
-//	DisplayMathFunction2D(img, L"Выбраный срез");
 
 //	double value;
 //	tomogram.GetBrightness(&value, { modality_t::CT, image_t::e_ct_frontal, 150 }, 170, 90);
@@ -73,7 +64,7 @@ void	TestXRAYImage()
 	Init2DInterpolators(ConsoleProgressProxy());
 	XRay radiogram;
 
-	radiogram.InitHeap(L"C:/xray/small/44");
+	radiogram.InitHeap(L"C:/xray/туберкулез/16");
 //	radiogram.HeapDump(L"C:/xray/dump.xray.txt");
 
 	wstring acc_no = radiogram.GetAccNumber(0);
@@ -97,13 +88,13 @@ void	TestXRAYImage()
 	const unsigned char* img;
 	int length;
 
-	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic, 0 }, 4000., 7000., 1., { mip_method_t::e_mip_minvalue, 0 });
+	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic, 1 }, -1000., 15000., 1., { mip_method_t::e_mip_minvalue, 0 });
 
 	QByteArray png = QByteArray();
 
-	radiogram.CreateQByteArrayPngFromChar(png, img, length, L"png");
+	radiogram.CreateQByteArrayPngFromChar(png, img, length);
 
-	QFile file("C:/temp/xray001.txt");
+	QFile file("C:/temp/xray002.txt");
 	file.open(QIODevice::WriteOnly);
 	file.write(png);
 	file.close();

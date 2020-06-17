@@ -6,26 +6,24 @@
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 //#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
 
+//#include <iostream>
 
-#include <iostream>
-/* void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
+void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
 {
 	QImage q_image;
-	QByteArray tmp;
 
 	if (q_image.loadFromData(img, length, ".bmp"))
 	{
 		QBuffer buffer;
 		buffer.open(QIODevice::ReadWrite);
 		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-	//	q_image.save(&buffer, convert_to_string(format).c_str());	// writes pixmap into bytes in PNG format
-																	q_image.save("C:/temp/ttt.png", "png");
-																	//tmp = buffer.buffer();
+		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
+
+		q_image.save("C:/temp/ddd.png", "png");
+
 		png = buffer.buffer().toBase64();
 	}
-
 }
-*/
 
 
 

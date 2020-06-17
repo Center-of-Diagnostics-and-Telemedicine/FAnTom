@@ -21,9 +21,9 @@ public:
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
-//	using parent::CreateQByteArrayPngFromChar;
+	using parent::CreateQByteArrayPngFromChar;
 
-	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
+//	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
 
 	virtual int LoadByAccession(const wstring accession_number);
 
@@ -48,11 +48,11 @@ private:
 
 	pair<size_t, size_t> m_ScreenSize;
 
-	bool m_EqualSteps;
+	vector<bool> m_EqualSteps;
 
 //	map < image_t, BitmapContainerIndexed>	m_bmp;
 
-	BitmapContainerIndexed	m_bmp;
+	vector<BitmapContainerIndexed>	m_bmp;
 };
 
 

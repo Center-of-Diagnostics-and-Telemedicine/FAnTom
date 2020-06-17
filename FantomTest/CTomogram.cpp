@@ -9,9 +9,9 @@
 //#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
 
 
-#include <iostream>
+//#include <iostream>
 
-
+/*
 void CTomogram::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format)
 {
 	QImage q_image;
@@ -30,7 +30,7 @@ void CTomogram::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char
 	}
 	
 }
-
+*/
 
 
 void CTomogram::CalculateInterpolationScales()
@@ -187,21 +187,19 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 
 
 
-	m_bmp.SetSizes(img_screen.vsize(), img_screen.hsize());
+	m_bmp[idx.image_type].SetSizes(img_screen.vsize(), img_screen.hsize());
 
-	m_bmp.palette.realloc(256);
+	m_bmp[idx.image_type].palette.realloc(256);
 
 	for (size_t i = 0; i < 256; ++i)
 	{
-		m_bmp.palette[i] = static_cast<uint8_t>(i);
+		m_bmp[idx.image_type].palette[i] = static_cast<uint8_t>(i);
 	}
-//	m_bmp[idx.image_type].CopyData(img_screen);
+	m_bmp[idx.image_type].CopyData(img_screen);
 
-	m_bmp.CopyData(img_screen);
+	*length = static_cast<int>(m_bmp[idx.image_type].GetBitmapFileSize());
 
-	*length = static_cast<int>(m_bmp.GetBitmapFileSize());
-
-	*img = reinterpret_cast<const unsigned char*>(m_bmp.GetBitmapFile());
+	*img = reinterpret_cast<const unsigned char*>(m_bmp[idx.image_type].GetBitmapFile());
 }
 
 //operation_result Fantom::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, slice_type st)
