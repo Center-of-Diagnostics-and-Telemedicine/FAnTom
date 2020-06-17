@@ -700,7 +700,10 @@ operation_result Fantom::GetSlice_J(
 
 	for (size_t i = 0; i < screen_image.vsize(); ++i)
 	{
-	bmp.row(i) = screen_image.row(screen_image.vsize() - i - 1);
+		for (size_t j = 0; j < screen_image.hsize(); ++j)
+		{
+			bmp.at(i, j) = screen_image.at(screen_image.vsize() - i - 1, j);
+		}
 	}
 
 	length = static_cast<int>(bmp.GetBitmapFileSize());
