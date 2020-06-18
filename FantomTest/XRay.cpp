@@ -58,18 +58,23 @@ int XRay::LoadByAccession(const wstring accession_number)
 		{
 		    var2 = { L"0.2",L"0.1" };
 		}
+		else if (i == 1)
+		{
+			var1 = { L"0.1",L"0.2" };
+			var2 = { L"0.2",L"0.1" };
+		}
 		else
 		{*/
 			var1 = inst_ptr->get_wstring_values(Dicom::e_imager_pixel_spacing);
 			var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
-		//}
-		//i++;
+	//	}
+	//	i++;
 
 		this->AddToStepsVector(var1, var2);
 	}
 
-	m_bmp.resize(m_XR_images.size());
-
+	m_bmp.resize(m_XR_Images().size());
+	m_ScreenSize.resize(m_XR_Images().size());
 	return 0;
 }
 
@@ -90,7 +95,7 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize[N].first = (size_t) m_XR_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
+		m_ScreenSize[N].first = (size_t)m_XR_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
 
 		m_ScreenSize[N].second = (size_t) m_XR_Images()[N].sizes(1)*m_Steps[N].second / min(m_Steps[N].first, m_Steps[N].second);
 

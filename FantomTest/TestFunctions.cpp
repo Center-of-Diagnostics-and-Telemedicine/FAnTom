@@ -88,7 +88,7 @@ void	TestXRAYImage()
 	const unsigned char* img;
 	int length;
 
-	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic(), 1 }, -1000., 15000., 1., { mip_method_t::e_mip_minvalue, 0 });
+	radiogram.GetScreenImage(&img, &length, { modality_t::DX(), image_t::e_dx_generic(), 2 }, -1000., 10000., 1., { mip_method_t::e_mip_minvalue, 0 });
 
 	QByteArray png = QByteArray();
 
@@ -100,7 +100,7 @@ void	TestXRAYImage()
 	file.close();
 
 
-	radiogram.GetBrightness(&value, { modality_t::DX(), image_t::e_dx_generic(), 1 }, 1510, 486);
+	radiogram.GetBrightness(&value, { modality_t::DX(), image_t::e_dx_generic(), 2 }, 1474, 989);
 
 	cout << value << endl;
 	fflush(stdout);
@@ -125,9 +125,9 @@ void	TestMamoImage()
 
 	frame_t frame;
 
-//	mamogram.GetImage(frame, { modality_t::MG(), image_t::e_mg_rcc(), 0 });
+	mamogram.GetImage(frame, { modality_t::MG(), image_t::e_mg_rcc(), 0 });
 
-//	DisplayMathFunction2D(frame, L"Выбраный срез");
+	DisplayMathFunction2D(frame, L"Выбраный срез");
 
 	const unsigned char* img;
 	int length;
