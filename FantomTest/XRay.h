@@ -46,7 +46,7 @@ private:
 
 	vector<pair<double, double>> m_Steps;
 
-	pair<size_t, size_t> m_ScreenSize;
+	vector<pair<size_t, size_t>> m_ScreenSize;
 
 	vector<bool> m_EqualSteps;
 

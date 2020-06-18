@@ -40,7 +40,7 @@ void	TestTomogram()
 	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal(), 125 }, -1000., 1000., 0.5, { mip_method_t::e_mip_minvalue, 1 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_axial(), 225 }, -1000., 1000., 0.5, { mip_method_t::e_mip_maxvalue, 10 });
 
 	QByteArray png = QByteArray();
 
@@ -108,6 +108,8 @@ void	TestXRAYImage()
 
 void	TestMamoImage()
 {
+	Init2DInterpolators(ConsoleProgressProxy());
+
 	Mamogram mamogram;
 
 	mamogram.InitHeap(L"C:/temp/2D_modes/ММГ");
@@ -116,20 +118,35 @@ void	TestMamoImage()
 
 	mamogram.LoadByAccession(acc_no);
 	
-	cout << mamogram.m_MM_Images()[L"LCC"].sizes(1) << endl;
+	cout << mamogram.m_MM_Images()[image_t::e_mg_lcc()].sizes(1) << endl;
 	fflush(stdout);
-	cout << mamogram.m_MM_Images()[L"LCC"].sizes(0) << endl;
+	cout << mamogram.m_MM_Images()[image_t::e_mg_lcc()].sizes(0) << endl;
 	fflush(stdout);
 
-	frame_t img;
+	frame_t frame;
 
-	mamogram.GetImage(img, { modality_t::MG(), image_t::e_mg_rcc(), 0 });
+//	mamogram.GetImage(frame, { modality_t::MG(), image_t::e_mg_rcc(), 0 });
 
-	DisplayMathFunction2D(img, L"Выбраный срез");
+//	DisplayMathFunction2D(frame, L"Выбраный срез");
+
+	const unsigned char* img;
+	int length;
+
+	mamogram.GetScreenImage(&img, &length, { modality_t::MG(), image_t::e_mg_lmlo(), 1 }, 1000, 3300., 1., { mip_method_t::e_mip_minvalue, 0 });
+
+	QByteArray png = QByteArray();
+
+	mamogram.CreateQByteArrayPngFromChar(png, img, length);
+
+	QFile file("C:/temp/mamo003.txt");
+	file.open(QIODevice::WriteOnly);
+	file.write(png);
+	file.close();
+
 
 	double value;
 
-	mamogram.GetBrightness(&value, { modality_t::MG(), image_t::e_mg_lcc(), 2 }, 2500,  2500);
+	mamogram.GetBrightness(&value, { modality_t::MG(), image_t::e_mg_lcc(), 2 }, 4474, 2872);
 
 	cout << value << endl;
 	fflush(stdout);

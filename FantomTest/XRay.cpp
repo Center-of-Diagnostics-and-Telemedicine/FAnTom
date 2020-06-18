@@ -6,25 +6,6 @@
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 
-/*
-void XRay::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
-{
-	QImage q_image;
-	
-	if (q_image.loadFromData(img, length, ".bmp"))
-	{
-		QBuffer buffer;
-		buffer.open(QIODevice::ReadWrite);
-		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
-
-		//q_image.save("C:/temp/bbb.png", "png");
-	
-		png = buffer.buffer().toBase64();
-	}
-}
-*/
-
 int XRay::LoadByAccession(const wstring accession_number)
 {
 	bool acc_loaded = false;
@@ -109,11 +90,11 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize.first = (size_t) m_XR_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
+		m_ScreenSize[N].first = (size_t) m_XR_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
 
-		m_ScreenSize.second = (size_t) m_XR_Images()[N].sizes(1)*m_Steps[N].second / min(m_Steps[N].first, m_Steps[N].second);
+		m_ScreenSize[N].second = (size_t) m_XR_Images()[N].sizes(1)*m_Steps[N].second / min(m_Steps[N].first, m_Steps[N].second);
 
-		img_screen.realloc(m_ScreenSize.first, m_ScreenSize.second);
+		img_screen.realloc(m_ScreenSize[N].first, m_ScreenSize[N].second);
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
 	}
@@ -154,12 +135,12 @@ void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen,const frame_t &bu
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 	//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double) i * m_XR_Images()[N].sizes(0)/ m_ScreenSize.first;
+		double y = (double) i * m_XR_Images()[N].sizes(0)/ m_ScreenSize[N].first;
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 		//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double) j * m_XR_Images()[N].sizes(1) / m_ScreenSize.second;
+			double x = (double) j * m_XR_Images()[N].sizes(1) / m_ScreenSize[N].second;
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}
