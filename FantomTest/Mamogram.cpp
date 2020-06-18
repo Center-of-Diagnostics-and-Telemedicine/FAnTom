@@ -45,20 +45,20 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
 
-		if( str == L"RCC" || str == L"R MAMMOGRAPHY, CC")	image_type = L"RCC";
+		if( str == L"RCC" || str == L"R MAMMOGRAPHY, CC")	image_type = image_t::e_mg_rcc();
 
-		if (str == L"LCC" || str == L"L MAMMOGRAPHY, CC")	image_type = L"LCC";
+		if (str == L"LCC" || str == L"L MAMMOGRAPHY, CC")	image_type = image_t::e_mg_lcc();
 
-		if (str == L"RMLO" || str == L"R MAMMOGRAPHY, MLO")	image_type = L"RMLO";
+		if (str == L"RMLO" || str == L"R MAMMOGRAPHY, MLO")	image_type = image_t::e_mg_rmlo();
 
-		if (str == L"LMLO" || str == L"L MAMMOGRAPHY, MLO")	image_type = L"LMLO";
+		if (str == L"LMLO" || str == L"L MAMMOGRAPHY, MLO")	image_type = image_t::e_mg_lmlo();
 
 		m_MM_images[image_type] = std::move(data_slice);
 
 		vector<wstring> var1;
 		vector<wstring> var2;
 
-		/*		if (i == 0)
+/*		if (image_type == image_t::e_mg_lcc())
 		{
 		var2 = { L"0.2",L"0.1" };
 		}
@@ -66,12 +66,10 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 		{*/
 		var1 = inst_ptr->get_wstring_values(Dicom::e_imager_pixel_spacing);
 		var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
-		//}
-		//i++;
+//		}
 
 		this->AddToStepsMap(image_type, var1, var2);
-
-	}
+}
 
 	return 0;
 }
@@ -141,11 +139,11 @@ int Mamogram::AddToStepsMap(const wstring image_type, vector<wstring> var1, vect
 
 void Mamogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
 {
-/*	frame_t img_screen;
+	frame_t img_screen;
 
-	size_t N = idx.image_no;
+	wstring image = idx.image_type;
 
-	if (m_EqualSteps[N])
+	if (m_EqualSteps[image])
 	{
 		this->GetImage(img_screen, idx);
 	}
@@ -155,11 +153,11 @@ void Mamogram::GetScreenImage(const unsigned char **img, int *length, image_inde
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize.first = (size_t)m_MM_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
+		m_ScreenSize[image].first = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].first / min(m_Steps[image].first, m_Steps[image].second);
 
-		m_ScreenSize.second = (size_t)m_MM_Images()[N].sizes(1)*m_Steps[N].second / min(m_Steps[N].first, m_Steps[N].second);
+		m_ScreenSize[image].second = (size_t)m_MM_Images()[image].sizes(1)*m_Steps[image].second / min(m_Steps[image].first, m_Steps[image].second);
 
-		img_screen.realloc(m_ScreenSize.first, m_ScreenSize.second);
+		img_screen.realloc(m_ScreenSize[image].first, m_ScreenSize[image].second);
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
 	}
@@ -169,47 +167,46 @@ void Mamogram::GetScreenImage(const unsigned char **img, int *length, image_inde
 	ApplyFunction(img_screen, [gamma](float x) {return 255.*pow(x / 255., gamma); });
 
 
-	m_bmp[N].SetSizes(img_screen.vsize(), img_screen.hsize());
+	m_bmp[image].SetSizes(img_screen.vsize(), img_screen.hsize());
 
-	m_bmp[N].palette.realloc(256);
+	m_bmp[image].palette.realloc(256);
 
 	for (size_t i = 0; i < 256; ++i)
 	{
-		m_bmp[N].palette[i] = static_cast<uint8_t>(i);
+		m_bmp[image].palette[i] = static_cast<uint8_t>(i);
 	}
 
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
-			m_bmp[N].at(i, j) = img_screen.at(img_screen.vsize() - i - 1, j);
+			m_bmp[image].at(i, j) = img_screen.at(img_screen.vsize() - i - 1, j);
 		}
 	}
 
-	*length = static_cast<int>(m_bmp[N].GetBitmapFileSize());
+	*length = static_cast<int>(m_bmp[image].GetBitmapFileSize());
 
-	*img = reinterpret_cast<const unsigned char*>(m_bmp[N].GetBitmapFile());
-	*/
+	*img = reinterpret_cast<const unsigned char*>(m_bmp[image].GetBitmapFile());
+	
 }
 
 void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx)
 {
-/*	size_t N = idx.image_no;
+	wstring image = idx.image_type;
 
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 		//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double)i * m_XR_Images()[N].sizes(0) / m_ScreenSize.first;
+		double y = (double)i * m_MM_Images()[image].sizes(0) / m_ScreenSize[image].first;
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 			//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double)j * m_XR_Images()[N].sizes(1) / m_ScreenSize.second;
+			double x = (double)j * m_MM_Images()[image].sizes(1) / m_ScreenSize[image].second;
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}
 	}
-*/
 }
 
 
@@ -217,7 +214,7 @@ void Mamogram::GetImage(frame_t &img, image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
-		img.MakeCopy(m_MM_images[idx.image_type]);
+		img.MakeCopy(m_MM_Images()[idx.image_type]);
 	
 }
 

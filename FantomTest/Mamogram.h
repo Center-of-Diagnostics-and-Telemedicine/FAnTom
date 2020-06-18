@@ -37,17 +37,19 @@ public:
 
 	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	map<std::wstring, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
+	map<wstring, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
 
 private:
 
-	map<std::wstring, RealFunction2D_F32> m_MM_images;
+	map<wstring, RealFunction2D_F32> m_MM_images;
 
-	map<std::wstring, bool> m_EqualSteps;
+	map<wstring, bool> m_EqualSteps;
 
 	map<wstring, pair<double, double>> m_Steps;
 
-	pair<size_t, size_t> m_ScreenSize;
+	map<wstring,pair<size_t, size_t>> m_ScreenSize;
+
+	map <wstring, BitmapContainerIndexed>	m_bmp;
 };
 
 
