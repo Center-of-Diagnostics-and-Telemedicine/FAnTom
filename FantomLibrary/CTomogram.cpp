@@ -24,19 +24,19 @@ void CTomogram::CalculateInterpolationScales()
 	return;// e_successful;
 }
 
-int CTomogram::LoadByAccession(const wstring accession_number)
+operation_result CTomogram::LoadByAccession(const wstring accession_number)
 {
 	bool acc_loaded = false;
 
 	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
 	{
 		acc_loaded = true;
-		return 0;// e_successful;
+		return e_successful;
 	}
 
 	size_t chosen_position = GetAccessionHeapPosition(accession_number, acc_loaded);
 
-	if (!acc_loaded) return -1;
+	if (!acc_loaded) return e_out_of_range;
 
 	m_proc_acquisition_ptr = CreateProcessAcquisition(GetLargestAcquisition(chosen_position), ConsoleProgressProxy());
 
@@ -59,10 +59,10 @@ int CTomogram::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-	return 0;
+	return e_successful;
 }
 
-void CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
 
@@ -89,39 +89,40 @@ void CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t
 		else throw std::invalid_argument("unknown slice type");
 	
 	*value = CTSlices().at({ z1, y1, x1 });
+
+	return e_successful;
 }
 
-void CTomogram::GetImage(frame_t &img, image_index_t idx)
+operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
-
 
 		if (idx.image_type == image_t::e_ct_axial())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ idx.image_no, slice_mask(0), slice_mask(1) })
 						);
-			return;
+			return e_successful;
 		}
 		else if (idx.image_type == image_t::e_ct_frontal())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ slice_mask(0), idx.image_no, slice_mask(1) })
 						);
-			return;
+			return e_successful;
 		}
 		else if (idx.image_type == image_t::e_ct_sagittal())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ slice_mask(0), slice_mask(1), idx.image_no })
 						);
-			return;
+			return e_successful;
 		}
 		else throw std::invalid_argument("unknown slice type");
 	
 }
 
-void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
 {
 	frame_t img_screen;
 
@@ -172,6 +173,8 @@ void CTomogram::GetScreenImage(const unsigned char **img, int *length, image_ind
 	*length = static_cast<int>(m_bmp[idx.image_type].GetBitmapFileSize());
 
 	*img = reinterpret_cast<const unsigned char*>(m_bmp[idx.image_type].GetBitmapFile());
+
+	return e_successful;
 }
 
 //operation_result Fantom::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, slice_type st)

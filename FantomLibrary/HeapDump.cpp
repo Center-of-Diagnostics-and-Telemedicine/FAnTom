@@ -11,7 +11,7 @@
 #include <fstream>
 
 
-void SliceManager::HeapDump(const wstring& dump_file)
+operation_result SliceManager::HeapDump(const wstring& dump_file)
 {
 	std::ofstream File;
 
@@ -57,4 +57,6 @@ void SliceManager::HeapDump(const wstring& dump_file)
 			File << endl;
 		}
 		File.close();
+
+		return e_successful;
 }

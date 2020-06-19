@@ -1,15 +1,18 @@
 ﻿#include "pre.h"
 #include "FantomLibrary.h"
-
 #include "FantomClass.h"
+
+#include "CTomogram.h"
+#include "XRay.h"
+#include "Mamogram.h"
 
 #include <sstream>
 #include <iostream>
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
-//TODO list<MarketTomogram> sessions;
-Fantom	tomogram;
 
+Fantom	tomogram;
+unique_ptr<CTomogram> Study;
 
 //operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
 //									   slice_type st, 
@@ -103,9 +106,40 @@ Fantom	tomogram;
 //{
 //	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
 //}
+// New implementation with 2D mode support ======================================================
+operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder)//(const char *data_store_path)
+{
+	Study = make_unique<CTomogram>();
+	return Study->InitHeap(dicom_folder);
+}
 
+operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file)
+{
+	if (!Study) return e_empty_pointer;
 
+	return Study->InitHeap(dump_file);
+}
 
+operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetImage(img, idx);
+}
+
+operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetScreenImage(img, length, idx, black, white, gamma, mip);
+}
+
+operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetBrightness(value, idx, y, x);
+}
 
 // Java implementation ==========================================================================
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)

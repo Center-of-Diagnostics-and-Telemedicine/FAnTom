@@ -6,19 +6,19 @@
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 
-int XRay::LoadByAccession(const wstring accession_number)
+operation_result XRay::LoadByAccession(const wstring accession_number)
 {
 	bool acc_loaded = false;
 
 	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
 	{
 		acc_loaded = true;
-		return 0;// e_successful;
+		return e_successful;
 	}
 
 	size_t chosen_position = GetAccessionHeapPosition(accession_number, acc_loaded);
 
-	if (!acc_loaded) return -1;
+	if (!acc_loaded) return e_out_of_range;
 
 	m_proc_acquisition_ptr = CreateProcessAcquisition(GetInstancesOfStudy(chosen_position), ConsoleProgressProxy());
 
@@ -75,11 +75,12 @@ int XRay::LoadByAccession(const wstring accession_number)
 
 	m_bmp.resize(m_XR_Images().size());
 	m_ScreenSize.resize(m_XR_Images().size());
-	return 0;
+
+	return e_successful;
 }
 
 
-void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
 {
 	frame_t img_screen;
 
@@ -129,6 +130,8 @@ void XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t 
 	*length = static_cast<int>(m_bmp[N].GetBitmapFileSize());
 
 	*img = reinterpret_cast<const unsigned char*>(m_bmp[N].GetBitmapFile());
+
+	return e_successful;
 }
 
 
@@ -217,17 +220,19 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 
 
 
-void XRay::GetImage(frame_t &img, image_index_t idx)
+operation_result XRay::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
 
 	size_t no = range(idx.image_no, 0, m_XR_Images().size() - 1);
 
 	img.MakeCopy(m_XR_Images()[no]);
+
+	return e_successful;
 }
 
 
-void XRay::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result XRay::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 { 
 	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
 
@@ -237,4 +242,6 @@ void XRay::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 	y = range(y, 0, m_XR_Images()[no].sizes(0) - 1);
 
 	*value = m_XR_Images()[no].at(y, x);
+
+	return e_successful;
 }

@@ -8,6 +8,7 @@
 #if 1
 
 #include "FantomDefs.h"
+#include "SliceDefs.h"
 
 #ifndef FANTOM_DLL_EI
 #if defined(XRAD_COMPILER_MSC)
@@ -60,6 +61,16 @@ extern "C"
 //operation_result FANTOM_DLL_EI GetInterpolatedPixel(size_t &rescaled_pixel_coord, slice_type st, size_t original_slice_no);
 //operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
+// New implementation with 2D mode support ======================================================
+operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const char *data_store_path)
+
+operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file);
+
+operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx);
+
+operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
+
+operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x);
 
 //Java Реализации
 //note (Kovbas) для работы c Java сделан суффикс _J

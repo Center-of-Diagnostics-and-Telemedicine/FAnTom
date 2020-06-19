@@ -4,19 +4,19 @@
 
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
-int Mamogram::LoadByAccession(const wstring accession_number)
+operation_result Mamogram::LoadByAccession(const wstring accession_number)
 {
 	bool acc_loaded = false;
 
 	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
 	{
 		acc_loaded = true;
-		return 0;// e_successful;
+		return e_successful;
 	}
 
 	size_t chosen_position = GetAccessionHeapPosition(accession_number, acc_loaded);
 
-	if (!acc_loaded) return -1;
+	if (!acc_loaded) return e_out_of_range;
 
 	m_proc_acquisition_ptr = CreateProcessAcquisition(GetInstancesOfStudy(chosen_position), ConsoleProgressProxy());
 
@@ -71,7 +71,7 @@ int Mamogram::LoadByAccession(const wstring accession_number)
 		this->AddToStepsMap(image_type, var1, var2);
 }
 
-	return 0;
+	return e_successful;
 }
 
 int Mamogram::AddToStepsMap(const wstring image_type, vector<wstring> var1, vector <wstring> var2)
@@ -137,7 +137,7 @@ int Mamogram::AddToStepsMap(const wstring image_type, vector<wstring> var1, vect
 }
 
 
-void Mamogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
 {
 	frame_t img_screen;
 
@@ -187,7 +187,8 @@ void Mamogram::GetScreenImage(const unsigned char **img, int *length, image_inde
 	*length = static_cast<int>(m_bmp[image].GetBitmapFileSize());
 
 	*img = reinterpret_cast<const unsigned char*>(m_bmp[image].GetBitmapFile());
-	
+
+	return e_successful;
 }
 
 void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx)
@@ -210,19 +211,19 @@ void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_
 }
 
 
-void Mamogram::GetImage(frame_t &img, image_index_t idx)
+operation_result Mamogram::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
 		img.MakeCopy(m_MM_Images()[idx.image_type]);
-	
+		return e_successful;
 }
 
 
 
 
 
-void  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
@@ -230,4 +231,6 @@ void  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t
 		y = range(y, 0, m_MM_Images()[idx.image_type].sizes(0) - 1);
 
 		*value = m_MM_Images()[idx.image_type].at(y, x);
+
+		return e_successful;
 }

@@ -28,7 +28,7 @@ void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned c
 */
 
 
-void SliceManager::InitHeap(const wstring& dicom_folder)
+operation_result SliceManager::InitHeap(const wstring& dicom_folder)
 {
 	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
 		Dicom::datasource_folder(dicom_folder, true),
@@ -43,6 +43,7 @@ void SliceManager::InitHeap(const wstring& dicom_folder)
 		m_accession_numbers.push_back( study.complete_study_id().accession_number() );
 		}
 	}
+	return e_successful;
 }
 
 size_t SliceManager::GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found)

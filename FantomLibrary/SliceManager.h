@@ -14,7 +14,7 @@
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
 #include "SliceDefs.h"
-
+#include "FantomDefs.h"
 //#include "XRADDicom\Sources\DicomClasses\ProcessContainers\XRAYAcquisition.h"
 
 XRAD_USING
@@ -36,8 +36,8 @@ protected:
 
 	vector<wstring> m_accession_numbers;
 
-	void InitHeap(const wstring& dicom_folder);
-	void HeapDump(const wstring& dump_file);
+	operation_result InitHeap(const wstring& dicom_folder);
+	operation_result HeapDump(const wstring& dump_file);
 
 	wstring GetAccNumber(size_t no) { if (no < m_accession_numbers.size()) return m_accession_numbers[no]; else return L"no num"; }
 
@@ -46,18 +46,16 @@ protected:
 	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
 	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
 
-//	void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length);
-	
 
 private:
 
-	virtual int LoadByAccession(const wstring accession_number) = 0;
+	virtual operation_result LoadByAccession(const wstring accession_number) = 0;
 
-	virtual void GetImage(frame_t &img, image_index_t idx) = 0;
+	virtual operation_result GetImage(frame_t &img, const image_index_t idx) = 0;
 
-	virtual void GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) = 0;
+	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip) = 0;
 	
-	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
+	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
 
 };
 
