@@ -23,7 +23,7 @@ public:
 	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
-	using parent::CreateQByteArrayPngFromChar;
+//	using parent::CreateQByteArrayPngFromChar;
 
 	virtual int LoadByAccession(const wstring accession_number);
 

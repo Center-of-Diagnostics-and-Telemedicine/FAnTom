@@ -3,12 +3,16 @@
 
 #include <iostream>
 
+/*
 #include <QtGui/QImage>
 #include <QtCore/QBuffer>
 #include <QtCore/QFile>
+*/
 
 #include <XRADBasic/MathFunctionTypesMD.h>
 #include <XRADDicom/XRADDicom.h>
+#include <XRADBasic/Sources/Utils/BitmapContainer.h>
+
 #include "SliceDefs.h"
 
 //#include "XRADDicom\Sources\DicomClasses\ProcessContainers\XRAYAcquisition.h"
@@ -42,7 +46,7 @@ protected:
 	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
 	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
 
-	void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length);
+//	void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length);
 	
 
 private:

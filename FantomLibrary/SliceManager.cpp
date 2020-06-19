@@ -8,6 +8,7 @@
 
 //#include <iostream>
 
+/*
 void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
 {
 	QImage q_image;
@@ -24,7 +25,7 @@ void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned c
 		png = buffer.buffer().toBase64();
 	}
 }
-
+*/
 
 
 void SliceManager::InitHeap(const wstring& dicom_folder)
@@ -32,8 +33,7 @@ void SliceManager::InitHeap(const wstring& dicom_folder)
 	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
 		Dicom::datasource_folder(dicom_folder, true),
 		MakeDicomInstanceFilters(),
-		GUIProgressProxy());
-		//			ConsoleProgressProxy());
+		ConsoleProgressProxy());
 
 	for (auto &patient : patients_heap)
 	{

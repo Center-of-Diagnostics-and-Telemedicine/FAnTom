@@ -15,42 +15,12 @@
     <ClCompile Include="TestFunctions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="HeapDump.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SliceManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CTomogram.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="XRay.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Mamogram.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pre.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="TestFunctions.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="SliceManager.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="SliceDefs.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="CTomogram.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="XRay.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Mamogram.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

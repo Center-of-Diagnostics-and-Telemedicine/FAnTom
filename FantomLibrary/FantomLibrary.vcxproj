@@ -132,9 +132,11 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CTomogram.cpp" />
     <ClCompile Include="FantomClass.cpp" />
     <ClCompile Include="FantomLibrary.cpp" />
     <ClCompile Include="FantomLogger.cpp" />
+    <ClCompile Include="HeapDump.cpp" />
     <ClCompile Include="internal\pre.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -143,12 +145,20 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEHA|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Mamogram.cpp" />
+    <ClCompile Include="SliceManager.cpp" />
+    <ClCompile Include="XRay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CTomogram.h" />
     <ClInclude Include="FantomClass.h" />
     <ClInclude Include="FantomDefs.h" />
     <ClInclude Include="FantomLibrary.h" />
     <ClInclude Include="internal\pre.h" />
+    <ClInclude Include="Mamogram.h" />
+    <ClInclude Include="SliceDefs.h" />
+    <ClInclude Include="SliceManager.h" />
+    <ClInclude Include="XRay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

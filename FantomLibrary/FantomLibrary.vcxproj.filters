@@ -16,6 +16,21 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="FantomLogger.cpp" />
+    <ClCompile Include="CTomogram.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapDump.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mamogram.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SliceManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="XRay.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FantomClass.h">
@@ -28,6 +43,21 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="FantomDefs.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CTomogram.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Mamogram.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="SliceDefs.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="SliceManager.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="XRay.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

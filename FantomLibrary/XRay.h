@@ -1,5 +1,5 @@
-﻿#ifndef Mamogram_h__
-#define Mamogram_h__
+﻿#ifndef XRay_h__
+#define XRay_h__
 
 #include <iostream>
 
@@ -11,7 +11,7 @@
 
 XRAD_USING
 
-class Mamogram : protected SliceManager
+class XRay : protected SliceManager
 {
 	PARENT(SliceManager);
 public:
@@ -21,7 +21,9 @@ public:
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
-	using parent::CreateQByteArrayPngFromChar;
+//	using parent::CreateQByteArrayPngFromChar;
+
+//	void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
 
 	virtual int LoadByAccession(const wstring accession_number);
 
@@ -31,28 +33,27 @@ public:
 
 	virtual void GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
-	int AddToStepsMap(const wstring image_type, vector<wstring> var1, vector <wstring> var2);
+	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
+	int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2);
 
-	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
+	void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
 
-	map<wstring, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
+	const vector<RealFunction2D_F32>	&m_XR_Images() const { return m_XR_images; }
 
 private:
+	vector<RealFunction2D_F32> m_XR_images;
 
-	map<wstring, RealFunction2D_F32> m_MM_images;
+	vector<pair<double, double>> m_Steps;
 
-	map<wstring, bool> m_EqualSteps;
+	vector<pair<size_t, size_t>> m_ScreenSize;
 
-	map<wstring, pair<double, double>> m_Steps;
+	vector<bool> m_EqualSteps;
 
-	map<wstring,pair<size_t, size_t>> m_ScreenSize;
-
-	map <wstring, BitmapContainerIndexed>	m_bmp;
+	vector<BitmapContainerIndexed>	m_bmp;
 };
 
 
 
-#endif // Mamogram_h__
+#endif // XRay_h__
 

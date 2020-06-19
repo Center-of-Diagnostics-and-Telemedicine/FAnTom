@@ -2,9 +2,9 @@
 
 #include "TestFunctions.h"
 
-#include "CTomogram.h"
-#include "XRay.h"
-#include "Mamogram.h"
+#include <FantomLibrary/CTomogram.h>
+#include <FantomLibrary/XRay.h>
+#include <FantomLibrary/Mamogram.h>
 
 #include <FantomLibrary/FantomLibrary.h>
 #include <FantomLibrary/FantomClass.h>
@@ -37,10 +37,10 @@ void	TestTomogram()
 
 //	DisplayMathFunction2D(frame, L"Выбраный срез");
 
-	const unsigned char* img;
+/*	const unsigned char* img;
 	int length;
 
-	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_axial(), 225 }, -1000., 1000., 0.5, { mip_method_t::e_mip_maxvalue, 10 });
+	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal(), 199 }, -500., 500., 1, { mip_method_t::e_mip_average, 3 });
 
 	QByteArray png = QByteArray();
 
@@ -49,13 +49,13 @@ void	TestTomogram()
 	QFile file("C:/temp/tomo001.txt");
 	file.open(QIODevice::WriteOnly);
 	file.write(png);
-	file.close();
+	file.close();*/
 
 
-//	double value;
-//	tomogram.GetBrightness(&value, { modality_t::CT, image_t::e_ct_frontal, 150 }, 170, 90);
-//	cout << value << endl;
-//	fflush(stdout);
+	double value;
+	tomogram.GetBrightness(&value, { modality_t::CT(), image_t::e_ct_axial(), 90 }, 170, 150);
+	cout << value << endl;
+	fflush(stdout);
 
 }
 
@@ -92,7 +92,7 @@ void	TestXRAYImage()
 
 	QByteArray png = QByteArray();
 
-	radiogram.CreateQByteArrayPngFromChar(png, img, length);
+//	radiogram.CreateQByteArrayPngFromChar(png, img, length);
 
 	QFile file("C:/temp/xray002.txt");
 	file.open(QIODevice::WriteOnly);
@@ -136,7 +136,7 @@ void	TestMamoImage()
 
 	QByteArray png = QByteArray();
 
-	mamogram.CreateQByteArrayPngFromChar(png, img, length);
+//	mamogram.CreateQByteArrayPngFromChar(png, img, length);
 
 	QFile file("C:/temp/mamo003.txt");
 	file.open(QIODevice::WriteOnly);
