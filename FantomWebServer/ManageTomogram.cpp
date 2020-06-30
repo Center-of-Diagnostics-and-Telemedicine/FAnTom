@@ -51,7 +51,7 @@ QByteArray GetSlice(QMultiMap<QByteArray, QByteArray> &q_params_map)
 
 	QByteArray bmp = QByteArray();
 
-	CreateQByteArrayPngFromChar(bmp, img, length, interpret_url(q_params_map.value("img_format", "")));
+//	CreateQByteArrayPngFromChar(bmp, img, length, interpret_url(q_params_map.value("img_format", "")));
 
 	return bmp;
 }

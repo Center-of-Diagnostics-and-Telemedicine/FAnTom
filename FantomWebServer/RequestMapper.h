@@ -45,9 +45,10 @@ public:
       @param response Must be used to return the response
     */
     void service(HttpRequest& request, HttpResponse& response);
-
+	void service_old(HttpRequest& request, HttpResponse& response);
 public slots:
 	void LoadFantom();
+	void LoadFantom1();
 
 signals: 
 	void CloseApp();

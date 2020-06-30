@@ -8,11 +8,11 @@ XRAD_BEGIN
 
 void	TestLibraryImage(const wstring &folder_path_p);
 
-void	TestXRAYImage();
+//void	TestXRAYImage();
 
-void	TestMamoImage();
+//void	TestMamoImage();
 
-void	TestTomogram();
+//void	TestTomogram();
 
 XRAD_END
 

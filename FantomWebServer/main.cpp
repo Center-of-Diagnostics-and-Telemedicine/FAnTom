@@ -67,7 +67,7 @@ void f(HttpListener* listener)
 	HttpListener* listener = new HttpListener(settings_webserver, mapper, &app);
 
 	QThread  thread;
-	QObject::connect(&thread, SIGNAL(started()), mapper, SLOT(LoadFantom()));//Qt::QueuedConnection
+	QObject::connect(&thread, SIGNAL(started()), mapper, SLOT(LoadFantom1()));//Qt::QueuedConnection
     mapper->moveToThread(&thread);
 	thread.start();
 

@@ -27,9 +27,11 @@ public:
 
 	virtual operation_result LoadByAccession(const wstring accession_number);
 
+	virtual operation_result GetModality(string &modality);
+
 	virtual operation_result GetImage(frame_t &img, const image_index_t idx);
 
-	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
+	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness);
 	
 	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
@@ -39,24 +41,32 @@ public:
 
 	void CalculateInterpolationScales();
 
-	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, const wstring slice_type);
+	void RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, const string slice_type);
 
 	double DicomToScreenCoordinate(double t, axis_t axis);
 
 	double ScreenToDicomCoordinate(double t, axis_t axis);
 
-	point2_ST	SliceSizes(const wstring st) const;
+	point2_ST	SliceSizes(const string &st) const;
 
-	size_t	CTSlicesSize(const wstring st) const;
+	size_t	CTSlicesSize(const string &st) const;
 
-	void GetTomogramSlice(frame_t &img, image_index_t idx, mip_index_t mip);
+	operation_result GetTomogramDimensions(point3_ST &dimensions);
 
-	void CalculateMIP(frame_t &img, image_index_t idx, mip_index_t mip);
+	operation_result GetScreenDimensions(point3_ST &dimensions);
+
+	operation_result GetPixelLengthCoefficient(double &length_pixel);
+
+	operation_result GetZFlip(bool & flip);
+
+	void GetTomogramSlice(frame_t &img, image_index_t idx);
+
+	void CalculateMIP(frame_t &img, image_index_t idx);
 
 	const RealFunctionMD_F32	&CTSlices() const { return m_CTslices; }
 
 private:
-	map < wstring , BitmapContainerIndexed>	m_bmp;
+	map < string , BitmapContainerIndexed>	m_bmp;
 //	BitmapContainerIndexed	m_bmp;
 //	unique_ptr<unsigned char[]> bitmap_buffer;
 	VectorFunction3_F64 m_image_positions_patient;

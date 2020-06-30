@@ -3,7 +3,7 @@
 #include "CTomogram.h"
 
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
-
+#include <FantomLogger.h>
 
 void CTomogram::CalculateInterpolationScales()
 {
@@ -26,6 +26,8 @@ void CTomogram::CalculateInterpolationScales()
 
 operation_result CTomogram::LoadByAccession(const wstring accession_number)
 {
+	START_LOG;
+	
 	bool acc_loaded = false;
 
 	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
@@ -59,6 +61,13 @@ operation_result CTomogram::LoadByAccession(const wstring accession_number)
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
+	END_LOG;
+	return e_successful;
+}
+
+operation_result CTomogram::GetModality(string &modality)
+{
+	modality = modality_t::CT();
 	return e_successful;
 }
 
@@ -68,19 +77,19 @@ operation_result CTomogram::GetBrightness(double *value, image_index_t idx, size
 
 	size_t  x1 = 0, y1 = 0, z1 = 0;
 
-		if(idx.image_type == image_t::e_ct_axial())
+		if(idx.image_type == image_t::ct_axial())
 		{
 			x1 = range(x, 0, CTSlices().sizes(2) - 1);
 			y1 = range(y, 0, CTSlices().sizes(1) - 1);
 			z1 = range(idx.image_no, 0, CTSlices().sizes(0) - 1);
 		}
-		else if (idx.image_type == image_t::e_ct_frontal())
+		else if (idx.image_type == image_t::ct_frontal())
 		{
 			x1 = range(x, 0, CTSlices().sizes(2) - 1);
 			y1 = range(idx.image_no, 0, CTSlices().sizes(1) - 1);
 			z1 = range(y, 0, CTSlices().sizes(0) - 1);
 		}
-		else if (idx.image_type == image_t::e_ct_sagittal())
+		else if (idx.image_type == image_t::ct_sagittal())
 		{
 			x1 = range(idx.image_no, 0, CTSlices().sizes(2) - 1);
 			y1 = range(x, 0, CTSlices().sizes(1) - 1);
@@ -97,21 +106,21 @@ operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
 
-		if (idx.image_type == image_t::e_ct_axial())
+		if (idx.image_type == image_t::ct_axial())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ idx.image_no, slice_mask(0), slice_mask(1) })
 						);
 			return e_successful;
 		}
-		else if (idx.image_type == image_t::e_ct_frontal())
+		else if (idx.image_type == image_t::ct_frontal())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ slice_mask(0), idx.image_no, slice_mask(1) })
 						);
 			return e_successful;
 		}
-		else if (idx.image_type == image_t::e_ct_sagittal())
+		else if (idx.image_type == image_t::ct_sagittal())
 		{
 			img.MakeCopy(
 				m_CTslices.GetSlice({ slice_mask(0), slice_mask(1), idx.image_no })
@@ -122,31 +131,35 @@ operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 	
 }
 
-operation_result CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
 	frame_t img_screen;
 
-	if (idx.image_type == image_t::e_ct_frontal())
+	if (idx.image_type == image_t::ct_frontal())
 	{
 		img_screen.realloc(m_interpolation_sizes.z(), m_interpolation_sizes.x());
 	}
 
-	else if (idx.image_type == image_t::e_ct_sagittal())
+	else if (idx.image_type == image_t::ct_sagittal())
 	{
 		img_screen.realloc(m_interpolation_sizes.z(), m_interpolation_sizes.y());
 	}
 
-	else if (idx.image_type == image_t::e_ct_axial())
+	else if (idx.image_type == image_t::ct_axial())
 	{
 		img_screen.realloc(m_interpolation_sizes.y(), m_interpolation_sizes.x());
 	}
 
 	frame_t	buffer;
 
-	this->GetTomogramSlice(buffer, idx, mip);
+	this->GetTomogramSlice(buffer, idx);
 	//this->GetImage(buffer, idx);
 
 	RescaleImageFromTomogramToScreenCoordinates(img_screen, buffer, idx.image_type);
+
+	double white = brightness.white;
+	double black = brightness.black;
+	double gamma = brightness.gamma;
 
 	ApplyFunction(img_screen, [black, white](float x) {return x<black ? 0 : x>white ? 255 : 255.*(x - black) / (white - black); });
 
@@ -178,23 +191,23 @@ operation_result CTomogram::GetScreenImage(const unsigned char **img, int *lengt
 }
 
 //operation_result Fantom::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, slice_type st)
-void CTomogram::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, const wstring slice_type)
+void CTomogram::RescaleImageFromTomogramToScreenCoordinates(frame_t &rescaled_image, const frame_t &tomogram_slice, const string slice_type)
 {
 	axis_t	v, h;
 
-	if (slice_type == image_t::e_ct_frontal())
+	if (slice_type == image_t::ct_frontal())
 	{
 		v = e_z;
 		h = e_x;
 	}
 
-	else if (slice_type == image_t::e_ct_sagittal())
+	else if (slice_type == image_t::ct_sagittal())
 	{
 		v = e_z;
 		h = e_y;
 	}
 
-	else if (slice_type == image_t::e_ct_axial())
+	else if (slice_type == image_t::ct_axial())
 	{
 		v = e_y;
 		h = e_x;
@@ -251,23 +264,47 @@ double	CTomogram::ScreenToDicomCoordinate(double t, axis_t axis)
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
 
-
-void CTomogram::CalculateMIP(frame_t &img, image_index_t idx, mip_index_t mip)
+/*
+operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_slice_position, slice_type st, size_t mip_size, mip_method_type mmt)
 {
-	auto	mip_function = [&mip](const RealFunctionF32	 &row)->double
+	auto	mip_function = [&mmt](const RealFunctionF32	 &row)->double
 	{
-		switch (mip.mip_method)
+		switch (mmt)
 		{
-		case e_mip_average:
+		case e_average:
 			return AverageValue(row);
-		case e_mip_maxvalue:
+		case e_maxvalue:
 			return MaxValue(row);
-		case e_mip_minvalue:
+		case e_minvalue:
 			return MinValue(row);
 		default:
-		case e_mip_no_mip:
+		case e_no_mip:
 			return row[row.size() / 2];
 		}
+	};
+
+	// используется двухступенчатая процедура извлечения подмножества, поэтому два разных буфера. неуклюже, можно подумать об улучшении
+	RealFunctionMD_F32	acquisition_buffer;
+	RealFunctionMD_F32	b1;
+
+	auto	frame_sizes = slice_sizes(st, dicom_slice_position);
+	frame.realloc(frame_sizes.y(), frame_sizes.x(), 0);
+
+	size_t	p0 = range(dicom_slice_position - mip_size, 0, n_slices(st) - 1);
+	size_t	p1 = range(dicom_slice_position + mip_size, 0, n_slices(st) - 1);
+*/
+
+void CTomogram::CalculateMIP(frame_t &img, image_index_t idx)
+{
+	auto	mip_function = [&idx](const RealFunctionF32	 &row)->double
+	{
+		if(idx.mip.mip_method == mip_method_t::average())	return AverageValue(row);
+
+		else if (idx.mip.mip_method == mip_method_t::maxvalue())	return MaxValue(row);
+		
+		else if (idx.mip.mip_method == mip_method_t::minvalue())	return MinValue(row);
+		
+		else /*if (mip.mip_method == mip_method_t::mip_no_mip())*/		return row[row.size() / 2];
 	};
 
 	// используется двухступенчатая процедура извлечения подмножества, поэтому два разных буфера. неуклюже, можно подумать об улучшении
@@ -278,22 +315,22 @@ void CTomogram::CalculateMIP(frame_t &img, image_index_t idx, mip_index_t mip)
 
 	img.realloc(frame_sizes.y(), frame_sizes.x(), 0);
 
-	size_t	p0 = range(idx.image_no - mip.mip_half_size, 0, CTSlicesSize(idx.image_type) - 1);
-	size_t	p1 = range(idx.image_no + mip.mip_half_size, 0, CTSlicesSize(idx.image_type) - 1);
+	size_t	p0 = range(idx.image_no - idx.mip.mip_value, 0, CTSlicesSize(idx.image_type) - 1);
+	size_t	p1 = range(idx.image_no + idx.mip.mip_value, 0, CTSlicesSize(idx.image_type) - 1);
 
-		if (idx.image_type == image_t::e_ct_axial())
+		if (idx.image_type == image_t::ct_axial())
 		{
 			b1.UseDataFragment(m_CTslices, { p0, 0, 0 }, { p1, m_CTslices.sizes(1), m_CTslices.sizes(2) });
 			b1.GetSubset(acquisition_buffer, { slice_mask(0), slice_mask(1), slice_mask(2) });
 		}
 
-		else if (idx.image_type == image_t::e_ct_frontal())
+		else if (idx.image_type == image_t::ct_frontal())
 		{
 			b1.UseDataFragment(m_CTslices, { 0, p0, 0 }, { m_CTslices.sizes(0), p1, m_CTslices.sizes(2) });
 			b1.GetSubset(acquisition_buffer, { slice_mask(1), slice_mask(0), slice_mask(2) });
 		}
 
-		else if (idx.image_type == image_t::e_ct_sagittal())
+		else if (idx.image_type == image_t::ct_sagittal())
 		{
 		b1.UseDataFragment(m_CTslices, { 0, 0, p0 }, { m_CTslices.sizes(0), m_CTslices.sizes(1), p1 });
 		b1.GetSubset(acquisition_buffer, { slice_mask(1), slice_mask(2), slice_mask(0) });
@@ -311,14 +348,14 @@ void CTomogram::CalculateMIP(frame_t &img, image_index_t idx, mip_index_t mip)
 
 
 
-void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx, mip_index_t mip)
+void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx)
 {
 	//size_t	slice_no = size_t(tomogram_slice_position);
 	//TODO заменить на пересчет из z?
 
-	if (mip.mip_half_size)
+	if (idx.mip.mip_method == mip_method_t::none())
 	{
-		CalculateMIP(img, idx, mip);
+		CalculateMIP(img, idx);
 	}
 	else
 	{
@@ -327,36 +364,67 @@ void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx, mip_index_t mi
 }
 
 
-point2_ST	CTomogram::SliceSizes(const wstring st) const
+point2_ST	CTomogram::SliceSizes(const string &st) const
 {
-		if (st == image_t::e_ct_axial())
+		if (st == image_t::ct_axial())
 		{
 			return	point2_ST(CTSlices().sizes(1), CTSlices().sizes(2));
 		}
-		else if (st == image_t::e_ct_frontal())
+		else if (st == image_t::ct_frontal())
 		{
 			return	point2_ST(CTSlices().sizes(0), CTSlices().sizes(2));
 		}
-		else if (st == image_t::e_ct_sagittal())
+		else if (st == image_t::ct_sagittal())
 		{
 		return	point2_ST(CTSlices().sizes(0), CTSlices().sizes(1));
 		}
 		else 	throw std::invalid_argument("unknown slice type");
 }
 
-size_t	CTomogram::CTSlicesSize(const wstring st) const
+size_t	CTomogram::CTSlicesSize(const string &st) const
 {
-		if (st == image_t::e_ct_axial())
+		if (st == image_t::ct_axial())
 		{
 			return	CTSlices().sizes(0);
 		}
-		else if (st == image_t::e_ct_frontal())
+		else if (st == image_t::ct_frontal())
 		{
 			return	CTSlices().sizes(1);
 		}
-		else if (st == image_t::e_ct_sagittal())
+		else if (st == image_t::ct_sagittal())
 		{
 			return	CTSlices().sizes(2);
 		}
 		else throw std::invalid_argument("unknown slice type");	
+}
+
+
+operation_result CTomogram::GetTomogramDimensions(point3_ST &dimensions)
+{
+	dimensions.z() = CTSlices().sizes(0);
+	dimensions.y() = CTSlices().sizes(1);
+	dimensions.x() = CTSlices().sizes(2);
+
+	return e_successful;
+}
+
+operation_result CTomogram::GetScreenDimensions(point3_ST &dimensions)
+{
+	dimensions.z() = m_interpolation_sizes.z();
+	dimensions.y() = m_interpolation_sizes.y();
+	dimensions.x() = m_interpolation_sizes.x();
+
+	return e_successful;
+}
+
+operation_result CTomogram::GetPixelLengthCoefficient(double &length_pixel)
+{
+	length_pixel = m_CTscales.y();
+	return e_successful;
+}
+
+operation_result CTomogram::GetZFlip(bool & flip)
+{
+	flip = m_flip_z;
+	return e_successful;
 }

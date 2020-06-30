@@ -27,6 +27,8 @@ public:
 
 	virtual operation_result LoadByAccession(const wstring accession_number);
 
+	virtual operation_result GetModality(string &modality);
+
 	virtual operation_result GetImage(frame_t &img, const image_index_t idx);
 
 	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);

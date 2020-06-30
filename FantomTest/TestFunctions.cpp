@@ -16,6 +16,7 @@
 
 XRAD_BEGIN
 
+#if 0
 
 void	TestTomogram()
 {
@@ -27,7 +28,8 @@ void	TestTomogram()
 //	tomogram.InitHeap(L"C:/dicom");
 
 //	tomogram.HeapDump(L"test.ct.txt");
-	wstring acc_no = tomogram.GetAccNumber(0);
+	wstring acc_no;
+	tomogram.GetAccNumber(0,acc_no);
 
 	tomogram.LoadByAccession(acc_no);
 
@@ -37,7 +39,7 @@ void	TestTomogram()
 
 //	DisplayMathFunction2D(frame, L"Выбраный срез");
 
-/*	const unsigned char* img;
+	const unsigned char* img;
 	int length;
 
 	tomogram.GetScreenImage(&img, &length, { modality_t::CT(), image_t::e_ct_sagittal(), 199 }, -500., 500., 1, { mip_method_t::e_mip_average, 3 });
@@ -49,7 +51,7 @@ void	TestTomogram()
 	QFile file("C:/temp/tomo001.txt");
 	file.open(QIODevice::WriteOnly);
 	file.write(png);
-	file.close();*/
+	file.close();
 
 
 	double value;
@@ -67,7 +69,9 @@ void	TestXRAYImage()
 	radiogram.InitHeap(L"C:/xray/туберкулез/16");
 //	radiogram.HeapDump(L"C:/xray/dump.xray.txt");
 
-	wstring acc_no = radiogram.GetAccNumber(0);
+	wstring acc_no;
+		
+	radiogram.GetAccNumber(0, acc_no);
 
 	radiogram.LoadByAccession(acc_no);
 
@@ -114,7 +118,8 @@ void	TestMamoImage()
 
 	mamogram.InitHeap(L"C:/temp/2D_modes/ММГ");
 
-	wstring acc_no = mamogram.GetAccNumber(0);
+	wstring acc_no;
+	mamogram.GetAccNumber(0,acc_no);
 
 	mamogram.LoadByAccession(acc_no);
 	
@@ -152,6 +157,7 @@ void	TestMamoImage()
 	fflush(stdout);
 	
 }
+#endif
 
 void	TestLibraryImage(const wstring &folder_path_p)
 {

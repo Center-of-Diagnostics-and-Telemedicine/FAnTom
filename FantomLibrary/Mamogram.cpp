@@ -41,17 +41,17 @@ operation_result Mamogram::LoadByAccession(const wstring accession_number)
 
 		slice_container.get_image(data_slice);
 
-		wstring image_type;
+		string image_type;
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
 
-		if( str == L"RCC" || str == L"R MAMMOGRAPHY, CC")	image_type = image_t::e_mg_rcc();
+		if( str == L"RCC" || str == L"R MAMMOGRAPHY, CC")	image_type = image_t::mg_rcc();
 
-		if (str == L"LCC" || str == L"L MAMMOGRAPHY, CC")	image_type = image_t::e_mg_lcc();
+		else if (str == L"LCC" || str == L"L MAMMOGRAPHY, CC")	image_type = image_t::mg_lcc();
 
-		if (str == L"RMLO" || str == L"R MAMMOGRAPHY, MLO")	image_type = image_t::e_mg_rmlo();
+		else if (str == L"RMLO" || str == L"R MAMMOGRAPHY, MLO")	image_type = image_t::mg_rmlo();
 
-		if (str == L"LMLO" || str == L"L MAMMOGRAPHY, MLO")	image_type = image_t::e_mg_lmlo();
+		else if (str == L"LMLO" || str == L"L MAMMOGRAPHY, MLO")	image_type = image_t::mg_lmlo();
 
 		m_MM_images[image_type] = std::move(data_slice);
 
@@ -74,7 +74,13 @@ operation_result Mamogram::LoadByAccession(const wstring accession_number)
 	return e_successful;
 }
 
-int Mamogram::AddToStepsMap(const wstring image_type, vector<wstring> var1, vector <wstring> var2)
+operation_result  Mamogram::GetModality(string &modality)
+{
+	modality = modality_t::MG();
+	return e_successful;
+}
+
+int Mamogram::AddToStepsMap(const string image_type, vector<wstring> var1, vector <wstring> var2)
 {
 	if (var1.size() == 2 && var2.size() == 2)
 	{
@@ -141,7 +147,7 @@ operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length
 {
 	frame_t img_screen;
 
-	wstring image = idx.image_type;
+	string image = idx.image_type;
 
 	if (m_EqualSteps[image])
 	{
@@ -193,7 +199,7 @@ operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length
 
 void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx)
 {
-	wstring image = idx.image_type;
+	string image = idx.image_type;
 
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{

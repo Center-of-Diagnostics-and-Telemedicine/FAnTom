@@ -24,31 +24,33 @@ public:
 
 	virtual operation_result LoadByAccession(const wstring accession_number);
 
+	virtual operation_result GetModality(string &modality);
+
 	virtual operation_result GetImage(frame_t &img, const image_index_t idx);
 
 	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
 
 	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
 
-	int AddToStepsMap(const wstring image_type, vector<wstring> var1, vector <wstring> var2);
+	int AddToStepsMap(const string image_type, vector<wstring> var1, vector <wstring> var2);
 
 	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
 
 	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	map<wstring, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
+	map<string, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
 
 private:
 
-	map<wstring, RealFunction2D_F32> m_MM_images;
+	map<string, RealFunction2D_F32> m_MM_images;
 
-	map<wstring, bool> m_EqualSteps;
+	map<string, bool> m_EqualSteps;
 
-	map<wstring, pair<double, double>> m_Steps;
+	map<string, pair<double, double>> m_Steps;
 
-	map<wstring,pair<size_t, size_t>> m_ScreenSize;
+	map<string,pair<size_t, size_t>> m_ScreenSize;
 
-	map <wstring, BitmapContainerIndexed>	m_bmp;
+	map <string, BitmapContainerIndexed>	m_bmp;
 };
 
 

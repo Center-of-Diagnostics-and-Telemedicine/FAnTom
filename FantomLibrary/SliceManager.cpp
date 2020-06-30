@@ -8,25 +8,6 @@
 
 //#include <iostream>
 
-/*
-void SliceManager::CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
-{
-	QImage q_image;
-
-	if (q_image.loadFromData(img, length, ".bmp"))
-	{
-		QBuffer buffer;
-		buffer.open(QIODevice::ReadWrite);
-		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
-		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
-
-		q_image.save("C:/temp/ddd.png", "png");
-
-		png = buffer.buffer().toBase64();
-	}
-}
-*/
-
 
 operation_result SliceManager::InitHeap(const wstring& dicom_folder)
 {

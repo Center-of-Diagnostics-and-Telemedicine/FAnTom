@@ -11,29 +11,13 @@ XRAD_USING
 
 
 typedef RealFunction2D_F32 frame_t;
-/*
-enum modality_t
-{
-	CT,
-	DX,
-	MG
-};
-*/
-/*
- struct mod_t
-{
-	static char* CT = "CT" ;
-	static char* DX = "DX";
-	static char* MG = "MG";
-};
-*/
 
 
  struct modality_t
  {
-	 static const wstring CT() { return L"CT"; }
-	 static const wstring DX() { return L"DX"; }
-	 static const wstring MG() { return L"MG"; }
+	 static const string CT() { return "CT"; }
+	 static const string DX() { return "DX"; }
+	 static const string MG() { return "MG"; }
  };
 
 
@@ -41,17 +25,17 @@ enum modality_t
 struct image_t
 {
 	//tomographic
-	static const wstring e_ct_axial()	{ return L"e_ct_axial"; }
-	static const wstring e_ct_frontal()	{ return L"e_ct_frontal"; }
-	static const wstring e_ct_sagittal() { return L"e_ct_sagittal"; }
+	static const string ct_axial()	{	return "ct_axial"; }
+	static const string ct_frontal()	{	return "ct_frontal"; }
+	static const string ct_sagittal()	{	return "ct_sagittal"; }
 
 	//lung
 	// выяснить правильное название проекций и их признаки в Dicom файлах
 
-	static const wstring e_dx_generic() { return L"e_dx_generic"; }
-	static const wstring e_dx_postero_anterior() { return L"e_dx_postero_anterior"; }
-	static const wstring e_dx_left_lateral() { return L"e_dx_left_lateral"; }
-	static const wstring e_dx_right_lateral() { return L"e_dx_right_lateral"; }
+	static const string dx_generic()	{	return "dx_generic"; }
+	static const string dx_postero_anterior()	{	return "dx_postero_anterior"; }
+	static const string dx_left_lateral()	{	return "dx_left_lateral"; }
+	static const string dx_right_lateral()	{	return "dx_right_lateral"; }
 
 
 	//mammomgraphy
@@ -59,33 +43,43 @@ struct image_t
 	// (0018,1400) Acquisition Device Processing Description LO
 	//	RMLO                                              # 1, 4 
 	//	для других аппаратов выяснять
-	static const wstring e_mg_rcc() { return L"e_mg_rcc"; }
-	static const wstring e_mg_lcc() { return L"e_mg_lcc"; }
-	static const wstring e_mg_rmlo() { return L"e_mg_rmlo"; }
-	static const wstring e_mg_lmlo() { return L"e_mg_lmlo"; }
+	static const string mg_rcc()	{	return "mg_rcc"; }
+	static const string mg_lcc()	{	return "mg_lcc"; }
+	static const string mg_rmlo()	{	return "mg_rmlo"; }
+	static const string mg_lmlo()	{	return "mg_lmlo"; }
+};
+
+
+struct mip_index_t
+{
+	const string mip_method;
+	size_t       mip_value;
 };
 
 struct image_index_t
 {
-	const wstring	modality;
-	const wstring	image_type;
+	const string	modality;
+	const string	image_type;
 	size_t	image_no;
+	mip_index_t mip;
 };
 
-enum mip_method_t
+struct mip_method_t
 {
-	e_mip_average,
-	e_mip_maxvalue,
-	e_mip_minvalue,//TODO сделать
-	e_mip_no_mip
+	static const string average()	{	return "mip_average"; }
+	static const string maxvalue()	{	return "mip_maxvalue";}
+	static const string minvalue()	{	return "mip_minvalue"; }
+	static const string none()	{	return "mip_no_mip"; }
 };
 
-struct mip_index_t
+
+
+struct brightness
 {
-	mip_method_t mip_method;
-	size_t       mip_half_size;
+	double white;
+	double black;
+	double gamma;
 };
-
 
 
 enum axis_t

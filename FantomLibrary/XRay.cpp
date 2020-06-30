@@ -79,6 +79,11 @@ operation_result XRay::LoadByAccession(const wstring accession_number)
 	return e_successful;
 }
 
+operation_result  XRay::GetModality(string &modality)
+{
+	modality = modality_t::DX();
+	return e_successful;
+}
 
 operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
 {

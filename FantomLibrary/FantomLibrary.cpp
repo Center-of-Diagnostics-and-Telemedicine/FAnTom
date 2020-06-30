@@ -8,6 +8,8 @@
 
 #include <sstream>
 #include <iostream>
+#include <XRADBasic/Sources/Utils/ConsoleProgress.h>
+
 //#include <XRADBasic/Sources/Utils/BitmapContainer.h>
 
 
@@ -107,17 +109,142 @@ unique_ptr<CTomogram> Study;
 //	return tomogram.GetDicomLocationFromScreenCoordinate(pixel_coord, st, rescaled_slice_no, interpolate_z);
 //}
 // New implementation with 2D mode support ======================================================
+
+
+//auxiliary_tomogram_acquisition_condition;
+
+
+/*
+class	auxiliary_instance_condition : public dicom_instance_condition
+{
+public:
+	bool	check(const Dicom::instance_ptr &a) const override
+	{
+		{
+			// Выявление не томограмм.
+			// Любой instance внутри acquisition, не являющийся срезом томограммы,
+			// делает весь acquisition "вспомогательным".
+			auto *slice = dynamic_cast<Dicom::tomogram_slice*>(a.get());
+//			if (!slice)
+//				return true;
+
+			// Выявление локализаторов
+			auto image_type = slice->dicom_container()->get_wstring_values(Dicom::e_image_type);
+			if (image_type.size() < 3) return true;
+			if (image_type[2] == L"LOCALIZER") return true;
+
+			// Выявление вспомогательных изображений вроде dose report
+			if (slice->dicom_container()->get_double_values(Dicom::e_image_position_patient).size() != 3)
+				return true;//вектор положения отсутствует
+			if (slice->dicom_container()->get_double_values(Dicom::e_image_orientation_patient).size() != 6)
+				return true;//вектор ориентации отсутствует.
+		}
+
+
+	}
+	dicom_instance_condition	*clone() const override { return new auxiliary_instance_condition(); }
+};
+*/
+
+class	allowed_modalities : public dicom_instance_condition
+{
+public:
+	bool	check(const Dicom::instance_ptr &a) const override
+	{
+		wstring modality = a->modality();
+		return modality == L"CT" || modality == L"DX" || modality == L"MG";
+	}
+	allowed_modalities	*clone() const override { return new allowed_modalities(); }
+};
+
+
+inline dicom_instance_predicate	fantom_allowed_modality(bool in_direct = true)
+{
+	return predicate::checker<Dicom::instance_ptr>(allowed_modalities(), in_direct);
+}
+
+
+inline auto	RemoveAux() 
+{ 
+	return	make_shared<AcquisitionFilter>(tomogram_acquisition_is_auxiliary());
+}
+
+inline DicomInstanceFilters_t RemoveNonFantomModalities()
+{
+	return make_tuple<>(
+		Dicom::filter_t(),
+		fantom_allowed_modality() & !instance_is_multiframe()//,
+						);
+}
+
+/*inline DicomInstanceFilters_t MakeDicomInstanceFilters()
+{
+	return make_tuple<>(
+		Dicom::filter_t(),
+		Dicom::dicom_instance_predicate::true_predicate()//,
+														 //Dicom::dicom_acquisition_predicate::true_predicate()
+		);
+}*/
+
+operation_result FANTOM_DLL_EI InitStudy_N(const wstring& dicom_folder)//(const char *data_store_path)
+{
+	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
+		Dicom::datasource_folder(dicom_folder, true),
+		RemoveNonFantomModalities(),
+			//  RemoveNonFantomModalities(),
+			//	MakeDicomInstanceFilters(), // вместо пустого фильтр, который оставит только наши рабочие модальности
+		ConsoleProgressProxy());
+
+     //FilterDicoms(patients_heap, RemoveAux);
+	FilterDicoms(patients_heap, RemoveAux());
+	/*
+	1. 
+	2.	список пациентов и исследований. Должно быть 1, 1. Иначе ошибка
+	3.	Подсчет модальностей. Должна быть одна.
+
+	if(modality == "CT") Study = make_unique(CTomogram<>())
+	else if("MG")... (MG//)
+	*/
+
+	Study = make_unique<CTomogram>();
+	return Study->InitHeap(dicom_folder);
+}
+
+
 operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
 	Study = make_unique<CTomogram>();
 	return Study->InitHeap(dicom_folder);
 }
 
+
+
 operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file)
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->InitHeap(dump_file);
+	return Study->HeapDump(dump_file);
+}
+
+operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetAccNumber(no, acc_no);
+}
+
+operation_result FANTOM_DLL_EI LoadByAccession_N(const wstring accession_number)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->LoadByAccession(accession_number);
+}
+
+operation_result FANTOM_DLL_EI GetModality_N(string &modality)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetModality(modality);
 }
 
 operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx)
@@ -127,11 +254,11 @@ operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx)
 	return Study->GetImage(img, idx);
 }
 
-operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->GetScreenImage(img, length, idx, black, white, gamma, mip);
+	return Study->GetScreenImage(img, length, idx, brightness);
 }
 
 operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x)
@@ -140,6 +267,35 @@ operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx,
 
 	return Study->GetBrightness(value, idx, y, x);
 }
+
+operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &dimensions)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetTomogramDimensions(dimensions);
+}
+
+operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &dimensions)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetScreenDimensions(dimensions);
+}
+
+operation_result FANTOM_DLL_EI GetPixelLengthCoefficient_N(double &length_pixel)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetPixelLengthCoefficient(length_pixel);
+}
+
+operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip)
+{
+	if (!Study) return e_empty_pointer;
+
+	return Study->GetZFlip(flip);
+}
+
 
 // Java implementation ==========================================================================
 operation_result FANTOM_DLL_EI InitFantom_J(const char *data_store_path)
