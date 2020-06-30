@@ -35,10 +35,8 @@
 
 #include <XRADQt/QtStringConverters.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
+
 extern QString	data_store_path;
-
-
-
 
 RequestMapper::RequestMapper(QObject* parent)
 	:HttpRequestHandler(parent), isLoaded(false)
@@ -67,11 +65,12 @@ void RequestMapper::LoadFantom()
 	isLoaded = true;
 }
 
+auto &ibi = interpolators2D::ibicubic;
+
 void RequestMapper::LoadFantom1()
 {
 	wstring ws = qstring_to_wstring(data_store_path);
 
-	Init2DInterpolators(ConsoleProgressProxy());
 	InitHeap_N(ws);
 
 	wstring acc_no;
@@ -165,23 +164,21 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			point3_ST dimensions;
 
-			string str;
+			string modality;
 
-			GetModality_N(str);
-
-			j["response"]["modality"] = str;
+			GetModality_N(modality);
 
 			GetTomogramDimensions_N(dimensions);
 
-			j["response"]["axialTomogram"] = dimensions.z();
-			j["response"]["frontalTomogram"] = dimensions.y();
-			j["response"]["frontalTomogram"] = dimensions.x();
+			j["response"][modality]["axialTomogram"] = dimensions.z();
+			j["response"][modality]["frontalTomogram"] = dimensions.y();
+			j["response"][modality]["frontalTomogram"] = dimensions.x();
 
 			GetScreenDimensions_N(dimensions);
 
-			j["response"]["axialScreen"] = dimensions.z();
-			j["response"]["frontalScreen"] = dimensions.y();
-			j["response"]["sagittalScreen"] = dimensions.x();
+			j["response"][modality]["axialScreen"] = dimensions.z();
+			j["response"][modality]["frontalScreen"] = dimensions.y();
+			j["response"][modality]["sagittalScreen"] = dimensions.x();
 
 			double length_pixel_coef;
 
@@ -189,13 +186,13 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			/*	GetPixelLengthCoefficient_J(&length_pixel_coef); */
 
-			j["response"]["pixelLength"] = length_pixel_coef;
+			j["response"][modality]["pixelLength"] = length_pixel_coef;
 
 			bool isFlipped;
 
 			GetZFlip_N(isFlipped);
 
-			j["response"]["reversed"] = isFlipped;
+			j["response"][modality]["reversed"] = isFlipped;
 
 			j["error"] = nullptr;
 
@@ -221,12 +218,23 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			string str = convert_to_string8(qstring_to_wstring(DataAsString));
 
-			nlohmann::json	j_request;
+			nlohmann::json	j_req;
 
-			j_request = nlohmann::json::parse(str);
+			j_req = nlohmann::json::parse(str);
 
 			double brValue;
-	//		GetBrightness_N(&brValue,)
+			GetBrightness_N(&brValue,
+			{ j_req["image"]["modality"],
+				j_req["image"]["type"],
+				j_req["image"]["number"],
+				{
+					j_req["image"]["mip"]["mip_method"],
+					j_req["image"]["mip"]["mip_value"]
+				}
+			},
+				j_req["point"]["vertical"],
+				j_req["point"]["horizontal"]
+				);
 
 			nlohmann::json	j_response;
 
@@ -251,21 +259,28 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			string str = convert_to_string8(qstring_to_wstring(DataAsString));
 
-			nlohmann::json	j_request;
+			nlohmann::json	j_req;
 
-			j_request = nlohmann::json::parse(str);
+			j_req = nlohmann::json::parse(str);
 
 			const unsigned char *img;
 			int  length;
 
-			GetSlice_J(&img, &length,
-				GetImageTypeFromInt(j_request["sliceType"]),
-				j_request["sliceNumber"],
-				j_request["black"],
-				j_request["white"],
-				j_request["gamma"],
-				j_request["mipValue"],
-				GetMIPMethodFromInt(j_request["mipMethod"])
+			//GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
+			GetScreenImage_N(&img, &length,
+			{ j_req["image"]["modality"],
+				j_req["image"]["type"],
+				j_req["image"]["number"],
+				{
+					j_req["image"]["mip"]["mip_method"],
+					j_req["image"]["mip"]["mip_value"]
+				}
+			},
+			{
+				j_req["brightness"]["white"],
+				j_req["brightness"]["black"],
+				j_req["brightness"]["gamma"]
+			}
 			);
 
 			QByteArray png = QByteArray();
@@ -274,7 +289,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			nlohmann::json	j_response;
 
-			j_response["response"]["image"] = png.toBase64();
+			j_response["response"]["image"] = png;//.toBase64();
 			j_response["error"] = nullptr;
 
 			response.setHeader("Content-Type", "application/json; charset=utf-8");

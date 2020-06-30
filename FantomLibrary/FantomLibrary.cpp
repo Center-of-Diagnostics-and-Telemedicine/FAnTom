@@ -214,6 +214,9 @@ operation_result FANTOM_DLL_EI InitStudy_N(const wstring& dicom_folder)//(const 
 operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
 	Study = make_unique<CTomogram>();
+
+	Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
+	
 	return Study->InitHeap(dicom_folder);
 }
 

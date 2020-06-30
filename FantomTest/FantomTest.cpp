@@ -40,7 +40,8 @@ int	xrad::xrad_main(int n, char *names[])
 	//	size_t continue_option = 0;
 	//	do
 	//	{
-		//	TestMamoImage();
+		TestLibraryImage(L"C:/dicom/+AGFA000000015851_AGFA000000015807");
+	//	TestMamoImage();
 		//	TestTomogram();
 		//	TestXRAYImage();
 			Pause();

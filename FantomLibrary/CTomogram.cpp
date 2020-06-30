@@ -155,6 +155,7 @@ operation_result CTomogram::GetScreenImage(const unsigned char **img, int *lengt
 	this->GetTomogramSlice(buffer, idx);
 	//this->GetImage(buffer, idx);
 
+
 	RescaleImageFromTomogramToScreenCoordinates(img_screen, buffer, idx.image_type);
 
 	double white = brightness.white;
@@ -353,7 +354,7 @@ void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx)
 	//size_t	slice_no = size_t(tomogram_slice_position);
 	//TODO заменить на пересчет из z?
 
-	if (idx.mip.mip_method == mip_method_t::none())
+	if (idx.mip.mip_method != mip_method_t::none())
 	{
 		CalculateMIP(img, idx);
 	}

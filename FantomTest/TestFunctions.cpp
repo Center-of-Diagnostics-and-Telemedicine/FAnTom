@@ -8,6 +8,7 @@
 
 #include <FantomLibrary/FantomLibrary.h>
 #include <FantomLibrary/FantomClass.h>
+#include <FantomLibrary/FantomDefs.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 #include <QtGui/QImage>
@@ -159,6 +160,23 @@ void	TestMamoImage()
 }
 #endif
 
+void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
+{
+	QImage q_image;
+
+	if (q_image.loadFromData(img, length, ".bmp"))
+	{
+		QBuffer buffer;
+		buffer.open(QIODevice::ReadWrite);
+		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
+		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
+
+		q_image.save("C:/temp/ddd.png", "png");
+
+		png = buffer.buffer().toBase64();
+	}
+}
+
 void	TestLibraryImage(const wstring &folder_path_p)
 {
 	std::string tmp = convert_to_string8(folder_path_p);
@@ -181,42 +199,35 @@ void	TestLibraryImage(const wstring &folder_path_p)
 
 	LoadCTbyAccession_J(tmp1.c_str());
 
-	size_t st_decision = GetButtonDecision(L"Выберете Тип Среза", { L"Аксиальный", L"Фронтальный", L"Сагитальный" });
-	slice_type st;
-	switch (st_decision)
-	{
-	/*case 0:
-		st = e_axial;
-		break;*/
-	case 1:
-		st = e_frontal;
-		break;
-	case 2:
-		st = e_sagittal;
-		break;
-	case 0:
-	default:
-		st = e_axial;
-		break;
-	}
-	size_t frames_number;
-	//GetNFrames_interpolated(frames_number, st);
-	GetTomogramDimension_J(&frames_number, st);
+	double value;
+	GetPointHU_J(&value, 100, 250, 300);
+	cout << "------------------------------" << endl;
+	cout << value << endl;
+	cout << "------------------------------" << endl;
 
-	size_t slice_no = GetUnsigned(L"Выберете срез для просмотра", 1, 1, frames_number);
+/*	const unsigned char *img;
+	int  len;
 
-	RealFunction2D_F32 image;
-	double black(0);
-	double white(255);
-	double gamma(1);
-	size_t coord;
-	//GetCoordinateNative(coord, st, slice_no);
-	//GetTomogramLocationFromScreenCoordinate_J(size_t *pixel_coord, slice_type st, size_t rescaled_slice_no, bool interpolate_z)
-	GetTomogramLocationFromScreenCoordinate_J(&coord, st, slice_no, true);
+	GetSlice_J(&img, &len,
+		slice_type::e_axial,
+		333,//number
+		-500.5,//black
+		1100.5,//white
+		0.3,//gamma
+		4,//mipvalue
+		mip_method_type::e_minvalue
+	);
 
-	mip_method_type mip_method = e_average;
-	ShowFloating("Coord for chosen slice", coord);
 
+	QByteArray png = QByteArray();
+
+    CreateQByteArrayPngFromChar(png, img, len);
+
+	QFile file("C:/temp/tomo001.txt");
+	file.open(QIODevice::WriteOnly);
+	file.write(png);
+	file.close();
+*/
 //	GetSlice(image, st, slice_no, black, white, gamma, 0, mip_method);
 
 //	DisplayMathFunction2D(image, L"Выбраный срез");

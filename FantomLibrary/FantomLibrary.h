@@ -76,7 +76,7 @@ operation_result FANTOM_DLL_EI GetModality_N(string &modality);
 
 operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx);
 
-operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
+operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx,brightness brightness);
 
 operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x);
 
