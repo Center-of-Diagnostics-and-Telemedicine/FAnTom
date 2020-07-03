@@ -94,7 +94,7 @@ using namespace xrad;
 
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-	lock_guard<std::mutex> lck(m_RequestMapperMutex);
+//	lock_guard<std::mutex> lck(m_RequestMapperMutex);
 
 	qDebug() << "############";
 	qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
@@ -172,7 +172,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			j["response"][modality]["axialTomogram"] = dimensions.z();
 			j["response"][modality]["frontalTomogram"] = dimensions.y();
-			j["response"][modality]["frontalTomogram"] = dimensions.x();
+			j["response"][modality]["sagittalTomogram"] = dimensions.x();
 
 			GetScreenDimensions_N(dimensions);
 

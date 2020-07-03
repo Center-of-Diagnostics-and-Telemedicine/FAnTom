@@ -146,6 +146,7 @@ public:
 };
 */
 
+
 class	allowed_modalities : public dicom_instance_condition
 {
 public:
@@ -166,7 +167,7 @@ inline dicom_instance_predicate	fantom_allowed_modality(bool in_direct = true)
 
 inline auto	RemoveAux() 
 { 
-	return	make_shared<AcquisitionFilter>(tomogram_acquisition_is_auxiliary());
+	return	make_shared<AcquisitionFilter>(!tomogram_acquisition_is_auxiliary());
 }
 
 inline DicomInstanceFilters_t RemoveNonFantomModalities()
@@ -186,7 +187,44 @@ inline DicomInstanceFilters_t RemoveNonFantomModalities()
 		);
 }*/
 
-operation_result FANTOM_DLL_EI InitStudy_N(const wstring& dicom_folder)//(const char *data_store_path)
+
+class Opener : public Dicom::AcquisitionProcessor<Dicom::acquisition_loader>
+{
+	const bool	open;
+
+
+	virtual    void Apply(Dicom::acquisition_loader &a, ProgressProxy pproxy) override
+	{
+		if(open) a.open_instancestorages();
+		else a.close_instancestorages();
+	}
+
+public:
+	Opener(bool in_open) : open(in_open) {}
+};
+
+class HeapOpenClose
+{
+	Dicom::patients_loader	&heap;
+
+public:
+	HeapOpenClose(Dicom::patients_loader	&in_heap) : heap(in_heap)
+	{
+		auto opener = make_shared<Opener>(true);
+		Dicom::PatientsProcessorRecursive<Dicom::patients_loader> processor(opener);
+		processor.Apply(heap, VoidProgressProxy());
+	}
+
+	~HeapOpenClose()
+	{
+		auto opener = make_shared<Opener>(false);
+		Dicom::PatientsProcessorRecursive<Dicom::patients_loader> processor(opener);
+		processor.Apply(heap, VoidProgressProxy());
+	}
+
+};
+
+operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
 	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
 		Dicom::datasource_folder(dicom_folder, true),
@@ -194,6 +232,10 @@ operation_result FANTOM_DLL_EI InitStudy_N(const wstring& dicom_folder)//(const 
 			//  RemoveNonFantomModalities(),
 			//	MakeDicomInstanceFilters(), // вместо пустого фильтр, который оставит только наши рабочие модальности
 		ConsoleProgressProxy());
+
+	HeapOpenClose ph(patients_heap);
+
+
 
      //FilterDicoms(patients_heap, RemoveAux);
 	FilterDicoms(patients_heap, RemoveAux());

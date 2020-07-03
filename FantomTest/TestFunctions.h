@@ -6,6 +6,8 @@
 
 XRAD_BEGIN
 
+void	TestHeap();
+
 void	TestLibraryImage(const wstring &folder_path_p);
 
 //void	TestXRAYImage();

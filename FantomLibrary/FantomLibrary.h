@@ -62,7 +62,7 @@ extern "C"
 //operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
 // New implementation with 2D mode support ======================================================
-operation_result FANTOM_DLL_EI InitStudy_N(const wstring& dicom_folder);//(const char *data_store_path)
+operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder);
 
 operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const char *data_store_path)
 

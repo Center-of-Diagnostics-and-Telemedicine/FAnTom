@@ -17,6 +17,14 @@
 
 XRAD_BEGIN
 
+void	TestHeap()
+{
+	Init2DInterpolators(ConsoleProgressProxy());
+	
+	InitHeapFiltered_N(L"C:/wired/ERIS000001201895");
+
+}
+
 #if 0
 
 void	TestTomogram()
