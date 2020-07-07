@@ -71,7 +71,7 @@ void RequestMapper::LoadFantom1()
 {
 	wstring ws = qstring_to_wstring(data_store_path);
 
-	InitHeap_N(ws);
+	InitHeapFiltered_N(ws);
 
 	wstring acc_no;
 	GetAccNumber_N(0, acc_no);
@@ -94,7 +94,7 @@ using namespace xrad;
 
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-//	lock_guard<std::mutex> lck(m_RequestMapperMutex);
+	lock_guard<std::mutex> lck(m_RequestMapperMutex);
 
 	qDebug() << "############";
 	qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
@@ -162,30 +162,13 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 		{
 			nlohmann::json	j;
 
-			vector<image_size_t> v;
-
+			QByteArray sss;
+			wstring vv;
 			string modality;
-
-			GetModality_N(modality);
-
+			nlohmann::json jjj;
 			GetDimensions_N(j);
 
-			for (auto &image : v)
-			{
-				nlohmann::json	node;
 
-				node["n_images"] = image.n_images;
-				node["screen_size_v"] = image.screen_sizes.y();
-				node["screen_size_h"] = image.screen_sizes.x();
-
-				node["dicom_size_v"] = image.dicom_sizes.y();
-				node["dicom_size_h"] = image.dicom_sizes.x();
-
-				node["dicom_step_v"] = image.steps.y();
-				node["dicom_step_h"] = image.steps.x();
-
-				j["response"][image.modality][image.image_type] = node;
-			}
 
 			bool isFlipped;
 

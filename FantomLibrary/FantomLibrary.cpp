@@ -199,7 +199,7 @@ public:
 
 };
 
-unique_ptr<SliceManagerType> my_heap(const wstring& dicom_folder)
+unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 {
 	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
 		Dicom::datasource_folder(dicom_folder, true),
@@ -235,9 +235,6 @@ unique_ptr<SliceManagerType> my_heap(const wstring& dicom_folder)
 	else if (modality == L"MG") result = make_unique<Mammogram>();
 	else if (modality == L"DX") result = make_unique<XRay>();
 
-
-
-
 	return result;
 }
 
@@ -246,8 +243,10 @@ operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//
 	try
 	{
 //		Study = make_unique<CTomogram>();
-		Study = my_heap(dicom_folder);
+		Study = GetCleanedHeap(dicom_folder);
 
+		Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
+		
 		return Study->InitHeap(dicom_folder);
 	}
 	catch (operation_result opr)
@@ -263,8 +262,6 @@ operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//
 
 operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
-	Study = make_unique<CTomogram>();
-
 	Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
 	
 	return Study->InitHeap(dicom_folder);

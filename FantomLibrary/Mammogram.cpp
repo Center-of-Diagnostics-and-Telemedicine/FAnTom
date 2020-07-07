@@ -1,11 +1,13 @@
 ﻿#include "pre.h"
 
 #include "Mammogram.h"
-
+#include <FantomLogger.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 operation_result Mammogram::LoadByAccession(const wstring accession_number)
 {
+	START_LOG;
+
 	bool acc_loaded = false;
 
 	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
@@ -70,7 +72,7 @@ operation_result Mammogram::LoadByAccession(const wstring accession_number)
 
 		this->AddToStepsMap(image_type, var1, var2);
 }
-
+	END_LOG;
 	return e_successful;
 }
 
@@ -135,6 +137,29 @@ int Mammogram::AddToStepsMap(const string image_type, vector<wstring> var1, vect
 
 	return 0;
 }
+
+operation_result Mammogram::GetDimensions(nlohmann::json &j)
+{
+	for (auto &image : m_MM_images)
+	{
+		nlohmann::json node;
+		node["n_images"] = 1;
+
+		node["screen_size_v"] = m_ScreenSize[image.first].y();
+		node["screen_size_h"] = m_ScreenSize[image.first].x();
+
+		node["dicom_size_v"] = m_MM_images[image.first].sizes(0);
+		node["dicom_size_h"] = m_MM_images[image.first].sizes(1);
+
+		node["dicom_step_v"] = m_Steps[image.first].y();
+		node["dicom_step_h"] = m_Steps[image.first].x();
+
+		j["response"][modality_t::MG()][image.first] = node;
+	}
+	
+	return e_successful; 
+}
+
 
 
 operation_result Mammogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)

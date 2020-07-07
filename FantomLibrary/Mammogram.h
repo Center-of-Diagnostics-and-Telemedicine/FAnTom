@@ -32,7 +32,7 @@ public:
 
 	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) override;
 
-	virtual operation_result GetDimensions(nlohmann::json &j) override { return e_successful; };
+	virtual operation_result GetDimensions(nlohmann::json &j) override;
 
 	virtual operation_result GetScreenDimensions(point3_ST &v) override { return e_successful; };
 
