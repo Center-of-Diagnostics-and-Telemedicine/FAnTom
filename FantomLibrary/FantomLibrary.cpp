@@ -4,7 +4,7 @@
 
 #include "CTomogram.h"
 #include "XRay.h"
-#include "Mamogram.h"
+#include "Mammogram.h"
 
 #include <sstream>
 #include <iostream>
@@ -14,7 +14,17 @@
 
 
 Fantom	tomogram;
-unique_ptr<CTomogram> Study;
+
+#if 0
+
+using SliceManagerType = CTomogram;
+
+#else
+using SliceManagerType = SliceManager;
+#endif
+
+unique_ptr<SliceManagerType> Study;
+
 
 //operation_result FANTOM_DLL_EI GetSlice(frame_t &interpolated_image, 
 //									   slice_type st, 
@@ -110,43 +120,6 @@ unique_ptr<CTomogram> Study;
 //}
 // New implementation with 2D mode support ======================================================
 
-
-//auxiliary_tomogram_acquisition_condition;
-
-
-/*
-class	auxiliary_instance_condition : public dicom_instance_condition
-{
-public:
-	bool	check(const Dicom::instance_ptr &a) const override
-	{
-		{
-			// Выявление не томограмм.
-			// Любой instance внутри acquisition, не являющийся срезом томограммы,
-			// делает весь acquisition "вспомогательным".
-			auto *slice = dynamic_cast<Dicom::tomogram_slice*>(a.get());
-//			if (!slice)
-//				return true;
-
-			// Выявление локализаторов
-			auto image_type = slice->dicom_container()->get_wstring_values(Dicom::e_image_type);
-			if (image_type.size() < 3) return true;
-			if (image_type[2] == L"LOCALIZER") return true;
-
-			// Выявление вспомогательных изображений вроде dose report
-			if (slice->dicom_container()->get_double_values(Dicom::e_image_position_patient).size() != 3)
-				return true;//вектор положения отсутствует
-			if (slice->dicom_container()->get_double_values(Dicom::e_image_orientation_patient).size() != 6)
-				return true;//вектор ориентации отсутствует.
-		}
-
-
-	}
-	dicom_instance_condition	*clone() const override { return new auxiliary_instance_condition(); }
-};
-*/
-
-
 class	allowed_modalities : public dicom_instance_condition
 {
 public:
@@ -157,7 +130,6 @@ public:
 	}
 	allowed_modalities	*clone() const override { return new allowed_modalities(); }
 };
-
 
 inline dicom_instance_predicate	fantom_allowed_modality(bool in_direct = true)
 {
@@ -178,14 +150,6 @@ inline DicomInstanceFilters_t RemoveNonFantomModalities()
 						);
 }
 
-/*inline DicomInstanceFilters_t MakeDicomInstanceFilters()
-{
-	return make_tuple<>(
-		Dicom::filter_t(),
-		Dicom::dicom_instance_predicate::true_predicate()//,
-														 //Dicom::dicom_acquisition_predicate::true_predicate()
-		);
-}*/
 
 
 class Opener : public Dicom::AcquisitionProcessor<Dicom::acquisition_loader>
@@ -201,6 +165,17 @@ class Opener : public Dicom::AcquisitionProcessor<Dicom::acquisition_loader>
 
 public:
 	Opener(bool in_open) : open(in_open) {}
+};
+
+class CheckModTheSame : public Dicom::InstanceProcessor<Dicom::instance_ptr>
+{
+
+	virtual	void Apply(Dicom::instance_ptr &data, ProgressProxy pp)  override
+	{
+		modalities.insert ( data->modality() );
+	}
+public:
+	set<wstring> modalities;
 };
 
 class HeapOpenClose
@@ -224,32 +199,65 @@ public:
 
 };
 
-operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//(const char *data_store_path)
+unique_ptr<SliceManagerType> my_heap(const wstring& dicom_folder)
 {
 	Dicom::patients_loader patients_heap = GetDicomStudiesHeap(
 		Dicom::datasource_folder(dicom_folder, true),
 		RemoveNonFantomModalities(),
-			//  RemoveNonFantomModalities(),
-			//	MakeDicomInstanceFilters(), // вместо пустого фильтр, который оставит только наши рабочие модальности
+		//MakeDicomInstanceFilters(), // вместо пустого фильтр, который оставит только наши рабочие модальности
 		ConsoleProgressProxy());
 
 	HeapOpenClose ph(patients_heap);
-
-
-
-     //FilterDicoms(patients_heap, RemoveAux);
 	FilterDicoms(patients_heap, RemoveAux());
 	/*
-	1. 
+	1.
 	2.	список пациентов и исследований. Должно быть 1, 1. Иначе ошибка
 	3.	Подсчет модальностей. Должна быть одна.
-
-	if(modality == "CT") Study = make_unique(CTomogram<>())
-	else if("MG")... (MG//)
 	*/
+	auto cmts = make_shared<CheckModTheSame>();
+	Dicom::PatientsProcessorRecursive<Dicom::patients_loader> processor(cmts);
+	processor.Apply(patients_heap, VoidProgressProxy());
 
-	Study = make_unique<CTomogram>();
-	return Study->InitHeap(dicom_folder);
+	if (cmts->modalities.size() > 1)  throw e_other;
+
+	if (patients_heap.size() > 1) throw e_other;
+
+	if (patients_heap.n_studies()  > 1) throw e_other;
+
+	wstring	modality = *cmts->modalities.begin();
+
+	unique_ptr<SliceManagerType> result;
+
+	SliceManagerType		*smth = new Mammogram;
+
+
+	if (modality == L"CT") result = make_unique<CTomogram>();
+	else if (modality == L"MG") result = make_unique<Mammogram>();
+	else if (modality == L"DX") result = make_unique<XRay>();
+
+
+
+
+	return result;
+}
+
+operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//(const char *data_store_path)
+{
+	try
+	{
+//		Study = make_unique<CTomogram>();
+		Study = my_heap(dicom_folder);
+
+		return Study->InitHeap(dicom_folder);
+	}
+	catch (operation_result opr)
+	{
+		return opr;
+	}
+	catch (...)
+	{
+		return e_other;
+	}
 }
 
 
@@ -313,26 +321,28 @@ operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx,
 	return Study->GetBrightness(value, idx, y, x);
 }
 
-operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &dimensions)
+operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j)
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->GetTomogramDimensions(dimensions);
+	return Study->GetDimensions(j);
 }
 
-operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &dimensions)
+operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v)
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->GetScreenDimensions(dimensions);
+	return Study->GetTomogramDimensions(v);
 }
 
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient_N(double &length_pixel)
+operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v)
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->GetPixelLengthCoefficient(length_pixel);
+	return Study->GetScreenDimensions(v);
 }
+
+
 
 operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip)
 {

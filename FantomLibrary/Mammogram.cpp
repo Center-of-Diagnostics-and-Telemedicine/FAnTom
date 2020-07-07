@@ -1,10 +1,10 @@
 ﻿#include "pre.h"
 
-#include "Mamogram.h"
+#include "Mammogram.h"
 
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
-operation_result Mamogram::LoadByAccession(const wstring accession_number)
+operation_result Mammogram::LoadByAccession(const wstring accession_number)
 {
 	bool acc_loaded = false;
 
@@ -74,13 +74,13 @@ operation_result Mamogram::LoadByAccession(const wstring accession_number)
 	return e_successful;
 }
 
-operation_result  Mamogram::GetModality(string &modality)
+operation_result  Mammogram::GetModality(string &modality)
 {
 	modality = modality_t::MG();
 	return e_successful;
 }
 
-int Mamogram::AddToStepsMap(const string image_type, vector<wstring> var1, vector <wstring> var2)
+int Mammogram::AddToStepsMap(const string image_type, vector<wstring> var1, vector <wstring> var2)
 {
 	if (var1.size() == 2 && var2.size() == 2)
 	{
@@ -92,10 +92,8 @@ int Mamogram::AddToStepsMap(const string image_type, vector<wstring> var1, vecto
 		{
 			m_EqualSteps[image_type] = true;
 		}
-		m_Steps[image_type]=make_pair(
-			wcstod(var1[0].c_str(), NULL),
-			wcstod(var1[1].c_str(), NULL)
-		);
+		m_Steps[image_type].y() = wcstod(var2[0].c_str(), NULL);
+		m_Steps[image_type].x() = wcstod(var2[1].c_str(), NULL);
 	}
 	else if (var1.size() == 0 && var2.size() == 2)
 	{
@@ -107,11 +105,8 @@ int Mamogram::AddToStepsMap(const string image_type, vector<wstring> var1, vecto
 		{
 			m_EqualSteps[image_type] = true;
 		}
-
-		m_Steps[image_type] = make_pair(
-			wcstod(var2[0].c_str(), NULL),
-			wcstod(var2[1].c_str(), NULL)
-		);
+		m_Steps[image_type].y() = wcstod(var2[0].c_str(), NULL);
+		m_Steps[image_type].x() = wcstod(var2[1].c_str(), NULL);
 	}
 	else if (var1.size() == 2 && var2.size() == 0)
 	{
@@ -124,26 +119,25 @@ int Mamogram::AddToStepsMap(const string image_type, vector<wstring> var1, vecto
 			m_EqualSteps[image_type] = true;
 		}
 
-		m_Steps[image_type] = make_pair(
-			wcstod(var1[0].c_str(), NULL),
-			wcstod(var1[1].c_str(), NULL)
-		);
+		m_Steps[image_type].y() = wcstod(var1[0].c_str(), NULL);
+		m_Steps[image_type].x() = wcstod(var1[1].c_str(), NULL);
+	
 	}
 	else
 	{
-		m_EqualSteps[image_type] = true;
+		throw std::logic_error("Pixel sizes (or pixel steps) are not given in current Dicom");
 
-		m_Steps[image_type] = make_pair(
-			wcstod(var1[0].c_str(), NULL),
-			wcstod(var1[1].c_str(), NULL)
-		);
+//		m_EqualSteps[image_type] = true;
+//		m_Steps[image_type].y() = wcstod(var1[0].c_str(), NULL);
+//		m_Steps[image_type].x() = wcstod(var1[1].c_str(), NULL);
+
 	}
 
 	return 0;
 }
 
 
-operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result Mammogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
 	frame_t img_screen;
 
@@ -159,14 +153,18 @@ operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize[image].first = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].first / min(m_Steps[image].first, m_Steps[image].second);
+		m_ScreenSize[image].y() = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].y() / min(m_Steps[image].y(), m_Steps[image].x());
 
-		m_ScreenSize[image].second = (size_t)m_MM_Images()[image].sizes(1)*m_Steps[image].second / min(m_Steps[image].first, m_Steps[image].second);
+		m_ScreenSize[image].x() = (size_t)m_MM_Images()[image].sizes(1)*m_Steps[image].x() / min(m_Steps[image].y(), m_Steps[image].x());
 
-		img_screen.realloc(m_ScreenSize[image].first, m_ScreenSize[image].second);
+		img_screen.realloc(m_ScreenSize[image].y(), m_ScreenSize[image].x());
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
 	}
+
+	double white = brightness.white;
+	double black = brightness.black;
+	double gamma = brightness.gamma;
 
 	ApplyFunction(img_screen, [black, white](float x) {return x<black ? 0 : x>white ? 255 : 255.*(x - black) / (white - black); });
 
@@ -197,19 +195,19 @@ operation_result Mamogram::GetScreenImage(const unsigned char **img, int *length
 	return e_successful;
 }
 
-void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx)
+void Mammogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx)
 {
 	string image = idx.image_type;
 
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 		//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double)i * m_MM_Images()[image].sizes(0) / m_ScreenSize[image].first;
+		double y = (double)i * m_MM_Images()[image].sizes(0) / m_ScreenSize[image].y();
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 			//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double)j * m_MM_Images()[image].sizes(1) / m_ScreenSize[image].second;
+			double x = (double)j * m_MM_Images()[image].sizes(1) / m_ScreenSize[image].x();
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}
@@ -217,7 +215,7 @@ void Mamogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_
 }
 
 
-operation_result Mamogram::GetImage(frame_t &img, const image_index_t idx)
+operation_result Mammogram::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
@@ -229,7 +227,7 @@ operation_result Mamogram::GetImage(frame_t &img, const image_index_t idx)
 
 
 
-operation_result  Mamogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result  Mammogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 

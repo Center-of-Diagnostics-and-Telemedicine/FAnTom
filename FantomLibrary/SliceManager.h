@@ -12,6 +12,7 @@
 #include <XRADBasic/MathFunctionTypesMD.h>
 #include <XRADDicom/XRADDicom.h>
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
 
 #include "SliceDefs.h"
 #include "FantomDefs.h"
@@ -21,9 +22,18 @@ XRAD_USING
 
 class SliceManager
 {
+public:
+	operation_result InitHeap(const wstring& dicom_folder);
+	operation_result HeapDump(const wstring& dump_file);
+	operation_result GetAccNumber(size_t no, wstring &acc_no) { if (no < m_accession_numbers.size()) { acc_no = m_accession_numbers[no]; return e_successful; } else return e_out_of_range; }
+
 protected:
 
-	vector<Dicom::study_loader> m_studies_heap;
+	size_t GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found);
+
+	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
+	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
+
 	shared_ptr<ProcessAcquisition> m_proc_acquisition_ptr;
 
 	wstring m_patient_id;
@@ -34,20 +44,13 @@ protected:
 	wstring m_study_id;
 	wstring m_study_instance_uid;
 
+private:
+
+	vector<Dicom::study_loader> m_studies_heap;
+
 	vector<wstring> m_accession_numbers;
 
-	operation_result InitHeap(const wstring& dicom_folder);
-	operation_result HeapDump(const wstring& dump_file);
-
-	operation_result GetAccNumber(size_t no, wstring &acc_no) { if (no < m_accession_numbers.size()) { acc_no = m_accession_numbers[no]; return e_successful; } else return e_out_of_range; }
-
-	size_t GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found);
-
-	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
-	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
-
-
-private:
+public:
 
 	virtual operation_result LoadByAccession(const wstring accession_number) = 0;
 
@@ -58,6 +61,15 @@ private:
 	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness) = 0;
 	
 	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
+
+	virtual operation_result GetDimensions(nlohmann::json &j) = 0;
+
+	virtual operation_result GetZFlip(bool &flip) = 0;
+
+	virtual operation_result GetScreenDimensions(point3_ST &v) = 0;
+	virtual operation_result GetTomogramDimensions(point3_ST &v) = 0;
+
+
 
 };
 

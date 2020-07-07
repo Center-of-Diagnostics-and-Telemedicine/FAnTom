@@ -11,7 +11,7 @@
 
 XRAD_USING
 
-class Mamogram : protected SliceManager
+class Mammogram : public SliceManager
 {
 	PARENT(SliceManager);
 public:
@@ -22,16 +22,29 @@ public:
 	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
 
-	virtual operation_result LoadByAccession(const wstring accession_number);
+	virtual operation_result LoadByAccession(const wstring accession_number) override;
 
-	virtual operation_result GetModality(string &modality);
+	virtual operation_result GetModality(string &modality) override;
 
-	virtual operation_result GetImage(frame_t &img, const image_index_t idx);
+	virtual operation_result GetImage(frame_t &img, const image_index_t idx) override;
 
-	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip);
+	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness) override;
 
-	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
+	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) override;
 
+	virtual operation_result GetDimensions(nlohmann::json &j) override { return e_successful; };
+
+	virtual operation_result GetScreenDimensions(point3_ST &v) override { return e_successful; };
+
+	virtual operation_result GetTomogramDimensions(point3_ST &v) override { return e_successful; };
+
+	virtual operation_result GetZFlip(bool &flip)
+	{
+		flip = false;
+		return e_successful;
+	}
+
+private:
 	int AddToStepsMap(const string image_type, vector<wstring> var1, vector <wstring> var2);
 
 	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
@@ -40,15 +53,16 @@ public:
 
 	map<string, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
 
+
 private:
 
 	map<string, RealFunction2D_F32> m_MM_images;
 
 	map<string, bool> m_EqualSteps;
 
-	map<string, pair<double, double>> m_Steps;
+	map<string, point2_F32> m_Steps;
 
-	map<string,pair<size_t, size_t>> m_ScreenSize;
+	map<string, point2_ST> m_ScreenSize;
 
 	map <string, BitmapContainerIndexed>	m_bmp;
 };

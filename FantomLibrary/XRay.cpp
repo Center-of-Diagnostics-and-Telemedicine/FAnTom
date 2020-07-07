@@ -85,7 +85,7 @@ operation_result  XRay::GetModality(string &modality)
 	return e_successful;
 }
 
-operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, double black, double white, double gamma, mip_index_t mip)
+operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
 	frame_t img_screen;
 
@@ -109,6 +109,10 @@ operation_result XRay::GetScreenImage(const unsigned char **img, int *length, im
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
 	}
+
+	double white = brightness.white;
+	double black = brightness.black;
+	double gamma = brightness.gamma;
 
 	ApplyFunction(img_screen, [black, white](float x) {return x<black ? 0 : x>white ? 255 : 255.*(x - black) / (white - black); });
 

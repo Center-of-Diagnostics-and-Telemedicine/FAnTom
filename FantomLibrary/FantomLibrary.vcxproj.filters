@@ -22,13 +22,13 @@
     <ClCompile Include="HeapDump.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Mamogram.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SliceManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="XRay.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mammogram.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,9 +48,6 @@
     <ClInclude Include="CTomogram.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Mamogram.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="SliceDefs.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -58,6 +55,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="XRay.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Mammogram.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -49,6 +49,15 @@ struct image_t
 	static const string mg_lmlo()	{	return "mg_lmlo"; }
 };
 
+struct image_size_t
+{
+	const string	modality;
+	const string	image_type;
+	size_t n_images;
+	point2_ST	screen_sizes;
+	point2_ST	dicom_sizes;
+	point2_F64   steps;
+};
 
 struct mip_index_t
 {

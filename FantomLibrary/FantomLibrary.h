@@ -10,6 +10,8 @@
 #include "FantomDefs.h"
 #include "SliceDefs.h"
 
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
+
 #ifndef FANTOM_DLL_EI
 #if defined(XRAD_COMPILER_MSC)
 #ifdef Fantom_DLL
@@ -80,11 +82,11 @@ operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *
 
 operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x);
 
-operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &dimensions);
+operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j);
 
-operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &dimensions);
+operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v);
 
-operation_result FANTOM_DLL_EI GetPixelLengthCoefficient_N(double &length_pixel);
+operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v);
 
 operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip);
 

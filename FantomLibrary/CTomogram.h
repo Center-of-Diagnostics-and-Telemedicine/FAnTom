@@ -14,28 +14,37 @@
 XRAD_USING
 
 
-class CTomogram : protected SliceManager
+class CTomogram : public SliceManager
 {
-	PARENT(SliceManager);
 public:
+	PARENT(SliceManager);
 	using parent::InitHeap;
 	using parent::HeapDump;
 	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
 	using parent::GetAccNumber;
-//	using parent::CreateQByteArrayPngFromChar;
+
 
 	virtual operation_result LoadByAccession(const wstring accession_number);
 
-	virtual operation_result GetModality(string &modality);
+	virtual operation_result GetModality(string &modality) override;
 
-	virtual operation_result GetImage(frame_t &img, const image_index_t idx);
+	virtual operation_result GetImage(frame_t &img, const image_index_t idx) override;
 
-	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness);
+	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness) override;
 	
-	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x);
+	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) override;
 
-//	virtual void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length, const wstring &format);
+	virtual operation_result GetDimensions(nlohmann::json &j) override;
+
+	virtual operation_result GetTomogramDimensions(point3_ST &v) override ;
+
+	virtual operation_result GetScreenDimensions(point3_ST &v) override ;
+
+	virtual operation_result GetZFlip(bool & flip) override;
+
+
+private:
 
 	CTAcquisition& CTAcquisition_ptr() { return dynamic_cast<CTAcquisition&>(*m_proc_acquisition_ptr); }
 
@@ -50,14 +59,6 @@ public:
 	point2_ST	SliceSizes(const string &st) const;
 
 	size_t	CTSlicesSize(const string &st) const;
-
-	operation_result GetTomogramDimensions(point3_ST &dimensions);
-
-	operation_result GetScreenDimensions(point3_ST &dimensions);
-
-	operation_result GetPixelLengthCoefficient(double &length_pixel);
-
-	operation_result GetZFlip(bool & flip);
 
 	void GetTomogramSlice(frame_t &img, image_index_t idx);
 

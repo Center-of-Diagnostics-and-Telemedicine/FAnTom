@@ -162,31 +162,30 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 		{
 			nlohmann::json	j;
 
-			point3_ST dimensions;
+			vector<image_size_t> v;
 
 			string modality;
 
 			GetModality_N(modality);
 
-			GetTomogramDimensions_N(dimensions);
+			GetDimensions_N(j);
 
-			j["response"][modality]["axialTomogram"] = dimensions.z();
-			j["response"][modality]["frontalTomogram"] = dimensions.y();
-			j["response"][modality]["sagittalTomogram"] = dimensions.x();
+			for (auto &image : v)
+			{
+				nlohmann::json	node;
 
-			GetScreenDimensions_N(dimensions);
+				node["n_images"] = image.n_images;
+				node["screen_size_v"] = image.screen_sizes.y();
+				node["screen_size_h"] = image.screen_sizes.x();
 
-			j["response"][modality]["axialScreen"] = dimensions.z();
-			j["response"][modality]["frontalScreen"] = dimensions.y();
-			j["response"][modality]["sagittalScreen"] = dimensions.x();
+				node["dicom_size_v"] = image.dicom_sizes.y();
+				node["dicom_size_h"] = image.dicom_sizes.x();
 
-			double length_pixel_coef;
+				node["dicom_step_v"] = image.steps.y();
+				node["dicom_step_h"] = image.steps.x();
 
-			GetPixelLengthCoefficient_N(length_pixel_coef);
-
-			/*	GetPixelLengthCoefficient_J(&length_pixel_coef); */
-
-			j["response"][modality]["pixelLength"] = length_pixel_coef;
+				j["response"][image.modality][image.image_type] = node;
+			}
 
 			bool isFlipped;
 

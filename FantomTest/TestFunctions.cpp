@@ -4,7 +4,7 @@
 
 #include <FantomLibrary/CTomogram.h>
 #include <FantomLibrary/XRay.h>
-#include <FantomLibrary/Mamogram.h>
+#include <FantomLibrary/Mammogram.h>
 
 #include <FantomLibrary/FantomLibrary.h>
 #include <FantomLibrary/FantomClass.h>
@@ -21,7 +21,7 @@ void	TestHeap()
 {
 	Init2DInterpolators(ConsoleProgressProxy());
 	
-	InitHeapFiltered_N(L"C:/wired/ERIS000001201895");
+	InitHeapFiltered_N(L"C:/wired/ERIS000001308487");
 
 }
 

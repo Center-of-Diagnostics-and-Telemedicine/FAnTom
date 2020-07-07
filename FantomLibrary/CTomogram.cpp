@@ -7,7 +7,7 @@
 
 void CTomogram::CalculateInterpolationScales()
 {
-	m_interpolation_factor.CopyData(m_CTscales / min(m_CTscales.x(), m_CTscales.y()));
+	m_interpolation_factor.CopyData(m_CTscales / vmin(m_CTscales.z(), m_CTscales.y(), m_CTscales.x()));
 
 	m_interpolation_sizes =
 	{
@@ -68,6 +68,95 @@ operation_result CTomogram::LoadByAccession(const wstring accession_number)
 operation_result CTomogram::GetModality(string &modality)
 {
 	modality = modality_t::CT();
+	return e_successful;
+}
+
+/*
+struct image_size_t
+{
+const string	modality;
+const string	image_type;
+size_t n_images;
+point2_ST	screen_sizes;
+point2_ST	dicom_sizes;
+};
+
+
+*/
+
+
+operation_result CTomogram::GetDimensions(nlohmann::json &j)
+{
+
+	nlohmann::json	axial_node, frontal_node, sagittal_node;
+
+	axial_node["n_images"] = CTSlices().sizes()[0];
+
+	axial_node["screen_size_v"] = m_interpolation_sizes.y();
+	axial_node["screen_size_h"] = m_interpolation_sizes.x();
+
+	axial_node["dicom_size_v"] = CTSlices().sizes()[1];
+	axial_node["dicom_size_h"] = CTSlices().sizes()[2];
+
+	axial_node["dicom_step_v"] = m_CTscales.y();
+	axial_node["dicom_step_h"] = m_CTscales.x();
+
+
+
+	frontal_node["n_images"] = CTSlices().sizes()[1];
+
+	frontal_node["screen_size_v"] = m_interpolation_sizes.z();
+	frontal_node["screen_size_h"] = m_interpolation_sizes.x();
+
+	frontal_node["dicom_size_v"] = CTSlices().sizes()[0];
+	frontal_node["dicom_size_h"] = CTSlices().sizes()[2];
+
+	frontal_node["dicom_step_v"] = m_CTscales.z();
+	frontal_node["dicom_step_h"] = m_CTscales.x();
+
+
+	sagittal_node["n_images"] = CTSlices().sizes()[2];
+
+	sagittal_node["screen_size_v"] = m_interpolation_sizes.z();
+	sagittal_node["screen_size_h"] = m_interpolation_sizes.y();
+
+	sagittal_node["dicom_size_v"] = CTSlices().sizes()[0];
+	sagittal_node["dicom_size_h"] = CTSlices().sizes()[1];
+
+	sagittal_node["dicom_step_v"] = m_CTscales.z();
+	sagittal_node["dicom_step_h"] = m_CTscales.y();
+
+
+
+	j["response"][modality_t::CT()][image_t::ct_axial()] = axial_node;
+
+	j["response"][modality_t::CT()][image_t::ct_frontal()] = frontal_node;
+
+	j["response"][modality_t::CT()][image_t::ct_sagittal()] = sagittal_node;
+
+
+
+/*	v.push_back(
+	{ modality_t::CT(),image_t::ct_axial(), CTSlices().sizes()[0],
+	{ m_interpolation_sizes.y(),  m_interpolation_sizes.x() },
+	{ CTSlices().sizes()[1], CTSlices().sizes()[2] },
+	{m_CTscales.y(), m_CTscales.x()} }
+	);
+
+	v.push_back(
+	{ modality_t::CT(),image_t::ct_frontal(), CTSlices().sizes()[1],
+	{ m_interpolation_sizes.z(),  m_interpolation_sizes.x() },
+	{ CTSlices().sizes()[0], CTSlices().sizes()[2] },
+	{m_CTscales.z(), m_CTscales.x() }  }
+	);
+
+	v.push_back(
+	{ modality_t::CT(),image_t::ct_sagittal(), CTSlices().sizes()[2],
+	{ m_interpolation_sizes.z(),  m_interpolation_sizes.y() },
+	{ CTSlices().sizes()[0], CTSlices().sizes()[1] } ,
+	{ m_CTscales.z(), m_CTscales.y() } }
+	);
+*/
 	return e_successful;
 }
 
@@ -265,35 +354,7 @@ double	CTomogram::ScreenToDicomCoordinate(double t, axis_t axis)
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
 
-/*
-operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_slice_position, slice_type st, size_t mip_size, mip_method_type mmt)
-{
-	auto	mip_function = [&mmt](const RealFunctionF32	 &row)->double
-	{
-		switch (mmt)
-		{
-		case e_average:
-			return AverageValue(row);
-		case e_maxvalue:
-			return MaxValue(row);
-		case e_minvalue:
-			return MinValue(row);
-		default:
-		case e_no_mip:
-			return row[row.size() / 2];
-		}
-	};
 
-	// используется двухступенчатая процедура извлечения подмножества, поэтому два разных буфера. неуклюже, можно подумать об улучшении
-	RealFunctionMD_F32	acquisition_buffer;
-	RealFunctionMD_F32	b1;
-
-	auto	frame_sizes = slice_sizes(st, dicom_slice_position);
-	frame.realloc(frame_sizes.y(), frame_sizes.x(), 0);
-
-	size_t	p0 = range(dicom_slice_position - mip_size, 0, n_slices(st) - 1);
-	size_t	p1 = range(dicom_slice_position + mip_size, 0, n_slices(st) - 1);
-*/
 
 void CTomogram::CalculateMIP(frame_t &img, image_index_t idx)
 {
@@ -418,11 +479,7 @@ operation_result CTomogram::GetScreenDimensions(point3_ST &dimensions)
 	return e_successful;
 }
 
-operation_result CTomogram::GetPixelLengthCoefficient(double &length_pixel)
-{
-	length_pixel = m_CTscales.y();
-	return e_successful;
-}
+
 
 operation_result CTomogram::GetZFlip(bool & flip)
 {
