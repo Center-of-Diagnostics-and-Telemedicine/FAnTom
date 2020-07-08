@@ -18,14 +18,15 @@ class CTomogram : public SliceManager
 {
 public:
 	PARENT(SliceManager);
+
 	using parent::InitHeap;
 	using parent::HeapDump;
-	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
-	using parent::GetAccNumber;
-
-
-	virtual operation_result LoadByAccession(const wstring accession_number);
+	using parent::parent;
+	
+	
+public:
+	virtual operation_result LoadByAccession() override;
 
 	virtual operation_result GetModality(string &modality) override;
 
@@ -76,6 +77,7 @@ private:
 	point3_F64	m_interpolation_factor;
 	point3_ST		  m_interpolation_sizes;
 	RealFunctionMD_F32 m_CTslices;
+
 };
 
 

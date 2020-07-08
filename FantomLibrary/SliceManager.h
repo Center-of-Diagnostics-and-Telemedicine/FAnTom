@@ -25,15 +25,19 @@ class SliceManager
 public:
 	operation_result InitHeap(const wstring& dicom_folder);
 	operation_result HeapDump(const wstring& dump_file);
-	operation_result GetAccNumber(size_t no, wstring &acc_no) { if (no < m_accession_numbers.size()) { acc_no = m_accession_numbers[no]; return e_successful; } else return e_out_of_range; }
+//	operation_result GetAccNumber(size_t no, wstring &acc_no) { if (no < m_accession_numbers.size()) { acc_no = m_accession_numbers[no]; return e_successful; } else return e_out_of_range; }
+
+	Dicom::study_loader & GetStudy() { return m_Study; }
+//	vector<wstring>& GetAccNumVector() { return m_accession_numbers; }
+
+public:
+
+//	size_t GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found);
+
+	Dicom::acquisition_loader& GetLargestAcquisition();
+	Dicom::acquisition_loader GetInstancesOfStudy();
 
 protected:
-
-	size_t GetAccessionHeapPosition(const wstring &accession_number, bool &acc_found);
-
-	Dicom::acquisition_loader& GetLargestAcquisition(size_t chosen_position);
-	Dicom::acquisition_loader GetInstancesOfStudy(size_t chosen_position);
-
 	shared_ptr<ProcessAcquisition> m_proc_acquisition_ptr;
 
 	wstring m_patient_id;
@@ -46,13 +50,15 @@ protected:
 
 private:
 
-	vector<Dicom::study_loader> m_studies_heap;
+	 Dicom::study_loader  m_Study;
 
-	vector<wstring> m_accession_numbers;
+//	vector<Dicom::study_loader> m_studies_heap;
+
+//	vector<wstring> m_accession_numbers;
 
 public:
 
-	virtual operation_result LoadByAccession(const wstring accession_number) = 0;
+	virtual operation_result LoadByAccession() = 0;
 
 	virtual operation_result GetModality(string &modality) = 0;
 
@@ -69,6 +75,8 @@ public:
 	virtual operation_result GetScreenDimensions(point3_ST &v) = 0;
 	virtual operation_result GetTomogramDimensions(point3_ST &v) = 0;
 
+public:
+	SliceManager::SliceManager(Dicom::study_loader  &&in_Study) : m_Study(in_Study) {};
 
 
 };

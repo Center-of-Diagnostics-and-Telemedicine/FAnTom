@@ -55,28 +55,22 @@ bool	is_lmlo(const wstring &str)
 }
 
 
-operation_result Mammogram::LoadByAccession(const wstring accession_number)
+operation_result Mammogram::LoadByAccession()
 {
 	START_LOG;
 
 	bool acc_loaded = false;
 
-	if (m_accession_number == accession_number && m_proc_acquisition_ptr != nullptr)
+	if (m_proc_acquisition_ptr != nullptr)
 	{
 		acc_loaded = true;
 		return e_successful;
 	}
 
-	size_t chosen_position = GetAccessionHeapPosition(accession_number, acc_loaded);
-
-	if (!acc_loaded) return e_out_of_range;
-
-	m_proc_acquisition_ptr = CreateProcessAcquisition(GetInstancesOfStudy(chosen_position), ConsoleProgressProxy());
+	m_proc_acquisition_ptr = CreateProcessAcquisition(GetInstancesOfStudy(), ConsoleProgressProxy());
 
 	ProcessAcquisitionOpenClose prcAcq(*m_proc_acquisition_ptr);
 	//	proc_acquisition_work_ptr->open_instancestorages();
-
-	m_accession_number = accession_number;
 
 	Dicom::instance	&sample_instance = *MMAcquisition_ptr().loader().front();
 

@@ -228,12 +228,23 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 
 	unique_ptr<SliceManagerType> result;
 
-	SliceManagerType		*smth = new Mammogram;
+//	SliceManagerType		*smth = new CTomogram;// Mammogram;
+	
+	auto &S = patients_heap.front().front();
 
+	if (modality == L"CT") result = make_unique<CTomogram>(std::move(S));
+	else if (modality == L"MG") result = make_unique<Mammogram>(std::move(S));
+	else if (modality == L"DX") result = make_unique<XRay>(std::move(S));
 
-	if (modality == L"CT") result = make_unique<CTomogram>();
-	else if (modality == L"MG") result = make_unique<Mammogram>();
-	else if (modality == L"DX") result = make_unique<XRay>();
+//	vector<Dicom::study_loader> tmp;
+
+//	result->m_studies_heap = tmp.push_back(patients_heap.front().front());
+
+//	result->m_studies_heap.push_back(patients_heap.front().front());
+
+//	result->GetStudiesHeapVector().push_back(patients_heap.front().front());
+
+//	result->GetAccNumVector().push_back(patients_heap.front().front().complete_study_id().accession_number());
 
 	return result;
 }
@@ -247,7 +258,7 @@ operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//
 
 		Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
 		
-		return Study->InitHeap(dicom_folder);
+		return e_successful;// Study->InitHeap(dicom_folder);
 	}
 	catch (operation_result opr)
 	{
@@ -276,18 +287,18 @@ operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file)
 	return Study->HeapDump(dump_file);
 }
 
-operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no)
+// operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no)
+// {
+// 	if (!Study) return e_empty_pointer;
+// 
+// 	return Study->GetAccNumber(no, acc_no);
+// }
+
+operation_result FANTOM_DLL_EI LoadByAccession_N()
 {
 	if (!Study) return e_empty_pointer;
 
-	return Study->GetAccNumber(no, acc_no);
-}
-
-operation_result FANTOM_DLL_EI LoadByAccession_N(const wstring accession_number)
-{
-	if (!Study) return e_empty_pointer;
-
-	return Study->LoadByAccession(accession_number);
+	return Study->LoadByAccession();
 }
 
 operation_result FANTOM_DLL_EI GetModality_N(string &modality)

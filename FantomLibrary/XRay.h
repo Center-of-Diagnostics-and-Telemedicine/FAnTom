@@ -17,12 +17,11 @@ class XRay : public SliceManager
 public:
 	using parent::InitHeap;
 	using parent::HeapDump;
-	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
-	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
+	using parent::parent;
 
-	virtual operation_result LoadByAccession(const wstring accession_number) override;
+	virtual operation_result LoadByAccession() override;
 
 	virtual operation_result GetModality(string &modality) override;
 
@@ -65,6 +64,7 @@ private:
 	vector<bool> m_EqualSteps;
 
 	vector<BitmapContainerIndexed>	m_bmp;
+
 };
 
 

@@ -70,9 +70,9 @@ operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const 
 
 operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file);
 
-operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no);
+//operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no);
 
-operation_result FANTOM_DLL_EI LoadByAccession_N(const wstring accession_number);
+operation_result FANTOM_DLL_EI LoadByAccession_N();
 
 operation_result FANTOM_DLL_EI GetModality_N(string &modality);
 

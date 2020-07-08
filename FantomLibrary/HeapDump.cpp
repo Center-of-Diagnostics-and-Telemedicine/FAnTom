@@ -16,22 +16,22 @@ operation_result SliceManager::HeapDump(const wstring& dump_file)
 	std::ofstream File;
 
 	File.open(dump_file.c_str());
-		size_t i = 0, ii = 0;
+		size_t  ii = 0;
 
-		for (auto &study : m_studies_heap)
-		{
-			File << i << endl;
-			i++;
+//		for (auto &study : m_studies_heap)
+//		{
+//			File << i << endl;
+//			i++;
 
 			File << "The Study ID: ";
-			File << convert_to_string8( study.complete_study_id().study_id() ) << endl;
+			File << convert_to_string8( GetStudy().complete_study_id().study_id() ) << endl;
 
 			File << "The Accession number: ";
-			File << convert_to_string8( study.complete_study_id().accession_number() ) << endl;
+			File << convert_to_string8( GetStudy().complete_study_id().accession_number() ) << endl;
 
 			ii = 0;
 
-			for (auto &ser : study)
+			for (auto &ser : GetStudy())
 			{
 				for (auto &stack : ser)
 				{
@@ -55,7 +55,7 @@ operation_result SliceManager::HeapDump(const wstring& dump_file)
 			File << "The total number of instances = " << ii  << endl;
 			File << "---------------------------------------" << endl;
 			File << endl;
-		}
+//		}
 		File.close();
 
 		return e_successful;

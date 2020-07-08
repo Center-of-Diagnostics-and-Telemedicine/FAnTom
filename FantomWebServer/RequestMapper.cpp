@@ -73,12 +73,8 @@ void RequestMapper::LoadFantom1()
 
 	InitHeapFiltered_N(ws);
 
-	wstring acc_no;
-	GetAccNumber_N(0, acc_no);
 
-	wcout << "Accession number = " << acc_no << endl;
-
-	LoadByAccession_N(acc_no);
+	LoadByAccession_N();
 
 	isLoaded = true;
 }

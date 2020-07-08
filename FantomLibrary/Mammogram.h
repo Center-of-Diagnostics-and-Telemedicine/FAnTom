@@ -17,12 +17,11 @@ class Mammogram : public SliceManager
 public:
 	using parent::InitHeap;
 	using parent::HeapDump;
-	using parent::GetAccessionHeapPosition;
 	using parent::GetLargestAcquisition;
-	using parent::GetAccNumber;
 	using parent::GetInstancesOfStudy;
+	using parent::parent;
 
-	virtual operation_result LoadByAccession(const wstring accession_number) override;
+	virtual operation_result LoadByAccession() override;
 
 	virtual operation_result GetModality(string &modality) override;
 
@@ -65,6 +64,10 @@ private:
 	map<string, point2_ST> m_ScreenSize;
 
 	map <string, BitmapContainerIndexed>	m_bmp;
+//public:
+//public:
+//	Mammogram::Mammogram();
+
 };
 
 
