@@ -57,6 +57,8 @@ void f(HttpListener* listener)
 		server_ini_file = wstring_to_qstring(wss.server_ini_file);
 	}
 
+	cout << "Dicom folder is " << data_store_path.toStdString() << endl;
+	cout << "Webserver .ini file is " << server_ini_file.toStdString() << endl;
 
 	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
 

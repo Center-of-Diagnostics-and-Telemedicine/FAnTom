@@ -15,10 +15,37 @@
 #include <QtCore/QBuffer>
 #include <QtCore/QFile>
 
+#include <XRADBasic/Sources/Utils/numbers_in_string.h>
+
 XRAD_BEGIN
+
+string	smart_round(double x)
+{
+	return "";
+}
+
 
 void	TestHeap()
 {
+	double	x = 1.39999999;
+	double y = 2.02020202012;
+
+	nlohmann::json	j1, j2;
+
+	j1["x"] = x;
+	j1["y"] = y;
+
+	wstring	xs = convert_to_wstring(std::to_string(x));
+
+	//wstring	xs = ssprintf(L"%.9g", x);
+	wstring	ys = ssprintf(L"%.9g", y);
+	smart_round(xs, 5);
+	smart_round(ys, 5);
+
+	j1["x"] = convert_to_string8(xs);
+	j1["y"] = convert_to_string8(ys);
+
+
 	Init2DInterpolators(ConsoleProgressProxy());
 	
 	InitHeapFiltered_N(L"C:/wired/ERIS000001308487");

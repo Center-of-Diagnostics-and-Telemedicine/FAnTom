@@ -4,6 +4,57 @@
 #include <FantomLogger.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
+vector<wstring> mg_rcc_dict =
+{
+	L"RCC",
+	L"R MAMMOGRAPHY, CC",
+	L"R CC"
+};
+
+bool	is_rcc(const wstring &str)
+{
+	return (std::find(mg_rcc_dict.begin(), mg_rcc_dict.end(), str) != mg_rcc_dict.end());
+}
+
+
+vector<wstring> mg_lcc_dict = 
+{
+	L"LCC",
+	L"L MAMMOGRAPHY, CC",
+	L"L CC"
+};
+
+bool	is_lcc(const wstring &str)
+{
+	return (std::find(mg_lcc_dict.begin(), mg_lcc_dict.end(), str) != mg_lcc_dict.end());
+}
+
+
+vector<wstring> mg_rmlo_dict =
+{
+	L"RMLO",
+	L"R MAMMOGRAPHY, MLO",
+	L"R MLO"
+};
+
+bool	is_rmlo(const wstring &str)
+{
+	return (std::find(mg_rmlo_dict.begin(), mg_rmlo_dict.end(), str) != mg_rmlo_dict.end());
+}
+
+vector<wstring> mg_lmlo_dict =
+{
+	L"LMLO",
+	L"L MAMMOGRAPHY, MLO",
+	L"L MLO"
+};
+
+bool	is_lmlo(const wstring &str)
+{
+	return (std::find(mg_lmlo_dict.begin(), mg_lmlo_dict.end(), str) != mg_lmlo_dict.end());
+}
+
+
 operation_result Mammogram::LoadByAccession(const wstring accession_number)
 {
 	START_LOG;
@@ -47,13 +98,21 @@ operation_result Mammogram::LoadByAccession(const wstring accession_number)
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
 
-		if( str == L"RCC" || str == L"R MAMMOGRAPHY, CC")	image_type = image_t::mg_rcc();
+		wcout << L"The value of (0018,1400) tag is " << str << endl;
 
-		else if (str == L"LCC" || str == L"L MAMMOGRAPHY, CC")	image_type = image_t::mg_lcc();
+		size_t GE_MMG_TAG = 4526107;
 
-		else if (str == L"RMLO" || str == L"R MAMMOGRAPHY, MLO")	image_type = image_t::mg_rmlo();
+		if ( !is_rcc(str) && !is_lcc(str) && !is_rmlo(str) && !is_lmlo(str)) str = inst_ptr->get_wstring(reinterpret_cast<Dicom::tag_e&>(GE_MMG_TAG));
 
-		else if (str == L"LMLO" || str == L"L MAMMOGRAPHY, MLO")	image_type = image_t::mg_lmlo();
+		wcout << L"The value of (0045,101B) tag is " << str << endl;
+
+		if( is_rcc(str))	image_type = image_t::mg_rcc();
+
+		else if (is_lcc(str))	image_type = image_t::mg_lcc();
+
+		else if (is_rmlo(str))	image_type = image_t::mg_rmlo();
+
+		else if (is_lmlo(str))	image_type = image_t::mg_lmlo();
 
 		m_MM_images[image_type] = std::move(data_slice);
 
@@ -71,6 +130,10 @@ operation_result Mammogram::LoadByAccession(const wstring accession_number)
 //		}
 
 		this->AddToStepsMap(image_type, var1, var2);
+
+		m_ScreenSize[image_type].y() = (size_t)m_MM_Images()[image_type].sizes(0)*m_Steps[image_type].y() / min(m_Steps[image_type].y(), m_Steps[image_type].x());
+
+		m_ScreenSize[image_type].x() = (size_t)m_MM_Images()[image_type].sizes(1)*m_Steps[image_type].x() / min(m_Steps[image_type].y(), m_Steps[image_type].x());
 }
 	END_LOG;
 	return e_successful;
@@ -178,9 +241,9 @@ operation_result Mammogram::GetScreenImage(const unsigned char **img, int *lengt
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize[image].y() = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].y() / min(m_Steps[image].y(), m_Steps[image].x());
+//		m_ScreenSize[image].y() = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].y() / min(m_Steps[image].y(), m_Steps[image].x());
 
-		m_ScreenSize[image].x() = (size_t)m_MM_Images()[image].sizes(1)*m_Steps[image].x() / min(m_Steps[image].y(), m_Steps[image].x());
+//		m_ScreenSize[image].x() = (size_t)m_MM_Images()[image].sizes(1)*m_Steps[image].x() / min(m_Steps[image].y(), m_Steps[image].x());
 
 		img_screen.realloc(m_ScreenSize[image].y(), m_ScreenSize[image].x());
 

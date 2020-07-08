@@ -162,10 +162,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 		{
 			nlohmann::json	j;
 
-			QByteArray sss;
-			wstring vv;
 			string modality;
-			nlohmann::json jjj;
+			GetModality_N(modality);
+
 			GetDimensions_N(j);
 
 
@@ -220,7 +219,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			nlohmann::json	j_response;
 
-			j_response["response"]["huValue"] = brValue;
+			j_response["response"]["brightness"] = brValue;
 			j_response["error"] = nullptr;
 
 			response.setHeader("Content-Type", "application/json; charset=utf-8");
