@@ -73,7 +73,6 @@ void RequestMapper::LoadFantom1()
 
 	InitHeapFiltered_N(ws);
 
-
 	LoadByAccession_N();
 
 	isLoaded = true;
@@ -90,7 +89,7 @@ using namespace xrad;
 
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-	lock_guard<std::mutex> lck(m_RequestMapperMutex);
+//	lock_guard<std::mutex> lck(m_RequestMapperMutex);
 
 	qDebug() << "############";
 	qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
@@ -242,6 +241,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 			const unsigned char *img;
 			int  length;
+
+
 
 			//GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 			GetScreenImage_N(&img, &length,

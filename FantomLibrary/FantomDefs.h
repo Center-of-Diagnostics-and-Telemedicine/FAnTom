@@ -17,6 +17,9 @@ enum operation_result
 	e_empty_pointer,
 	e_out_of_range,
 	e_other,
+	e_other1,
+	e_other2,
+	e_other3,
 };
 
 enum slice_type

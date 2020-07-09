@@ -189,24 +189,32 @@ operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 {
 	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
 
+	size_t image_no;
+
 		if (idx.image_type == image_t::ct_axial())
 		{
+			image_no = range(idx.image_no, 0, CTSlices().sizes()[0] - 1);
+
 			img.MakeCopy(
-				m_CTslices.GetSlice({ idx.image_no, slice_mask(0), slice_mask(1) })
+				m_CTslices.GetSlice({ image_no, slice_mask(0), slice_mask(1) })
 						);
 			return e_successful;
 		}
 		else if (idx.image_type == image_t::ct_frontal())
 		{
+			image_no = range(idx.image_no, 0, CTSlices().sizes()[1] - 1);
+
 			img.MakeCopy(
-				m_CTslices.GetSlice({ slice_mask(0), idx.image_no, slice_mask(1) })
+				m_CTslices.GetSlice({ slice_mask(0), image_no, slice_mask(1) })
 						);
 			return e_successful;
 		}
 		else if (idx.image_type == image_t::ct_sagittal())
 		{
+			image_no = range(idx.image_no, 0, CTSlices().sizes()[2] - 1);
+
 			img.MakeCopy(
-				m_CTslices.GetSlice({ slice_mask(0), slice_mask(1), idx.image_no })
+				m_CTslices.GetSlice({ slice_mask(0), slice_mask(1), image_no })
 						);
 			return e_successful;
 		}

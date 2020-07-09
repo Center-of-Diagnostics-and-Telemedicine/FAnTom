@@ -69,7 +69,8 @@ struct image_index_t
 {
 	const string	modality;
 	const string	image_type;
-	size_t	image_no;
+//	size_t	image_no;
+	int image_no;
 	mip_index_t mip;
 };
 

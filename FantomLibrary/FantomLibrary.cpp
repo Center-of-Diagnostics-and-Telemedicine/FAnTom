@@ -169,9 +169,12 @@ public:
 
 class CheckModTheSame : public Dicom::InstanceProcessor<Dicom::instance_ptr>
 {
+	std::mutex	set_locker;
 
 	virtual	void Apply(Dicom::instance_ptr &data, ProgressProxy pp)  override
 	{
+		std::lock_guard<std::mutex>	guard(set_locker);
+
 		modalities.insert ( data->modality() );
 	}
 public:
@@ -218,11 +221,32 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 	Dicom::PatientsProcessorRecursive<Dicom::patients_loader> processor(cmts);
 	processor.Apply(patients_heap, VoidProgressProxy());
 
-	if (cmts->modalities.size() > 1)  throw e_other;
+	auto	mcopy = cmts -> modalities;
 
-	if (patients_heap.size() > 1) throw e_other;
+	auto &data = cmts->modalities;
 
-	if (patients_heap.n_studies()  > 1) throw e_other;
+	cout << "number of modalities = " << data.size() << endl;
+	cout << "number of modalities copy = " << mcopy.size() << endl;
+
+	for (auto &item : data)
+	{
+		wcout << "modality = '" << item << "'\n";
+		fflush(stdout);
+	}
+
+	for (auto &item : mcopy)
+	{
+		wcout << "modality copy = '" << item << "'\n";
+		fflush(stdout);
+	}
+
+
+
+	if (data.size() > 1)  throw  e_other1;
+
+	if (patients_heap.size() > 1) throw   e_other2;
+
+	if (patients_heap.n_studies() > 1) throw e_other3;
 
 	wstring	modality = *cmts->modalities.begin();
 
@@ -262,10 +286,14 @@ operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//
 	}
 	catch (operation_result opr)
 	{
-		return opr;
+		cout << "Operation result error "<< opr << endl;
+		fflush(stdout);
+		return e_other;
 	}
 	catch (...)
 	{
+		cout << "Some exception thrown" << endl;
+		fflush(stdout);
 		return e_other;
 	}
 }
