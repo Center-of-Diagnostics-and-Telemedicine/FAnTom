@@ -38,9 +38,9 @@ public:
 
 	virtual operation_result GetDimensions(nlohmann::json &j) override;
 
-	virtual operation_result GetTomogramDimensions(point3_ST &v) override ;
+//	virtual operation_result GetTomogramDimensions(point3_ST &v) override ;
 
-	virtual operation_result GetScreenDimensions(point3_ST &v) override ;
+//	virtual operation_result GetScreenDimensions(point3_ST &v) override ;
 
 	virtual operation_result GetZFlip(bool & flip) override;
 

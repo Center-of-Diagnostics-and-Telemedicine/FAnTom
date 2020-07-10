@@ -71,9 +71,29 @@ void RequestMapper::LoadFantom1()
 {
 	wstring ws = qstring_to_wstring(data_store_path);
 
-	InitHeapFiltered_N(ws);
+	try
+	{
+		InitHeapFiltered_N(ws);
 
-	LoadByAccession_N();
+		LoadByAccession_N();
+	}
+	catch(invalid_argument &e)
+	{
+		cout << "Invalid argument" << e.what() << endl;
+	}
+
+	catch (operation_result opr)
+	{
+		cout << "Operation result error " << opr << endl;
+		fflush(stdout);
+//		return e_other;
+	}
+	catch (...)
+	{
+		cout << "Some exception thrown" << endl;
+		fflush(stdout);
+//		return e_other;
+	}
 
 	isLoaded = true;
 }
@@ -383,14 +403,14 @@ void RequestMapper::service_old(HttpRequest& request, HttpResponse& response)
 							GetTomogramDimension_J(&dimension, slice_type::e_sagittal);
 							j["response"]["sagittalTomogram"] = dimension;			
 
-							GetScreenDimensions_N(dimensions);
+							// GetScreenDimensions_N(dimensions);
 
 							j["response"]["axialScreen"] = dimensions.z();
 							j["response"]["frontalScreen"] = dimensions.y();
 							j["response"]["sagittalScreen"] = dimensions.x();
 
 
-							GetScreenDimension_J(&dimension, slice_type::e_axial);
+							// GetScreenDimension_J(&dimension, slice_type::e_axial);
 							j["response"]["axialScreen"] = dimension;
 
 							GetScreenDimension_J(&dimension, slice_type::e_frontal);

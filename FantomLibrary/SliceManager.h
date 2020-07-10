@@ -52,9 +52,6 @@ private:
 
 	 Dicom::study_loader  m_Study;
 
-//	vector<Dicom::study_loader> m_studies_heap;
-
-//	vector<wstring> m_accession_numbers;
 
 public:
 
@@ -72,8 +69,8 @@ public:
 
 	virtual operation_result GetZFlip(bool &flip) = 0;
 
-	virtual operation_result GetScreenDimensions(point3_ST &v) = 0;
-	virtual operation_result GetTomogramDimensions(point3_ST &v) = 0;
+//	virtual operation_result GetScreenDimensions(point3_ST &v) = 0;
+//	virtual operation_result GetTomogramDimensions(point3_ST &v) = 0;
 
 public:
 	SliceManager::SliceManager(Dicom::study_loader  &&in_Study) : m_Study(in_Study) {};

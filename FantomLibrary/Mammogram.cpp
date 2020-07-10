@@ -184,7 +184,7 @@ int Mammogram::AddToStepsMap(const string image_type, vector<wstring> var1, vect
 	}
 	else
 	{
-		throw std::logic_error("Pixel sizes (or pixel steps) are not given in current Dicom");
+		throw std::invalid_argument("Pixel sizes (or pixel steps) are not given in current Dicom");
 
 //		m_EqualSteps[image_type] = true;
 //		m_Steps[image_type].y() = wcstod(var1[0].c_str(), NULL);
@@ -197,7 +197,7 @@ int Mammogram::AddToStepsMap(const string image_type, vector<wstring> var1, vect
 
 operation_result Mammogram::GetDimensions(nlohmann::json &j)
 {
-	for (auto &image : m_MM_images)
+	for (auto &image : m_MM_Images())
 	{
 		nlohmann::json node;
 		node["n_images"] = 1;
@@ -205,8 +205,8 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 		node["screen_size_v"] = m_ScreenSize[image.first].y();
 		node["screen_size_h"] = m_ScreenSize[image.first].x();
 
-		node["dicom_size_v"] = m_MM_images[image.first].sizes(0);
-		node["dicom_size_h"] = m_MM_images[image.first].sizes(1);
+		node["dicom_size_v"] = image.second.sizes(0);// m_MM_images[image.first].sizes(0);
+		node["dicom_size_h"] = image.second.sizes(0);//m_MM_images[image.first].sizes(1);
 
 		node["dicom_step_v"] = m_Steps[image.first].y();
 		node["dicom_step_h"] = m_Steps[image.first].x();
@@ -221,9 +221,11 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 
 operation_result Mammogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
+	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
+
 	frame_t img_screen;
 
-	string image = idx.image_type;
+	const string &image = idx.image_type;
 
 	if (m_EqualSteps[image])
 	{

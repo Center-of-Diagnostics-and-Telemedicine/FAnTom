@@ -3,9 +3,12 @@
   @file
   @author Stefan Frings
 */
+#include <iostream>
+#include <stdexcept>
 
 #include "httpconnectionhandler.h"
 #include "httpresponse.h"
+#include <XRADBasic/Sources/Core/BasicUtils.h>
 
 using namespace stefanfrings;
 
@@ -217,6 +220,15 @@ void HttpConnectionHandler::read()
             {
                 requestHandler->service(*currentRequest, response);
             }
+			catch (xrad::assert_exception &e)
+			{
+				std::cout << e.what() <<std::endl;
+			}
+			catch (std::invalid_argument &e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+
             catch (...)
             {
                 qCritical("HttpConnectionHandler (%p): An uncatched exception occured in the request handler",

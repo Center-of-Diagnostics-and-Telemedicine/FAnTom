@@ -275,27 +275,13 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 
 operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
-	try
-	{
-//		Study = make_unique<CTomogram>();
+
 		Study = GetCleanedHeap(dicom_folder);
 
 		Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
 		
 		return e_successful;// Study->InitHeap(dicom_folder);
-	}
-	catch (operation_result opr)
-	{
-		cout << "Operation result error "<< opr << endl;
-		fflush(stdout);
-		return e_other;
-	}
-	catch (...)
-	{
-		cout << "Some exception thrown" << endl;
-		fflush(stdout);
-		return e_other;
-	}
+
 }
 
 
@@ -364,19 +350,19 @@ operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j)
 	return Study->GetDimensions(j);
 }
 
-operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v)
-{
-	if (!Study) return e_empty_pointer;
+// operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v)
+// {
+// 	if (!Study) return e_empty_pointer;
+// 
+// 	return Study->GetTomogramDimensions(v);
+// }
 
-	return Study->GetTomogramDimensions(v);
-}
-
-operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v)
-{
-	if (!Study) return e_empty_pointer;
-
-	return Study->GetScreenDimensions(v);
-}
+// operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v)
+// {
+// 	if (!Study) return e_empty_pointer;
+// 
+// 	return Study->GetScreenDimensions(v);
+// }
 
 
 

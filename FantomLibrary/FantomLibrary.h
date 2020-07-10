@@ -84,9 +84,9 @@ operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx,
 
 operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j);
 
-operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v);
-
-operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v);
+// operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v);
+// 
+// operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v);
 
 operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip);
 

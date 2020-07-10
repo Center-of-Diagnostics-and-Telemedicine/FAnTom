@@ -33,7 +33,7 @@ operation_result XRay::LoadByAccession()
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
 
-	//size_t i = 0;
+	size_t i = 0;
 
 	for (Dicom::instance_ptr &inst_ptr : XrayAcquisition_ptr().loader())
 	{
@@ -65,12 +65,46 @@ operation_result XRay::LoadByAccession()
 			var2 = inst_ptr->get_wstring_values(Dicom::e_pixel_spacing);
 	//	}
 	//	i++;
+			this->AddToStepsVector(var1, var2);
 
-		this->AddToStepsVector(var1, var2);
+			m_ScreenSize.push_back({
+				static_cast<size_t> (m_XR_Images()[i].sizes(0)*m_Steps[i].y() / min(m_Steps[i].y(), m_Steps[i].x())), 
+				static_cast<size_t> (m_XR_Images()[i].sizes(1)*m_Steps[i].x() / min(m_Steps[i].y(), m_Steps[i].x()))
+			});
+
+			i++;
 	}
 
 	m_bmp.resize(m_XR_Images().size());
 	m_ScreenSize.resize(m_XR_Images().size());
+
+	return e_successful;
+}
+
+operation_result XRay::GetDimensions(nlohmann::json &j)
+{
+	int i = 0;
+
+	for (auto &image : m_XR_Images())
+	{
+		nlohmann::json node;
+		node["n_images"] = 1;
+
+		node["screen_size_v"] = m_ScreenSize[i].y();
+		node["screen_size_h"] = m_ScreenSize[i].x();
+
+		node["dicom_size_v"] = image.sizes(0); //m_XR_Images()[i].sizes(0);
+		node["dicom_size_h"] = image.sizes(1); //m_XR_Images()[i].sizes(1);
+
+		node["dicom_step_v"] = m_Steps[i].y();
+		node["dicom_step_h"] = m_Steps[i].x();
+
+		string str = "dx" + to_string(i);
+
+		j["response"][modality_t::MG()][str] = node;
+
+		i++;
+	}
 
 	return e_successful;
 }
@@ -83,6 +117,8 @@ operation_result  XRay::GetModality(string &modality)
 
 operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
+	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
+
 	frame_t img_screen;
 
 	size_t N = idx.image_no;
@@ -97,11 +133,7 @@ operation_result XRay::GetScreenImage(const unsigned char **img, int *length, im
 
 		this->GetImage(buffer, idx);
 
-		m_ScreenSize[N].first = (size_t)m_XR_Images()[N].sizes(0)*m_Steps[N].first / min(m_Steps[N].first, m_Steps[N].second);
-
-		m_ScreenSize[N].second = (size_t) m_XR_Images()[N].sizes(1)*m_Steps[N].second / min(m_Steps[N].first, m_Steps[N].second);
-
-		img_screen.realloc(m_ScreenSize[N].first, m_ScreenSize[N].second);
+		img_screen.realloc(m_ScreenSize[N].y(), m_ScreenSize[N].x());
 
 		RescaleImageToScreenCoordinates(img_screen, buffer, idx);
 	}
@@ -148,12 +180,12 @@ void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen,const frame_t &bu
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 	//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double) i * m_XR_Images()[N].sizes(0)/ m_ScreenSize[N].first;
+		double y = (double) i * m_XR_Images()[N].sizes(0)/ m_ScreenSize[N].y();
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 		//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double) j * m_XR_Images()[N].sizes(1) / m_ScreenSize[N].second;
+			double x = (double) j * m_XR_Images()[N].sizes(1) / m_ScreenSize[N].x();
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}
@@ -173,10 +205,10 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 		{
 			m_EqualSteps.push_back(true);
 		}
-			m_Steps.push_back(make_pair(
-				wcstod(var1[0].c_str(), NULL), 
-				wcstod(var1[1].c_str(), NULL)
-			));
+		m_Steps.push_back({
+			wcstod(var2[0].c_str(), NULL),
+			wcstod(var2[1].c_str(), NULL)
+		});
 	}
 	else if (var1.size() == 0 && var2.size() == 2)
 	{
@@ -189,10 +221,10 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 			m_EqualSteps.push_back(true);
 		}
 
-		m_Steps.push_back(make_pair(
+		m_Steps.push_back({
 			wcstod(var2[0].c_str(), NULL),
 			wcstod(var2[1].c_str(), NULL)
-		));
+		});
 	}
 	else if (var1.size() == 2 && var2.size() == 0)
 	{
@@ -205,19 +237,21 @@ int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2)
 			m_EqualSteps.push_back(true);
 		}
 
-		m_Steps.push_back(make_pair(
+		m_Steps.push_back({
 			wcstod(var1[0].c_str(), NULL),
 			wcstod(var1[1].c_str(), NULL)
-		));
+		});
 	}
 	else
 	{
-		m_EqualSteps.push_back(true);
+		throw std::invalid_argument("Pixel sizes (or pixel steps) are not given in current Dicom");
 
-		m_Steps.push_back(make_pair(
-			wcstod(var1[0].c_str(), NULL),
-			wcstod(var1[1].c_str(), NULL)
-		));
+// 		m_EqualSteps.push_back(true);
+// 
+// 		m_Steps.push_back(make_pair(
+// 			wcstod(var1[0].c_str(), NULL),
+// 			wcstod(var1[1].c_str(), NULL)
+// 		));
 	}
 
 	return 0;

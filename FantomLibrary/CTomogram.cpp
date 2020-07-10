@@ -224,6 +224,8 @@ operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 
 operation_result CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
+	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+
 	frame_t img_screen;
 
 	if (idx.image_type == image_t::ct_frontal())
@@ -463,23 +465,23 @@ size_t	CTomogram::CTSlicesSize(const string &st) const
 }
 
 
-operation_result CTomogram::GetTomogramDimensions(point3_ST &dimensions)
-{
-	dimensions.z() = CTSlices().sizes(0);
-	dimensions.y() = CTSlices().sizes(1);
-	dimensions.x() = CTSlices().sizes(2);
-
-	return e_successful;
-}
-
-operation_result CTomogram::GetScreenDimensions(point3_ST &dimensions)
-{
-	dimensions.z() = m_interpolation_sizes.z();
-	dimensions.y() = m_interpolation_sizes.y();
-	dimensions.x() = m_interpolation_sizes.x();
-
-	return e_successful;
-}
+// operation_result CTomogram::GetTomogramDimensions(point3_ST &dimensions)
+// {
+// 	dimensions.z() = CTSlices().sizes(0);
+// 	dimensions.y() = CTSlices().sizes(1);
+// 	dimensions.x() = CTSlices().sizes(2);
+// 
+// 	return e_successful;
+// }
+// 
+// operation_result CTomogram::GetScreenDimensions(point3_ST &dimensions)
+// {
+// 	dimensions.z() = m_interpolation_sizes.z();
+// 	dimensions.y() = m_interpolation_sizes.y();
+// 	dimensions.x() = m_interpolation_sizes.x();
+// 
+// 	return e_successful;
+// }
 
 
 

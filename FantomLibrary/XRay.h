@@ -31,11 +31,11 @@ public:
 
 	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) override;
 
-	virtual operation_result GetDimensions(nlohmann::json &j) override { return e_successful; };
+	virtual operation_result GetDimensions(nlohmann::json &j) override;
 
-	virtual operation_result GetScreenDimensions(point3_ST &v) override { return e_successful; };
+//	virtual operation_result GetScreenDimensions(point3_ST &v) override { return e_successful; };
 
-	virtual operation_result GetTomogramDimensions(point3_ST &v) override { return e_successful; };
+//	virtual operation_result GetTomogramDimensions(point3_ST &v) override { return e_successful; };
 
 	virtual operation_result GetZFlip(bool &flip)
 	{
@@ -57,9 +57,9 @@ private:
 private:
 	vector<RealFunction2D_F32> m_XR_images;
 
-	vector<pair<double, double>> m_Steps;
+	vector<point2_F64> m_Steps;
 
-	vector<pair<size_t, size_t>> m_ScreenSize;
+	vector<point2_ST> m_ScreenSize;
 
 	vector<bool> m_EqualSteps;
 
