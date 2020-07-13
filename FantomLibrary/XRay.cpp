@@ -101,7 +101,7 @@ operation_result XRay::GetDimensions(nlohmann::json &j)
 
 		string str = "dx" + to_string(i);
 
-		j["response"][modality_t::MG()][str] = node;
+		j["response"][modality_t::DX()][str] = node;
 
 		i++;
 	}
@@ -117,11 +117,23 @@ operation_result  XRay::GetModality(string &modality)
 
 operation_result XRay::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
+
+	if (idx.modality != modality_t::DX())
+	{
+		throw modality_error("modality is DX");
+	}
 
 	frame_t img_screen;
 
-	size_t N = idx.image_no;
+	int &N = idx.image_no;
+
+//	N = range(N, 0, m_XR_Images(). size() - 1);
+
+	if (N < 0 || N >(m_XR_Images().size() - 1))
+	{
+		throw image_error("unknown image type");
+	}
 
 	if(m_EqualSteps[N])
 	{
@@ -271,11 +283,22 @@ operation_result XRay::GetImage(frame_t &img, const image_index_t idx)
 }
 
 
-operation_result XRay::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result XRay::GetBrightness(double *value, image_index_t idx, int y, int x)
 { 
-	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::DX());
 
-	size_t no = range(idx.image_no, 0, m_XR_Images().size() - 1);
+	if (idx.modality != modality_t::DX())
+	{
+		throw modality_error("modality is DX");
+	}
+
+	int &no = idx.image_no;
+//	size_t no = range(idx.image_no, 0, m_XR_Images().size() - 1);
+
+	if (no < 0 || no > (m_XR_Images().size() - 1))
+	{
+		throw image_error("unknown image type");
+	}
 
 	x = range(x, 0, m_XR_Images()[no].sizes(1) - 1);
 	y = range(y, 0, m_XR_Images()[no].sizes(0) - 1);

@@ -68,11 +68,18 @@ void f(HttpListener* listener)
 	RequestMapper* mapper = new RequestMapper();
 	HttpListener* listener = new HttpListener(settings_webserver, mapper, &app);
 
+	QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
 	QThread  thread;
+
 	QObject::connect(&thread, SIGNAL(started()), mapper, SLOT(LoadFantom1()));//Qt::QueuedConnection
+	QObject::connect(mapper, &RequestMapper::CloseApp, &thread, &QThread::quit);
+	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::ForcedDestroy);
+
     mapper->moveToThread(&thread);
 	thread.start();
 
+//	if(mapper->diagnostic_info)
 
 	//	QObject::connect(handler, SIGNAL(CloseApp()), &thread, SLOT(deleteLater()));//Qt::QueuedConnection
 
@@ -84,13 +91,11 @@ void f(HttpListener* listener)
 
 //		QObject::connect(handler, &RequestMapper::CloseApp, [&thread]() {thread.exit(0);});
 
-	QObject::connect(mapper, &RequestMapper::CloseApp, &thread, &QThread::quit);
 
-	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::ForcedDestroy);
-
+	
 //	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
 
-    QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
 
 //	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
 

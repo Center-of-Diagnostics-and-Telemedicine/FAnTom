@@ -98,4 +98,23 @@ enum axis_t
 	e_y = 1,
 	e_x = 2
 };
+
+
+class modality_error : public runtime_error
+{
+public:
+	modality_error(string msg) : runtime_error(msg) {}
+};
+
+class image_error : public runtime_error
+{
+public:
+	image_error(string msg) : runtime_error(msg) {}
+};
+
+class mip_error : public runtime_error
+{
+public:
+	mip_error(string msg) : runtime_error(msg) {}
+};
 #endif // SliceDefs_h__

@@ -206,7 +206,7 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 		node["screen_size_h"] = m_ScreenSize[image.first].x();
 
 		node["dicom_size_v"] = image.second.sizes(0);// m_MM_images[image.first].sizes(0);
-		node["dicom_size_h"] = image.second.sizes(0);//m_MM_images[image.first].sizes(1);
+		node["dicom_size_h"] = image.second.sizes(1);//m_MM_images[image.first].sizes(1);
 
 		node["dicom_step_v"] = m_Steps[image.first].y();
 		node["dicom_step_h"] = m_Steps[image.first].x();
@@ -221,11 +221,22 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 
 operation_result Mammogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
+
+	if (idx.modality != modality_t::MG())
+	{
+		throw modality_error("modality is MG");
+	}
 
 	frame_t img_screen;
 
 	const string &image = idx.image_type;
+
+	if (image != image_t::mg_rcc() && image != image_t::mg_lcc() && image != image_t::mg_rmlo() && image != image_t::mg_lmlo())
+	{
+		throw image_error("unknown image type");
+	}
+
 
 	if (m_EqualSteps[image])
 	{
@@ -311,14 +322,29 @@ operation_result Mammogram::GetImage(frame_t &img, const image_index_t idx)
 
 
 
-operation_result  Mammogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result  Mammogram::GetBrightness(double *value, image_index_t idx, int y, int x)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::MG());
 
-		x = range(x, 0, m_MM_Images()[idx.image_type].sizes(1) - 1);
-		y = range(y, 0, m_MM_Images()[idx.image_type].sizes(0) - 1);
+	if (idx.modality != modality_t::MG())
+	{
+		throw modality_error("modality is MG");
+	}
 
-		*value = m_MM_Images()[idx.image_type].at(y, x);
+	frame_t img_screen;
+
+	const string &image = idx.image_type;
+
+	if (image != image_t::mg_rcc() && image != image_t::mg_lcc() && image != image_t::mg_rmlo() && image != image_t::mg_lmlo())
+	{
+		throw image_error("unknown image type");
+	}
+
+
+		x = range(x, 0, m_MM_Images()[image].sizes(1) - 1);
+		y = range(y, 0, m_MM_Images()[image].sizes(0) - 1);
+
+		*value = m_MM_Images()[image].at(y, x);
 
 		return e_successful;
 }

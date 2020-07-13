@@ -220,14 +220,6 @@ void HttpConnectionHandler::read()
             {
                 requestHandler->service(*currentRequest, response);
             }
-			catch (xrad::assert_exception &e)
-			{
-				std::cout << e.what() <<std::endl;
-			}
-			catch (std::invalid_argument &e)
-			{
-				std::cout << e.what() << std::endl;
-			}
 
             catch (...)
             {

@@ -34,7 +34,7 @@ public:
 
 	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness) override;
 	
-	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) override;
+	virtual operation_result GetBrightness(double *value, image_index_t idx, int y, int x) override;
 
 	virtual operation_result GetDimensions(nlohmann::json &j) override;
 

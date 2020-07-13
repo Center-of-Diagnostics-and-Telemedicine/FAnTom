@@ -154,9 +154,13 @@ operation_result CTomogram::GetDimensions(nlohmann::json &j)
 	return e_successful;
 }
 
-operation_result CTomogram::GetBrightness(double *value, image_index_t idx, size_t y, size_t x)
+operation_result CTomogram::GetBrightness(double *value, image_index_t idx, int y, int x)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+	if (idx.modality != modality_t::CT())
+	{
+		throw modality_error("modality is CT");
+	}
 
 	size_t  x1 = 0, y1 = 0, z1 = 0;
 
@@ -178,16 +182,22 @@ operation_result CTomogram::GetBrightness(double *value, image_index_t idx, size
 			y1 = range(x, 0, CTSlices().sizes(1) - 1);
 			z1 = range(y, 0, CTSlices().sizes(0) - 1);
 		}
-		else throw std::invalid_argument("unknown slice type");
+		else throw image_error("unknown slice type");
 	
 	*value = CTSlices().at({ z1, y1, x1 });
 
 	return e_successful;
 }
 
+
 operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+//	XRAD_ASSERT_THROW_EX(idx.modality == modality_t::CT(), modality_error);
+
+	if (idx.modality != modality_t::CT())
+	{
+		throw modality_error("modality is CT");
+	}
 
 	size_t image_no;
 
@@ -218,13 +228,18 @@ operation_result CTomogram::GetImage(frame_t &img, const image_index_t idx)
 						);
 			return e_successful;
 		}
-		else throw std::invalid_argument("unknown slice type");
+		else throw image_error("unknown slice type");
 	
 }
 
 operation_result CTomogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {
-	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+//	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());
+
+	if (idx.modality != modality_t::CT())
+	{
+		throw modality_error("modality is CT");
+	}
 
 	frame_t img_screen;
 
@@ -242,6 +257,7 @@ operation_result CTomogram::GetScreenImage(const unsigned char **img, int *lengt
 	{
 		img_screen.realloc(m_interpolation_sizes.y(), m_interpolation_sizes.x());
 	}
+	else throw image_error("unknown slice type");
 
 	frame_t	buffer;
 
@@ -258,8 +274,6 @@ operation_result CTomogram::GetScreenImage(const unsigned char **img, int *lengt
 	ApplyFunction(img_screen, [black, white](float x) {return x<black ? 0 : x>white ? 255 : 255.*(x - black) / (white - black); });
 
 	ApplyFunction(img_screen, [gamma](float x) {return 255.*pow(x / 255., gamma); });
-
-
 
 	m_bmp[idx.image_type].SetSizes(img_screen.vsize(), img_screen.hsize());
 
@@ -362,6 +376,10 @@ double	CTomogram::ScreenToDicomCoordinate(double t, axis_t axis)
 
 void CTomogram::CalculateMIP(frame_t &img, image_index_t idx)
 {
+	if ( idx.mip.mip_method != mip_method_t::average() || idx.mip.mip_method != mip_method_t::maxvalue()  || idx.mip.mip_method != mip_method_t::minvalue() )
+
+    throw mip_error("unknown mip type");
+	
 	auto	mip_function = [&idx](const RealFunctionF32	 &row)->double
 	{
 		if(idx.mip.mip_method == mip_method_t::average())	return AverageValue(row);
@@ -370,7 +388,9 @@ void CTomogram::CalculateMIP(frame_t &img, image_index_t idx)
 		
 		else if (idx.mip.mip_method == mip_method_t::minvalue())	return MinValue(row);
 		
-		else /*if (mip.mip_method == mip_method_t::mip_no_mip())*/		return row[row.size() / 2];
+		else if (idx.mip.mip_method == mip_method_t::none())		return row[row.size() / 2];
+
+	//	else throw mip_error("unknown mip type");
 	};
 
 	// используется двухступенчатая процедура извлечения подмножества, поэтому два разных буфера. неуклюже, можно подумать об улучшении
@@ -419,7 +439,7 @@ void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx)
 	//size_t	slice_no = size_t(tomogram_slice_position);
 	//TODO заменить на пересчет из z?
 
-	if (idx.mip.mip_method != mip_method_t::none())
+	if (idx.mip.mip_method != mip_method_t::none() && idx.mip.mip_value > 0)
 	{
 		CalculateMIP(img, idx);
 	}

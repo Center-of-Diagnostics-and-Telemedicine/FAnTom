@@ -63,7 +63,7 @@ public:
 
 	virtual operation_result GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness) = 0;
 	
-	virtual operation_result GetBrightness(double *value, image_index_t idx, size_t y, size_t x) = 0;
+	virtual operation_result GetBrightness(double *value, image_index_t idx, int y, int x) = 0;
 
 	virtual operation_result GetDimensions(nlohmann::json &j) = 0;
 
