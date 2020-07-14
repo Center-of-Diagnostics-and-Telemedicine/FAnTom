@@ -8,7 +8,7 @@
 #include <XRADDicom/XRADDicom.h>
 #include "FantomDefs.h"
 
-#include <XRADDicom\Sources\DicomClasses\ProcessContainers\XRAYAcquisition.h>
+#include <XRADDicom/Sources/DicomClasses/ProcessContainers/XRAYAcquisition.h>
 
 XRAD_USING
 
