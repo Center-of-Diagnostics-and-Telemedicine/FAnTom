@@ -64,31 +64,29 @@ extern "C"
 //operation_result FANTOM_DLL_EI GetPixelLengthCoefficient(double &length_pixel_coef);
 
 // New implementation with 2D mode support ======================================================
-operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder);
+	operation_result FANTOM_DLL_EI InitIterpolators();
 
-operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const char *data_store_path)
+	operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder);
 
-operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file);
+	operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const char *data_store_path)
 
-//operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no);
+	operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file);
 
-operation_result FANTOM_DLL_EI LoadByAccession_N();
+	//operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no);
 
-operation_result FANTOM_DLL_EI GetModality_N(string &modality);
+	operation_result FANTOM_DLL_EI LoadByAccession_N();
 
-operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx);
+	operation_result FANTOM_DLL_EI GetModality_N(string &modality);
 
-operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx,brightness brightness);
+	operation_result FANTOM_DLL_EI GetImage_N(frame_t &img, const image_index_t idx);
 
-operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x);
+	operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx,brightness brightness);
 
-operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j);
+	operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, int y, int x);
 
-// operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v);
-// 
-// operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v);
+	operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j);
 
-operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip);
+	operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip);
 
 //Java Реализации
 //note (Kovbas) для работы c Java сделан суффикс _J

@@ -221,12 +221,11 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 	Dicom::PatientsProcessorRecursive<Dicom::patients_loader> processor(cmts);
 	processor.Apply(patients_heap, VoidProgressProxy());
 
-	auto	mcopy = cmts -> modalities;
 
 	auto &data = cmts->modalities;
 
 	cout << "number of modalities = " << data.size() << endl;
-	cout << "number of modalities copy = " << mcopy.size() << endl;
+
 
 	for (auto &item : data)
 	{
@@ -234,19 +233,12 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 		fflush(stdout);
 	}
 
-	for (auto &item : mcopy)
-	{
-		wcout << "modality copy = '" << item << "'\n";
-		fflush(stdout);
-	}
 
+	if (data.size() > 1)  throw  runtime_error("more than one modality in study");
 
+	if (patients_heap.size() > 1) throw   runtime_error("more that one patient in heap");
 
-	if (data.size() > 1)  throw  e_other1;
-
-	if (patients_heap.size() > 1) throw   e_other2;
-
-	if (patients_heap.n_studies() > 1) throw e_other3;
+	if (patients_heap.n_studies() > 1) throw runtime_error("more that one study in heap");
 
 	wstring	modality = *cmts->modalities.begin();
 
@@ -273,15 +265,19 @@ unique_ptr<SliceManagerType> GetCleanedHeap(const wstring& dicom_folder)
 	return result;
 }
 
+operation_result FANTOM_DLL_EI InitIterpolators()//(const char *data_store_path)
+{
+	Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
+
+	return e_successful;// Study->InitHeap(dicom_folder);
+}
+
+
 operation_result FANTOM_DLL_EI InitHeapFiltered_N(const wstring& dicom_folder)//(const char *data_store_path)
 {
-
 		Study = GetCleanedHeap(dicom_folder);
-
-		Init2DInterpolators(ConsoleProgressProxy()); //вызывать только здесь т.к. результат должен относиться к глобальным переменным dll
 		
 		return e_successful;// Study->InitHeap(dicom_folder);
-
 }
 
 
@@ -336,7 +332,7 @@ operation_result FANTOM_DLL_EI GetScreenImage_N(const unsigned char **img, int *
 	return Study->GetScreenImage(img, length, idx, brightness);
 }
 
-operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, size_t y, size_t x)
+operation_result FANTOM_DLL_EI GetBrightness_N(double *value, image_index_t idx, int y, int x)
 {
 	if (!Study) return e_empty_pointer;
 

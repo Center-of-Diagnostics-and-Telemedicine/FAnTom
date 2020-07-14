@@ -15,6 +15,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <chrono>
 
 #include <XRADBasic/Core.h>
 #include <XRADBasic/ContainersAlgebra.h>
@@ -51,29 +52,54 @@ void RequestMapper::LoadFantom1()
 {
 	wstring ws = qstring_to_wstring(data_store_path);
 
+	using millis = std::chrono::milliseconds;
+	using std::chrono::duration_cast;
+	using std::chrono::steady_clock;
+
 	try
 	{
+			auto t1 = steady_clock::now();
+
+		InitIterpolators();
+
+			auto t2 = steady_clock::now();
+
+			auto time1 = duration_cast<millis>(t2 - t1).count();
+			cout << "Time: " << time1 << " millisecons.\n" << endl;
+
 		InitHeapFiltered_N(ws);
 
+			auto t3 = steady_clock::now();
+
+			auto time2 = duration_cast<millis>(t3 - t2).count();
+			cout << "Time: " << time2 << " millisecons.\n" << endl;
+
 		LoadByAccession_N();
+
+			auto t4 = steady_clock::now();
+
+			auto time3 = duration_cast<millis>(t4 - t3).count();
+			cout << "Time: " << time3 << " millisecons.\n" << endl;
+
 	}
 	catch(invalid_argument &e)
 	{
 		cout << "Invalid argument" << e.what() << endl;
+		fflush(stdout);
 
 		return;// e_other;
 	}
 
-	catch (operation_result opr)
+	catch (runtime_error opr)
 	{
-		cout << "Operation result error " << opr << endl;
+		cout << "Operation result error " << opr.what() << endl;
 		fflush(stdout);
 
 		return;// e_other;
 	}
 	catch (...)
 	{
-		cout << "Some exception thrown" << endl;
+		cout << "Some unhandled exception thrown" << endl;
 		fflush(stdout);
 		return;// e_other;
 	}
@@ -116,14 +142,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 	{
 		if (q_request_method == "GET" && ws_path_name_no_slash == L"research/close")
 		{
-			nlohmann::json	j;
-
-			j["response"] = nullptr;
-			j["error"] = 22;
-
-			response.setHeader("Content-Type", "application/json; charset=utf-8");
-
-			response.write(QByteArray(j.dump('\t').c_str()));
+			response.setStatus(200, "OK");
 
 			emit CloseApp();
 

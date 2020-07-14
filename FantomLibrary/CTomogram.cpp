@@ -27,6 +27,12 @@ void CTomogram::CalculateInterpolationScales()
 operation_result CTomogram::LoadByAccession()
 {
 	START_LOG;
+
+	ProgressProxy pproxy = ConsoleProgressProxy();
+
+	ProgressBar	progress(pproxy);
+
+	progress.start("Read dicom files and copy content to class variables ", 400);
 	
 	bool acc_loaded = false;
 
@@ -36,16 +42,47 @@ operation_result CTomogram::LoadByAccession()
 		return e_successful;
 	}
 
-	m_proc_acquisition_ptr = CreateProcessAcquisition(GetLargestAcquisition(), ConsoleProgressProxy());
+	++progress;
+
+	m_proc_acquisition_ptr = CreateProcessAcquisition(GetLargestAcquisition() , ConsoleProgressProxy());
+
+	progress.next();
 
 	ProcessAcquisitionOpenClose prcAcq(*m_proc_acquisition_ptr);
+
+	++progress;
 	//	proc_acquisition_work_ptr->open_instancestorages();
 
-	m_CTslices = CTAcquisition_ptr().slices();
+//	m_CTslices = CTAcquisition_ptr().slices();
+
+	m_CTslices.resize(CTAcquisition_ptr().sizes());
+	size_t i{ 0 };
+
+	for (auto el : *m_proc_acquisition_ptr->get_loader())
+	{
+		Dicom::tomogram_slice &slice_container = dynamic_cast<Dicom::tomogram_slice&>(*el);
+
+		slice_container.get_image(m_CTslices.GetSlice({ i, slice_mask(0), slice_mask(1) }).ref());
+//		el->get_image(m_CTslices.GetSlice({ i, slice_mask(0), slice_mask(1) }).ref());
+		++progress;
+
+		++i;
+	}
+
+
+	++progress;
+
 	m_CTscales = CTAcquisition_ptr().scales();
+
+	++progress;
+
 	m_image_positions_patient = CTAcquisition_ptr().image_positions_patient();
 
+	++progress;
+
 	CalculateInterpolationScales();
+
+	++progress;
 
 	Dicom::instance	&sample_instance = *CTAcquisition_ptr().loader().front();
 
@@ -54,6 +91,8 @@ operation_result CTomogram::LoadByAccession()
 	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
 	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
 	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	++progress;
 
 	END_LOG;
 	return e_successful;
@@ -376,9 +415,10 @@ double	CTomogram::ScreenToDicomCoordinate(double t, axis_t axis)
 
 void CTomogram::CalculateMIP(frame_t &img, image_index_t idx)
 {
-	if ( idx.mip.mip_method != mip_method_t::average() || idx.mip.mip_method != mip_method_t::maxvalue()  || idx.mip.mip_method != mip_method_t::minvalue() )
+//	if ( idx.mip.mip_method != mip_method_t::average() || idx.mip.mip_method != mip_method_t::maxvalue()  || idx.mip.mip_method != mip_method_t::minvalue() )
+	vector<string> my_mips{mip_method_t::average(), mip_method_t::maxvalue(), mip_method_t::minvalue(), mip_method_t::none()};
 
-    throw mip_error("unknown mip type");
+	if (find(my_mips.begin(), my_mips.end(), idx.mip.mip_method) == my_mips.end())   throw mip_error("unknown mip type");
 	
 	auto	mip_function = [&idx](const RealFunctionF32	 &row)->double
 	{
@@ -439,7 +479,7 @@ void CTomogram::GetTomogramSlice(frame_t &img, image_index_t idx)
 	//size_t	slice_no = size_t(tomogram_slice_position);
 	//TODO заменить на пересчет из z?
 
-	if (idx.mip.mip_method != mip_method_t::none() && idx.mip.mip_value > 0)
+	if (idx.mip.mip_method != mip_method_t::none() || idx.mip.mip_value > 0)
 	{
 		CalculateMIP(img, idx);
 	}
