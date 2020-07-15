@@ -48,9 +48,9 @@ private:
 
 	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
 
-	int XRay::AddToStepsVector(vector<wstring> var1, vector <wstring> var2);
+	int AddToStepsVector(vector<wstring> var1, vector <wstring> var2);
 
-	void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
+	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
 
 	const vector<RealFunction2D_F32>	&m_XR_Images() const { return m_XR_images; }
 

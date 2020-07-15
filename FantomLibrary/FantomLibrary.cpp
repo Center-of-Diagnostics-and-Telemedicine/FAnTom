@@ -290,19 +290,14 @@ operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder)//(const c
 
 
 
-operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file)
+operation_result FANTOM_DLL_EI HeapDump_N(const string& dump_file)
 {
 	if (!Study) return e_empty_pointer;
 
 	return Study->HeapDump(dump_file);
 }
 
-// operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no)
-// {
-// 	if (!Study) return e_empty_pointer;
-// 
-// 	return Study->GetAccNumber(no, acc_no);
-// }
+
 
 operation_result FANTOM_DLL_EI LoadByAccession_N()
 {
@@ -345,20 +340,6 @@ operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j)
 
 	return Study->GetDimensions(j);
 }
-
-// operation_result FANTOM_DLL_EI GetTomogramDimensions_N(point3_ST &v)
-// {
-// 	if (!Study) return e_empty_pointer;
-// 
-// 	return Study->GetTomogramDimensions(v);
-// }
-
-// operation_result FANTOM_DLL_EI GetScreenDimensions_N(point3_ST &v)
-// {
-// 	if (!Study) return e_empty_pointer;
-// 
-// 	return Study->GetScreenDimensions(v);
-// }
 
 
 

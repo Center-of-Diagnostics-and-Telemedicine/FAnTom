@@ -11,7 +11,7 @@
 #include <fstream>
 
 
-operation_result SliceManager::HeapDump(const wstring& dump_file)
+operation_result SliceManager::HeapDump(const string& dump_file)
 {
 	std::ofstream File;
 
