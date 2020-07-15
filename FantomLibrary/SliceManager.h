@@ -73,7 +73,7 @@ public:
 //	virtual operation_result GetTomogramDimensions(point3_ST &v) = 0;
 
 public:
-	SliceManager::SliceManager(Dicom::study_loader  &&in_Study) : m_Study(in_Study) {};
+	SliceManager(Dicom::study_loader  &&in_Study) : m_Study(in_Study) {};
 
 
 };
