@@ -1,13 +1,14 @@
 ﻿#include "pre.h"
 
 #include "XRay.h"
-#include <sstream>
-
+//#include <sstream>
+#include <FantomLogger.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
 
 operation_result XRay::LoadByAccession()
 {
+	START_LOG;
 	bool acc_loaded = false;
 
 	if ( m_proc_acquisition_ptr != nullptr)
@@ -43,6 +44,15 @@ operation_result XRay::LoadByAccession()
 
 		slice_container.get_image(data_slice);
 
+		bool inverse = inst_ptr->get_wstring(Dicom::e_photometric_interpretation) == L"MONOCHROME1";
+		if (inverse)
+		{
+			double	mx = MaxValue(data_slice);
+			//			double	mn = MinValue(data_slice);
+
+			ApplyFunction(data_slice, [mx](float &x) {return x = (mx - x); });
+		}
+
 		m_XR_images.push_back(move(data_slice));
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);
@@ -76,8 +86,9 @@ operation_result XRay::LoadByAccession()
 	}
 
 	m_bmp.resize(m_XR_Images().size());
-	m_ScreenSize.resize(m_XR_Images().size());
+//	m_ScreenSize.resize(m_XR_Images().size());
 
+	END_LOG;
 	return e_successful;
 }
 

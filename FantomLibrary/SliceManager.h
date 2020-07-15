@@ -24,7 +24,7 @@ class SliceManager
 {
 public:
 	operation_result InitHeap(const wstring& dicom_folder);
-	operation_result HeapDump(const wstring& dump_file);
+	operation_result HeapDump(const string& dump_file);
 //	operation_result GetAccNumber(size_t no, wstring &acc_no) { if (no < m_accession_numbers.size()) { acc_no = m_accession_numbers[no]; return e_successful; } else return e_out_of_range; }
 
 	Dicom::study_loader & GetStudy() { return m_Study; }

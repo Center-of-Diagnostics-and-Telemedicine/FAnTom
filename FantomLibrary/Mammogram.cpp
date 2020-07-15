@@ -88,6 +88,15 @@ operation_result Mammogram::LoadByAccession()
 
 		slice_container.get_image(data_slice);
 
+		bool inverse = inst_ptr->get_wstring(Dicom::e_photometric_interpretation) == L"MONOCHROME1";
+		if (inverse)
+		{
+			double	mx = MaxValue(data_slice);
+//			double	mn = MinValue(data_slice);
+
+			ApplyFunction(data_slice, [mx](float &x) {return x = (mx-x); });
+		}
+
 		string image_type;
 
 		wstring str = inst_ptr->get_wstring(Dicom::e_acquisition_device_processing_description);

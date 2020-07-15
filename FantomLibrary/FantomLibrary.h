@@ -70,7 +70,7 @@ extern "C"
 
 	operation_result FANTOM_DLL_EI InitHeap_N(const wstring& dicom_folder);//(const char *data_store_path)
 
-	operation_result FANTOM_DLL_EI HeapDump_N(const wstring& dump_file);
+	operation_result FANTOM_DLL_EI HeapDump_N(const string& dump_file);
 
 	//operation_result FANTOM_DLL_EI GetAccNumber_N(size_t no, wstring &acc_no);
 
