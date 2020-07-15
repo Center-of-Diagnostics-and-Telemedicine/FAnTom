@@ -26,6 +26,16 @@ set(Project_Sources_All
 	FantomLibrary.h
 	FantomLogger.cpp
 	FantomLogger.h
+	CTomogram.h
+	CTomogram.cpp
+	Mammogram.h
+	Mammogram.cpp
+	XRay.h	
+	XRay.cpp
+	SliceManager.h
+	SliceManager.cpp
+	HeapDump.cpp
+	SliceDefs.h
 	)
 
 add_library(${Project} SHARED ${Project_Sources_All})
