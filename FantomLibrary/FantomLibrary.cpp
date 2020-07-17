@@ -341,7 +341,12 @@ operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j)
 	return Study->GetDimensions(j);
 }
 
+operation_result FANTOM_DLL_EI GetDictionary_N(nlohmann::json &j)
+{
+	if (!Study) return e_empty_pointer;
 
+	return Study->GetDictionary(j);
+}
 
 operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip)
 {

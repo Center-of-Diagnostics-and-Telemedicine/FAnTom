@@ -86,6 +86,8 @@ extern "C"
 
 	operation_result FANTOM_DLL_EI GetDimensions_N(nlohmann::json &j);
 
+	operation_result FANTOM_DLL_EI GetDictionary_N(nlohmann::json &j);
+
 	operation_result FANTOM_DLL_EI  GetZFlip_N(bool & flip);
 
 //Java Реализации

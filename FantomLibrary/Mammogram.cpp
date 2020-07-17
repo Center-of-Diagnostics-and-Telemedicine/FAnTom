@@ -226,7 +226,18 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 	return e_successful; 
 }
 
+operation_result Mammogram::GetDictionary(nlohmann::json &j)
+{
+	j["#0_B"]["RU"] = convert_to_string8("доброкачественное");
+	j["#0_B"]["EN"] = "benign";
 
+	j["#1_MG"]["RU"] = convert_to_string8("ЗНО");
+	j["#1_MG"]["EN"] = "malignant growth";
+
+	j["#2_SC"]["RU"] = convert_to_string8("подозрительные кальцинаты");
+	j["#2_SC"]["EN"] = "suspicious calcification";
+	return e_successful;
+}
 
 operation_result Mammogram::GetScreenImage(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 {

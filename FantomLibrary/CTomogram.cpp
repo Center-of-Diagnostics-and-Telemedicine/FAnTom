@@ -193,6 +193,21 @@ operation_result CTomogram::GetDimensions(nlohmann::json &j)
 	return e_successful;
 }
 
+operation_result CTomogram::GetDictionary(nlohmann::json &j)
+{
+
+		j["#0_S"]["RU"] = convert_to_string8("cолидное");
+		j["#0_S"]["EN"] = "solid";
+
+		j["#1_PS"]["RU"] = convert_to_string8("полусолидное");
+		j["#1_PS"]["EN"] = "part solid";
+
+		j["#2_GG"]["RU"] = convert_to_string8("матовое стекло");
+		j["#2_GG"]["EN"] = "ground glass";
+		
+	return e_successful;
+}
+
 operation_result CTomogram::GetBrightness(double *value, image_index_t idx, int y, int x)
 {
 //	XRAD_ASSERT_THROW(idx.modality == modality_t::CT());

@@ -120,6 +120,17 @@ operation_result XRay::GetDimensions(nlohmann::json &j)
 	return e_successful;
 }
 
+operation_result XRay::GetDictionary(nlohmann::json &j)
+{
+	j["#0_H"]["RU"] = convert_to_string8("гидроторокс");
+	j["#0_H"]["EN"] = "hydrothorax";
+
+	j["#1_PC"]["RU"] = convert_to_string8("застой по МКК");
+//	j["#1_MG"]["EN"] = "todo";//??????????
+
+	return e_successful;
+}
+
 operation_result  XRay::GetModality(string &modality)
 {
 	modality = modality_t::DX();

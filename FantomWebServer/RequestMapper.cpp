@@ -177,25 +177,27 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 					if (ws_path_name_no_slash == L"research/init")
 					{
-						nlohmann::json	j;
+						nlohmann::json	j_reply, j_dictionary;
 
 						string modality;
 						GetModality_N(modality);
 
-						GetDimensions_N(j);
+						GetDimensions_N(j_reply);
 
-
+						GetDictionary_N(j_dictionary);
 
 						bool isFlipped;
 
 						GetZFlip_N(isFlipped);
 
-						j["response"][modality]["reversed"] = isFlipped;
+						j_reply["response"][modality]["reversed"] = isFlipped;
 
-						j["error"] = nullptr;
+						j_reply["error"] = nullptr;
+
+						j_reply["dictionary"] = j_dictionary;
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
-						response.write(QByteArray(j.dump('\t').c_str()));
+						response.write(QByteArray(j_reply.dump('\t').c_str()));
 
 					//	return;
 					}

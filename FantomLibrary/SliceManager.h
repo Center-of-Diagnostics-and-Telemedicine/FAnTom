@@ -67,6 +67,8 @@ public:
 
 	virtual operation_result GetDimensions(nlohmann::json &j) = 0;
 
+	virtual operation_result GetDictionary(nlohmann::json &j) = 0;
+
 	virtual operation_result GetZFlip(bool &flip) = 0;
 
 //	virtual operation_result GetScreenDimensions(point3_ST &v) = 0;
