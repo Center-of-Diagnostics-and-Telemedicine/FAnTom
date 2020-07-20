@@ -195,15 +195,20 @@ operation_result CTomogram::GetDimensions(nlohmann::json &j)
 
 operation_result CTomogram::GetDictionary(nlohmann::json &j)
 {
+	nlohmann::json j1, j2, j3;
 
-		j["#0_S"]["RU"] = convert_to_string8("cолидное");
-		j["#0_S"]["EN"] = "solid";
+		j1["#0_S"]["RU"] = convert_to_string8("cолидное");
+		j1["#0_S"]["EN"] = "solid";
 
-		j["#1_PS"]["RU"] = convert_to_string8("полусолидное");
-		j["#1_PS"]["EN"] = "part solid";
+		j2["#1_PS"]["RU"] = convert_to_string8("полусолидное");
+		j2["#1_PS"]["EN"] = "part solid";
 
-		j["#2_GG"]["RU"] = convert_to_string8("матовое стекло");
-		j["#2_GG"]["EN"] = "ground glass";
+		j3["#2_GG"]["RU"] = convert_to_string8("матовое стекло");
+		j3["#2_GG"]["EN"] = "ground glass";
+
+		j = {
+			j1, j2, j3
+		};
 		
 	return e_successful;
 }

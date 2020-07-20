@@ -194,7 +194,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 
 						j_reply["error"] = nullptr;
 
-						j_reply["dictionary"] = j_dictionary;
+						j_reply["dictionary"] = { j_dictionary };
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_reply.dump('\t').c_str()));

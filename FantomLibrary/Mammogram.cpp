@@ -228,14 +228,28 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 
 operation_result Mammogram::GetDictionary(nlohmann::json &j)
 {
-	j["#0_B"]["RU"] = convert_to_string8("доброкачественное");
-	j["#0_B"]["EN"] = "benign";
+	nlohmann::json j1, j2, j3, j4, j5;
 
-	j["#1_MG"]["RU"] = convert_to_string8("ЗНО");
-	j["#1_MG"]["EN"] = "malignant growth";
+	j1["#0_B"]["RU"] = convert_to_string8("Доброкачественное");
+	j1["#0_B"]["EN"] = "Benign";
 
-	j["#2_SC"]["RU"] = convert_to_string8("подозрительные кальцинаты");
-	j["#2_SC"]["EN"] = "suspicious calcification";
+	j2["#1_MG"]["RU"] = convert_to_string8("ЗНО");
+	j2["#1_MG"]["EN"] = "Malignant growth";
+
+	j3["#2_SC"]["RU"] = convert_to_string8("Подозрительные кальцинаты");
+	j3["#2_SC"]["EN"] = "Suspicious calcification";
+
+	j4["#2_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
+	j4["#2_PA"]["EN"] = "Pathologically altered lymph nodes";
+
+	j5["#2_TS"]["RU"] = convert_to_string8("Утолщение кожи");
+	j5["#2_TS"]["EN"] = "Thickening of the skin";
+
+
+
+	j = {
+		j1, j2, j3, j4 , j5
+	};
 	return e_successful;
 }
 

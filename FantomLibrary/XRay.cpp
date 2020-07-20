@@ -122,10 +122,18 @@ operation_result XRay::GetDimensions(nlohmann::json &j)
 
 operation_result XRay::GetDictionary(nlohmann::json &j)
 {
-	j["#0_H"]["RU"] = convert_to_string8("гидроторокс");
-	j["#0_H"]["EN"] = "hydrothorax";
+	nlohmann::json j1,j2;
 
-	j["#1_PC"]["RU"] = convert_to_string8("застой по МКК");
+	j1["#0_H"]["RU"] = convert_to_string8("Гидроторокс");
+	j1["#0_H"]["EN"] = "Hydrothorax";
+
+	j2["#1_PC"]["RU"] = convert_to_string8("Застой по МКК");
+
+	j = {
+		j1,  j2
+	};
+
+
 //	j["#1_MG"]["EN"] = "todo";//??????????
 
 	return e_successful;
