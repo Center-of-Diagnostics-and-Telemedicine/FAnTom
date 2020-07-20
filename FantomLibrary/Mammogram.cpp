@@ -239,11 +239,11 @@ operation_result Mammogram::GetDictionary(nlohmann::json &j)
 	j3["#2_SC"]["RU"] = convert_to_string8("Подозрительные кальцинаты");
 	j3["#2_SC"]["EN"] = "Suspicious calcification";
 
-	j4["#2_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
-	j4["#2_PA"]["EN"] = "Pathologically altered lymph nodes";
+	j4["#3_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
+	j4["#3_PA"]["EN"] = "Pathologically altered lymph nodes";
 
-	j5["#2_TS"]["RU"] = convert_to_string8("Утолщение кожи");
-	j5["#2_TS"]["EN"] = "Thickening of the skin";
+	j5["#4_TS"]["RU"] = convert_to_string8("Утолщение кожи");
+	j5["#4_TS"]["EN"] = "Thickening of the skin";
 
 
 
