@@ -197,14 +197,14 @@ operation_result CTomogram::GetDictionary(nlohmann::json &j)
 {
 	nlohmann::json j1, j2, j3;
 
-		j1["#0_S"]["RU"] = convert_to_string8("cолидное");
-		j1["#0_S"]["EN"] = "solid";
+		j1["#0_S"]["RU"] = convert_to_string8("Солидное");
+		j1["#0_S"]["EN"] = "Solid";
 
-		j2["#1_PS"]["RU"] = convert_to_string8("полусолидное");
-		j2["#1_PS"]["EN"] = "part solid";
+		j2["#1_PS"]["RU"] = convert_to_string8("Полусолидное");
+		j2["#1_PS"]["EN"] = "Part solid";
 
-		j3["#2_GG"]["RU"] = convert_to_string8("матовое стекло");
-		j3["#2_GG"]["EN"] = "ground glass";
+		j3["#2_GG"]["RU"] = convert_to_string8("Матовое стекло");
+		j3["#2_GG"]["EN"] = "Ground glass";
 
 		j = {
 			j1, j2, j3
