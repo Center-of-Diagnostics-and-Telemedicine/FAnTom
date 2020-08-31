@@ -53,22 +53,7 @@ operation_result CTomogram::LoadByAccession()
 	++progress;
 	//	proc_acquisition_work_ptr->open_instancestorages();
 
-//	m_CTslices = CTAcquisition_ptr().slices();
-
-	m_CTslices.resize(CTAcquisition_ptr().sizes());
-	size_t i{ 0 };
-
-	for (auto el : *m_proc_acquisition_ptr->get_loader())
-	{
-		Dicom::tomogram_slice &slice_container = dynamic_cast<Dicom::tomogram_slice&>(*el);
-
-		slice_container.get_image(m_CTslices.GetSlice({ i, slice_mask(0), slice_mask(1) }).ref());
-//		el->get_image(m_CTslices.GetSlice({ i, slice_mask(0), slice_mask(1) }).ref());
-		++progress;
-
-		++i;
-	}
-
+	m_CTslices = CTAcquisition_ptr().slices();
 
 	++progress;
 
