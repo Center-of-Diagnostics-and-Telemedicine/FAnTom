@@ -222,12 +222,12 @@ void XRay::RescaleImageToScreenCoordinates(frame_t &img_screen,const frame_t &bu
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 	//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double) i * m_XR_Images()[N].sizes(0)/ m_ScreenSize[N].y();
+		double y = (double) i * m_XR_Images()[N].sizes(0) / m_ScreenSize[N].y(); //y = i * step_screen_y / step_dicom = i * step_dicom * N_dicom / (N_screen * step_dicom) = i * N_dicom / N_screen
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 		//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double) j * m_XR_Images()[N].sizes(1) / m_ScreenSize[N].x();
+			double x = (double) j * m_XR_Images()[N].sizes(1)  / m_ScreenSize[N].x();
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}

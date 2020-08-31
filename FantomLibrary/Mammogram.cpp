@@ -271,8 +271,17 @@ operation_result Mammogram::GetScreenImage(const unsigned char **img, int *lengt
 		throw image_error("unknown image type");
 	}
 
+	if (idx.width && idx.height)
+	{
+		throw image_error("both size of image are given in input json");
+	}
 
-	if (m_EqualSteps[image])
+	if (!idx.width && !idx.height)
+	{
+		throw image_error("both size of image are given in input json are zero");
+	}
+
+	if (m_EqualSteps[image] && !idx.width && !idx.height)
 	{
 		this->GetImage(img_screen, idx);
 	}
@@ -281,6 +290,18 @@ operation_result Mammogram::GetScreenImage(const unsigned char **img, int *lengt
 		frame_t	buffer;
 
 		this->GetImage(buffer, idx);
+
+		if (idx.width)  
+		{
+			m_ScreenSize[image].y() = (size_t)(idx.width * m_ScreenSize[image].y()/ m_ScreenSize[image].x());
+			m_ScreenSize[image].x() = idx.width;
+		}
+
+		else if (idx.height)
+		{
+			m_ScreenSize[image].x() = (size_t)(idx.height * m_ScreenSize[image].x() / m_ScreenSize[image].y());
+			m_ScreenSize[image].y() = idx.height;
+		}
 
 //		m_ScreenSize[image].y() = (size_t)m_MM_Images()[image].sizes(0)*m_Steps[image].y() / min(m_Steps[image].y(), m_Steps[image].x());
 
@@ -331,12 +352,12 @@ void Mammogram::RescaleImageToScreenCoordinates(frame_t &img_screen, const frame
 	for (size_t i = 0; i < img_screen.vsize(); ++i)
 	{
 		//	double y = ScreenToDicomCoordinate(i, v);
-		double y = (double)i * m_MM_Images()[image].sizes(0) / m_ScreenSize[image].y();
+		double y = (double)i * m_MM_Images()[image].sizes(0) / m_ScreenSize[image].y();//y = i * step_screen_y / step_dicom = i * step_dicom * N_dicom/(N_screen * step_dicom) = i * N_dicom/N_screen
 
 		for (size_t j = 0; j < img_screen.hsize(); ++j)
 		{
 			//	double x = ScreenToDicomCoordinate(j, h);
-			double x = (double)j * m_MM_Images()[image].sizes(1) / m_ScreenSize[image].x();
+			double x = (double)j * m_MM_Images()[image].sizes(1)  / m_ScreenSize[image].x();
 
 			img_screen.at(i, j) = buffer.in(y, x, &interpolators2D::ibicubic);
 		}

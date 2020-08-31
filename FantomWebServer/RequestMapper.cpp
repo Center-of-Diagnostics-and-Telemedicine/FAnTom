@@ -230,6 +230,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 							{ j_req["image"]["modality"],
 								j_req["image"]["type"],
 								j_req["image"]["number"],
+								j_req["image"]["width"],
+								j_req["image"]["height"],
 								{
 									j_req["image"]["mip"]["mip_method"],
 									j_req["image"]["mip"]["mip_value"]
@@ -315,6 +317,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 								{ j_req["image"]["modality"],
 									j_req["image"]["type"],
 									j_req["image"]["number"],
+									j_req["image"]["width"],
+									j_req["image"]["height"],
 									{
 										j_req["image"]["mip"]["mip_method"],
 										j_req["image"]["mip"]["mip_value"]

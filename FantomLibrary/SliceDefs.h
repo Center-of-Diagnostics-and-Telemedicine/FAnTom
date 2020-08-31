@@ -71,6 +71,8 @@ struct image_index_t
 	const string	image_type;
 //	size_t	image_no;
 	int image_no;
+	const int    width;
+	const int    height;
 	mip_index_t mip;
 };
 

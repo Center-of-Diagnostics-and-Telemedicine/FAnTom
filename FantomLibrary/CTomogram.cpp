@@ -403,7 +403,7 @@ double	CTomogram::ScreenToDicomCoordinate(double t, axis_t axis)
 	{
 		case e_z:
 		{
-		double	u = t / m_interpolation_factor.z();
+		double	u = t / m_interpolation_factor.z(); //step.z()/stepscreen
 		return double(m_flip_z ? CTSlices().sizes(0) - u - 1 : u);
 		}
 
