@@ -7,7 +7,7 @@
 //#include <XRADDicom/XRADDicom.h>
 #include "SliceManager.h"
 
-#include <XRADDicom/Sources/DicomClasses/ProcessContainers/XRAYAcquisition.h>
+#include "XRADDicom/Sources/DicomClasses/ProcessContainers/XRAYAcquisition.h"
 
 XRAD_USING
 
@@ -44,7 +44,7 @@ public:
 
 private:
 
-	XRAYAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
+	XRayAcquisition& XrayAcquisition_ptr() { return dynamic_cast<XRayAcquisition&>(*m_proc_acquisition_ptr); }
 
 	int AddToStepsVector(vector<wstring> var1, vector <wstring> var2);
 

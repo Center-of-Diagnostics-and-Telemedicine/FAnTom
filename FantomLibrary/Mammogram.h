@@ -46,7 +46,7 @@ private:
 
 	void RescaleImageToScreenCoordinates(frame_t &img_screen, const frame_t &buffer, image_index_t idx);
 
-	XRAYAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRAYAcquisition&>(*m_proc_acquisition_ptr); }
+	XRayAcquisition& MMAcquisition_ptr() { return dynamic_cast<XRayAcquisition&>(*m_proc_acquisition_ptr); }
 
 	map<string, RealFunction2D_F32> &m_MM_Images() { return m_MM_images; }
 

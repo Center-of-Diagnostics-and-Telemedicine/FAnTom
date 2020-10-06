@@ -103,7 +103,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -117,7 +117,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -131,7 +131,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -145,7 +145,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEHA|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -159,7 +159,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -173,7 +173,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEHA|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;$(QTDIR_P)\include;$(XRAD_DCMTKInstallPath)include;$(XRAD_DCMTKExternalsPath)zlib-1.2.11\include;$(XRAD_OpenJPEGInstallPath)include\openjpeg-2.2;__IntDirPlaceholder__\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -285,6 +285,7 @@ call "$(ProjectDir)CreateWebSources.bat" $(OutDir)</Command>
     <ClInclude Include="ManageStrings.h" />
     <ClInclude Include="ManageTomogram.h" />
     <ClInclude Include="ManageWebPages.h" />
+    <ClInclude Include="pre.h" />
     <ClInclude Include="QtWebApp\httpserver\httpcookie.h" />
     <ClInclude Include="QtWebApp\httpserver\httpglobal.h" />
     <ClInclude Include="QtWebApp\httpserver\httprequest.h" />
