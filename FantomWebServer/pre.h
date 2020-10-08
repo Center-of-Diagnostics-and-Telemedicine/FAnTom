@@ -10,7 +10,7 @@
 
 #include <XRADBasic/Core.h>
 
-//#include <XRADDicom/XRADDicom.h>
+#include <XRADDicom/XRADDicom.h>
 
 //--------------------------------------------------------------
 #endif // File__pre_h

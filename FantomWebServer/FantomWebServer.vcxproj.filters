@@ -154,8 +154,5 @@
     <ClInclude Include="..\Common\WebServerSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="pre.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
