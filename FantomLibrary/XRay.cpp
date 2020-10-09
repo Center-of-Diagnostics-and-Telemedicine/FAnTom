@@ -122,7 +122,8 @@ operation_result XRay::GetDimensions(nlohmann::json &j)
 
 operation_result XRay::GetDictionary(nlohmann::json &j)
 {
-	nlohmann::json j2minus, j1minus, j0, j1, j2;
+	nlohmann::json j2minus, j1minus, j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15,
+		j16, j17, j18, j19, j20, j21, j22, j23, j24, j25, j26, j27;
 
 	j2minus["#-2_U"]["RU"] = convert_to_string8("Гидроторокс");
 	j2minus["#-2_U"]["EN"] = "unknown";
@@ -216,7 +217,8 @@ operation_result XRay::GetDictionary(nlohmann::json &j)
 
 
 	j = {
-		j2minus, j1minus, j0, j1, j2
+		j2minus, j1minus, j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15,
+		j16, j17, j18, j19, j20, j21, j22, j23, j24, j25, j26, j27
 	};
 
 

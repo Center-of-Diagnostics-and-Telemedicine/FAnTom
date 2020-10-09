@@ -228,7 +228,7 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 
 operation_result Mammogram::GetDictionary(nlohmann::json &j)
 {
-	nlohmann::json j0;  j1, j2, j3, j4, j5;
+	nlohmann::json j0,  j1, j2, j3, j4, j5;
 
 
 	j0["#0_M"]["RU"] = convert_to_string8("Прочие находки");
