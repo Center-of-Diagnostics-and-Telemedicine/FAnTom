@@ -228,27 +228,31 @@ operation_result Mammogram::GetDimensions(nlohmann::json &j)
 
 operation_result Mammogram::GetDictionary(nlohmann::json &j)
 {
-	nlohmann::json j1, j2, j3, j4, j5;
+	nlohmann::json j0;  j1, j2, j3, j4, j5;
 
-	j1["#0_B"]["RU"] = convert_to_string8("Доброкачественное");
-	j1["#0_B"]["EN"] = "Benign";
 
-	j2["#1_MG"]["RU"] = convert_to_string8("ЗНО");
-	j2["#1_MG"]["EN"] = "Malignant growth";
+	j0["#0_M"]["RU"] = convert_to_string8("Прочие находки");
+	j0["#0_M"]["EN"] = "miscellaneous";
 
-	j3["#2_SC"]["RU"] = convert_to_string8("Подозрительные кальцинаты");
-	j3["#2_SC"]["EN"] = "Suspicious calcification";
+	j1["#1_MG"]["RU"] = convert_to_string8("ЗНО");
+	j1["#1_MG"]["EN"] = "Malignant growth";
 
-	j4["#3_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
-	j4["#3_PA"]["EN"] = "Pathologically altered lymph nodes";
+	j2["#2_B"]["RU"] = convert_to_string8("Доброкачественное");
+	j2["#2_B"]["EN"] = "Benign";
 
-	j5["#4_TS"]["RU"] = convert_to_string8("Утолщение кожи");
-	j5["#4_TS"]["EN"] = "Thickening of the skin";
+	j3["#3_SC"]["RU"] = convert_to_string8("Подозрительные кальцинаты");
+	j3["#3_SC"]["EN"] = "Suspicious calcification";
+
+	j4["#4_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
+	j4["#4_PA"]["EN"] = "Pathologically altered lymph nodes";
+
+	j5["#5_TS"]["RU"] = convert_to_string8("Утолщение кожи");
+	j5["#5_TS"]["EN"] = "Thickening of the skin";
 
 
 
 	j = {
-		j1, j2, j3, j4 , j5
+		j0, j1, j2, j3, j4 , j5
 	};
 	return e_successful;
 }

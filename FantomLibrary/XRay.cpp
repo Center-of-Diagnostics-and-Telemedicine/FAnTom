@@ -122,15 +122,101 @@ operation_result XRay::GetDimensions(nlohmann::json &j)
 
 operation_result XRay::GetDictionary(nlohmann::json &j)
 {
-	nlohmann::json j1,j2;
+	nlohmann::json j2minus, j1minus, j0, j1, j2;
 
-	j1["#0_H"]["RU"] = convert_to_string8("Гидроторокс");
-	j1["#0_H"]["EN"] = "Hydrothorax";
+	j2minus["#-2_U"]["RU"] = convert_to_string8("Гидроторокс");
+	j2minus["#-2_U"]["EN"] = "unknown";
 
-	j2["#1_PC"]["RU"] = convert_to_string8("Застой по МКК");
+	j1minus["#-1_CB"]["RU"] = convert_to_string8("Цель исследования не легкие, а ребра, грудины");
+	j1minus["#-1_CB"]["EN"] = "Chest bones study";
+
+	j0["#0_M"]["RU"] = convert_to_string8("Прочие находки");
+	j0["#0_M"]["EN"] = "miscellaneous";
+
+	j1["#0_B"]["RU"] = convert_to_string8("Образования доброкачественные");
+	j1["#0_B"]["EN"] = "";
+
+	j2["#2_C"]["RU"] = convert_to_string8("Образования злокачественные");
+	j2["#2_C"]["EN"] = "";
+
+	j3["#3_UG"]["RU"] = convert_to_string8("Образования неясного генеза");
+	j3["#3_UG"]["EN"] = "";
+
+	j4["#4_P"]["RU"] = convert_to_string8("Пневмонии");
+	j4["#4_P"]["EN"] = "Pneumonias";
+
+	j5["#5_S"]["RU"] = convert_to_string8("Саркоидоз / интерстициальные заболевания легких");
+	j5["#5_S"]["EN"] = "Sarcoidosis";
+
+	j6["#6_TP"]["RU"] = convert_to_string8("Туберкулез / постутберкулез");
+	j6["#6_TP"]["EN"] = "Tuberculosis / post-tuberculosis";
+
+	j7["#7_H"]["RU"] = convert_to_string8("Гидроторокс");
+	j7["#7_H"]["EN"] = "Hydrothorax";
+
+	j8["#8_PT"]["RU"] = convert_to_string8("Пневмоторакс");
+	j8["#8_PT"]["EN"] = "Pneumothorax";
+
+	j9["#9_AB"]["RU"] = convert_to_string8("Абсцесс");
+	j9["#9_AB"]["EN"] = "Abscess";
+
+	j10["#10_AT"]["RU"] = convert_to_string8("Ателектатические изменения");
+	j10["#10_AT"]["EN"] = "Atelectasis";
+
+	j11["#11_DD"]["RU"] = convert_to_string8("Синдром диссеминации");
+	j11["#11_DD"]["EN"] = "Disseminated disease";
+
+	j12["#12_PP"]["RU"] = convert_to_string8("Перелом");
+	j12["#12_PP"]["EN"] = "";
+
+	j13["#13_EM"]["RU"] = convert_to_string8("Эмфизема");
+	j13["#13_EM"]["EN"] = "Emphysema";
+
+	j14["#14_PE"]["RU"] = convert_to_string8("Отек легких");
+	j14["#14_PE"]["EN"] = "Pulmonary edema";
+
+	j15["#15_AN"]["RU"] = convert_to_string8("Аневризма");
+	j15["#15_AN"]["EN"] = "Aneurysm";
+
+	j16["#16_BA"]["RU"] = convert_to_string8("Атрезия бронха");
+	j16["#16_BA"]["EN"] = "Bronchial atresia";
+
+	j17["#17_CM"]["RU"] = convert_to_string8("спайки");
+	j17["#17_CM"]["EN"] = "commissure";
+
+	j18["#18_PS"]["RU"] = convert_to_string8("пневмосклероз");
+	j18["#18_PS"]["EN"] = "pneumosclerosis";
+
+	j19["#19_PF"]["RU"] = convert_to_string8("пневмофиброз");
+	j19["#19_PF"]["EN"] = "pneumofibrosis";
+
+	j20["#20_BR"]["RU"] = convert_to_string8("бронхит");
+	j20["#20_BR"]["EN"] = "bronchitis";
+
+	j21["#21_PL"]["RU"] = convert_to_string8("плеврит");
+	j21["#21_PL"]["EN"] = "pleurisy";
+
+	j22["#22_ST"]["RU"] = convert_to_string8("застой по МКК");
+	j22["#22_ST"]["EN"] = "";
+
+	j23["#23_CP"]["RU"] = convert_to_string8("косвенные признаки ХОБЛ");
+	j23["#23_CP"]["EN"] = "COPD";
+
+	j24["#24_MS"]["RU"] = convert_to_string8("образование скелетно - мышечной системы");
+	j24["#24_MS"]["EN"] = "";
+
+	j25["#25_LR"]["RU"] = convert_to_string8("резекция легкого");
+	j25["#25_LR"]["EN"] = "lung resection";
+
+	j26["#26_CS"]["RU"] = convert_to_string8("киста");
+	j26["#26_CS"]["EN"] = "cyst";
+
+	j27["#27_PR"]["RU"] = convert_to_string8("перисциссурит");
+	j27["#27_PR"]["EN"] = "periscissuritis";
+
 
 	j = {
-		j1,  j2
+		j2minus, j1minus, j0, j1, j2
 	};
 
 
