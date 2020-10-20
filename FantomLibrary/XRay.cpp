@@ -127,93 +127,122 @@ operation_result XRay::GetDictionary(nlohmann::json &j)
 
 	j2minus["#-2_U"]["RU"] = convert_to_string8("Гидроторокс");
 	j2minus["#-2_U"]["EN"] = "unknown";
+	j2minus["#-2_U"]["CLR"] = "255, 255, 255";//white
 
 	j1minus["#-1_CB"]["RU"] = convert_to_string8("Цель исследования не легкие, а ребра, грудины");
 	j1minus["#-1_CB"]["EN"] = "Chest bones study";
+	j1minus["#-1_CB"]["CLR"] = "0, 0, 0";//black
 
 	j0["#0_M"]["RU"] = convert_to_string8("Прочие находки");
 	j0["#0_M"]["EN"] = "miscellaneous";
+	j0["#0_M"]["CLR"] = "255, 255, 192";//week yellow (255,255,192) = (255,255,0)%0.25
 
 	j1["#0_B"]["RU"] = convert_to_string8("Образования доброкачественные");
 	j1["#0_B"]["EN"] = "";
+	j1["#0_B"]["CLR"] = "0, 255, 0";//green
 
 	j2["#2_C"]["RU"] = convert_to_string8("Образования злокачественные");
 	j2["#2_C"]["EN"] = "";
+	j2["#2_C"]["CLR"] = "255, 0, 0";//red
 
 	j3["#3_UG"]["RU"] = convert_to_string8("Образования неясного генеза");
 	j3["#3_UG"]["EN"] = "";
+	j3["#3_UG"]["CLR"] = "255, 255, 0";//yellow
 
 	j4["#4_P"]["RU"] = convert_to_string8("Пневмонии");
-	j4["#4_P"]["EN"] = "Pneumonias";
+	j4["#4_P"]["EN"] = "Pneumonias"; 
+	j4["#4_P"]["CLR"] = "192, 255, 192";//green() % desaturation 0.25
 
 	j5["#5_S"]["RU"] = convert_to_string8("Саркоидоз / интерстициальные заболевания легких");
 	j5["#5_S"]["EN"] = "Sarcoidosis";
+	j5["#5_S"]["CLR"] = "192, 255, 255";// cyan() % desaturation 0.25
 
 	j6["#6_TP"]["RU"] = convert_to_string8("Туберкулез / постутберкулез");
 	j6["#6_TP"]["EN"] = "Tuberculosis / post-tuberculosis";
+	j6["#6_TP"]["CLR"] = "0, 0, 100";//dark_blue()
 
 	j7["#7_H"]["RU"] = convert_to_string8("Гидроторокс");
 	j7["#7_H"]["EN"] = "Hydrothorax";
+	j7["#7_H"]["CLR"] = "0, 0 ,255";//blue
 
 	j8["#8_PT"]["RU"] = convert_to_string8("Пневмоторакс");
 	j8["#8_PT"]["EN"] = "Pneumothorax";
+	j8["#8_PT"]["CLR"] = "192, 192, 192"; //gray_75()
 
 	j9["#9_AB"]["RU"] = convert_to_string8("Абсцесс");
 	j9["#9_AB"]["EN"] = "Abscess";
+	j9["#9_AB"]["CLR"] = "128, 128, 128";//gray_50()
 
 	j10["#10_AT"]["RU"] = convert_to_string8("Ателектатические изменения");
 	j10["#10_AT"]["EN"] = "Atelectasis";
+	j10["#10_AT"]["CLR"] = "255, 192, 255"; //magenta() % desaturation 0.25
 
 	j11["#11_DD"]["RU"] = convert_to_string8("Синдром диссеминации");
 	j11["#11_DD"]["EN"] = "Disseminated disease";
+	j11["#11_DD"]["CLR"] = "0, 255, 255";//cyan()
 
 	j12["#12_PP"]["RU"] = convert_to_string8("Перелом");
 	j12["#12_PP"]["EN"] = "";
+	j12["#12_PP"]["CLR"] = "255, 0, 255";//magenta()
 
 	j13["#13_EM"]["RU"] = convert_to_string8("Эмфизема");
 	j13["#13_EM"]["EN"] = "Emphysema";
+	j13["#13_EM"]["CLR"] = "100, 100, 0";//dark_yellow()
 
 	j14["#14_PE"]["RU"] = convert_to_string8("Отек легких");
 	j14["#14_PE"]["EN"] = "Pulmonary edema";
+	j14["#14_PE"]["CLR"] = "0, 100, 100";//dark_cyan())
 
 	j15["#15_AN"]["RU"] = convert_to_string8("Аневризма");
 	j15["#15_AN"]["EN"] = "Aneurysm";
+	j15["#15_AN"]["CLR"] = "100, 0, 0"; //dark_red()
 
 	j16["#16_BA"]["RU"] = convert_to_string8("Атрезия бронха");
 	j16["#16_BA"]["EN"] = "Bronchial atresia";
+	j16["#16_BA"]["CLR"] = "0, 100, 0";//dark_green()
 
 	j17["#17_CM"]["RU"] = convert_to_string8("спайки");
 	j17["#17_CM"]["EN"] = "commissure";
+	j17["#17_CM"]["CLR"] = "128, 0, 255";//violet()
 
 	j18["#18_PS"]["RU"] = convert_to_string8("пневмосклероз");
 	j18["#18_PS"]["EN"] = "pneumosclerosis";
+	j18["#18_PS"]["CLR"] = "255, 128, 0";//orange()
 
 	j19["#19_PF"]["RU"] = convert_to_string8("пневмофиброз");
 	j19["#19_PF"]["EN"] = "pneumofibrosis";
+	j19["#19_PF"]["CLR"] = "0, 255, 180";//turquoise()
 
 	j20["#20_BR"]["RU"] = convert_to_string8("бронхит");
 	j20["#20_BR"]["EN"] = "bronchitis";
+	j20["#20_BR"]["CLR"] = "140, 80, 0";//brown()
 
 	j21["#21_PL"]["RU"] = convert_to_string8("плеврит");
 	j21["#21_PL"]["EN"] = "pleurisy";
+	j21["#21_PL"]["CLR"] = "255, 215, 0";//gold
 
 	j22["#22_ST"]["RU"] = convert_to_string8("застой по МКК");
-	j22["#22_ST"]["EN"] = "";
+	j22["#22_ST"]["CLR"] = "226, 211, 192";//brown()%desaturation 0.25
 
 	j23["#23_CP"]["RU"] = convert_to_string8("косвенные признаки ХОБЛ");
 	j23["#23_CP"]["EN"] = "COPD";
+	j23["#23_CP"]["CLR"] = "192, 255, 236"; //turquoise() % desaturation 0.25
 
 	j24["#24_MS"]["RU"] = convert_to_string8("образование скелетно - мышечной системы");
 	j24["#24_MS"]["EN"] = "";
+	j24["#24_MS"]["CLR"] = "224, 192, 255"; //violet() % desaturation 0.25
 
 	j25["#25_LR"]["RU"] = convert_to_string8("резекция легкого");
 	j25["#25_LR"]["EN"] = "lung resection";
+	j25["#25_LR"]["CLR"] = "192, 192, 255";//blue()%desaturation) 0.25
 
 	j26["#26_CS"]["RU"] = convert_to_string8("киста");
 	j26["#26_CS"]["EN"] = "cyst";
+	j26["#26_CS"]["CLR"] = "192, 255, 192";//green()%desaturation) 0.25
 
 	j27["#27_PR"]["RU"] = convert_to_string8("перисциссурит");
 	j27["#27_PR"]["EN"] = "periscissuritis";
+	j27["#27_PR"]["CLR"] = "255, 192, 192"; //red() % desaturation  0.25
 
 
 	j = {
@@ -221,8 +250,6 @@ operation_result XRay::GetDictionary(nlohmann::json &j)
 		j16, j17, j18, j19, j20, j21, j22, j23, j24, j25, j26, j27
 	};
 
-
-//	j["#1_MG"]["EN"] = "todo";//??????????
 
 	return e_successful;
 }

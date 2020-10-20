@@ -233,21 +233,27 @@ operation_result Mammogram::GetDictionary(nlohmann::json &j)
 
 	j0["#0_M"]["RU"] = convert_to_string8("Прочие находки");
 	j0["#0_M"]["EN"] = "miscellaneous";
+	j0["#0_M"]["CLR"] = "255, 255, 192";
 
 	j1["#1_MG"]["RU"] = convert_to_string8("ЗНО");
 	j1["#1_MG"]["EN"] = "Malignant growth";
+	j1["#1_MG"]["CLR"] = "255, 0, 0";
 
 	j2["#2_B"]["RU"] = convert_to_string8("Доброкачественное");
 	j2["#2_B"]["EN"] = "Benign";
+	j2["#2_B"]["CLR"] = "0, 255, 0";
 
 	j3["#3_SC"]["RU"] = convert_to_string8("Подозрительные кальцинаты");
 	j3["#3_SC"]["EN"] = "Suspicious calcification";
+	j3["#3_SC"]["CLR"] = "255, 255, 0";
 
 	j4["#4_PA"]["RU"] = convert_to_string8("Патологически измененные лимфоузлы");
 	j4["#4_PA"]["EN"] = "Pathologically altered lymph nodes";
+	j4["#4_PA"]["CLR"] = "255, 0, 255";
+
 
 	j5["#5_TS"]["RU"] = convert_to_string8("Утолщение кожи");
-	j5["#5_TS"]["EN"] = "Thickening of the skin";
+	j5["#5_TS"]["CLR"] = "0, 255, 255";
 
 
 
