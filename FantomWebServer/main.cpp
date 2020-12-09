@@ -12,6 +12,7 @@
 #include <FantomLibrary/FantomLibrary.h>
 
 #include <iostream>
+#include <locale>
 
 #include <Common/WebServerSettings.h>
 #include <XRADQt/QtStringConverters.h>
@@ -37,8 +38,13 @@ void f(HttpListener* listener)
  int xrad::xrad_main(int argc, char *argv[])
 {
 	using namespace std;
+	
+//	std::locale::global(std::locale("C"));
+//	locale("C");
 
 	QCoreApplication app(argc, argv);
+	
+	std::locale::global(std::locale("C"));
 
 	WebServerSettings wss;
 
