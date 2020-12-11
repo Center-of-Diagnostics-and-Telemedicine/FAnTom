@@ -246,7 +246,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["brightness"] = nullptr;
-						j_response["error"] = 31;
+						j_response["error"] = "requested wrong modality";
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
@@ -258,7 +258,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["brightness"] = nullptr;
-						j_response["error"] = 32;
+						j_response["error"] = "requested wrong image";
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
@@ -270,7 +270,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["brightness"] = nullptr;
-						j_response["error"] = 33;
+						j_response["error"] = "requested wrong mip";
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
@@ -334,7 +334,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["image"] = nullptr;
-						j_response["error"] = 31;
+						j_response["error"] = "requested wrong modality";;
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
@@ -346,7 +346,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["image"] = nullptr;
-						j_response["error"] = 32;
+						j_response["error"] = "requested wrong image";
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
@@ -358,7 +358,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						std::cout << e.what() << std::endl;
 
 						j_response["response"]["image"] = nullptr;
-						j_response["error"] = 33;
+						j_response["error"] = "requested wrong mip";
 
 						response.setHeader("Content-Type", "application/json; charset=utf-8");
 						response.write(QByteArray(j_response.dump('\t').c_str()));
