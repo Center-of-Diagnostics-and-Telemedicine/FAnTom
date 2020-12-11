@@ -306,9 +306,6 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 						const unsigned char *img;
 						int  length;
 
-
-
-
 						//GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
 					try
 					{
