@@ -273,12 +273,12 @@ operation_result XRay::GetScreenImage(const unsigned char **img, int *length, im
 
 	int &N = idx.image_no;
 
-//	N = range(N, 0, m_XR_Images(). size() - 1);
+	N = range(N, 0, m_XR_Images(). size() - 1);
 
-	if (N < 0 || N >(m_XR_Images().size() - 1))
-	{
-		throw image_error("unknown image type");
-	}
+//	if (N < 0 || N >(m_XR_Images().size() - 1))
+//	{
+//		throw image_error("unknown image size");
+//	}
 
 	if(m_EqualSteps[N])
 	{
