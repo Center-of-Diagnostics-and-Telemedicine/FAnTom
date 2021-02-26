@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "f3cf8f9f-9042-4a07-92ed-c618c245dfb5",
+		"name": "Fantom library",
+		"description": "Список запросов, для тестирования сервера над библиотекой Fantom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "qtDebug",
+			"item": [
+				{
+					"name": "init",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_server_domain}}:{{qt_server_port}}/{{research_route}}/{{init_route}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{qt_server_port}}",
+							"path": [
+								"{{research_route}}",
+								"{{init_route}}"
+							]
+						},
+						"description": "Запрос на получение данных исследования\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "getSlice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"black\":{{black}},\r\n\t\"white\":{{white}},\r\n\t\"gamma\":{{gamma}},\r\n\t\"sliceType\":{{sliceType}},\r\n\t\"mipMethod\":{{mipMethod}},\r\n\t\"sliceNumber\":{{sliceNumber}},\r\n\t\"mipValue\":{{mipValue}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_server_domain}}:{{qt_server_port}}/{{research_route}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{qt_server_port}}",
+							"path": [
+								"{{research_route}}"
+							]
+						},
+						"description": "запрос на получение изображения"
+					},
+					"response": []
+				},
+				{
+					"name": "getHounsfield",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"axialCoord\":{{axialCoord}},\r\n\t\"frontalCoord\":{{frontalCoord}},\r\n\t\"sagittalCoord\":{{sagittalCoord}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_server_domain}}:{{qt_server_port}}/{{research_route}}/{{hounsfield_route}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{qt_server_port}}",
+							"path": [
+								"{{research_route}}",
+								"{{hounsfield_route}}"
+							]
+						},
+						"description": "Запрос на получение значения единиц Хаунсфилда в точке"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "javaDebug",
+			"item": [
+				{
+					"name": "init",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_server_domain}}:{{java_server_port}}/{{research_route}}/{{init_route}}/{{research_accession_number}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{java_server_port}}",
+							"path": [
+								"{{research_route}}",
+								"{{init_route}}",
+								"{{research_accession_number}}"
+							]
+						},
+						"description": "Запрос на получение данных исследования\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "getSlice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"black\":{{black}},\r\n\t\"white\":{{white}},\r\n\t\"gamma\":{{gamma}},\r\n\t\"sliceType\":{{sliceType}},\r\n\t\"mipMethod\":{{mipMethod}},\r\n\t\"sliceNumber\":{{sliceNumber}},\r\n\t\"mipValue\":{{mipValue}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_server_domain}}:{{java_server_port}}/{{research_route}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{java_server_port}}",
+							"path": [
+								"{{research_route}}"
+							]
+						},
+						"description": "запрос на получение изображения"
+					},
+					"response": []
+				},
+				{
+					"name": "getHounsfield",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"axialCoord\":{{axialCoord}},\r\n\t\"frontalCoord\":{{frontalCoord}},\r\n\t\"sagittalCoord\":{{sagittalCoord}}\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_server_domain}}:{{java_server_port}}/{{research_route}}/{{hounsfield_route}}",
+							"host": [
+								"{{local_server_domain}}"
+							],
+							"port": "{{java_server_port}}",
+							"path": [
+								"{{research_route}}",
+								"{{hounsfield_route}}"
+							]
+						},
+						"description": "Запрос на получение значения единиц Хаунсфилда в точке"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d0e471e6-a507-4863-8b59-33e2cffb3705",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "43401cd6-eb58-438a-960b-d30b07f71d45",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "81f91f19-7098-4fe4-9239-4125a66a1e19",
+			"key": "local_server_domain",
+			"value": "localhost",
+			"type": "string"
+		},
+		{
+			"id": "09c3677d-c6ae-496c-9e52-2aaba0d9485f",
+			"key": "qt_server_port",
+			"value": "5555",
+			"type": "string"
+		},
+		{
+			"id": "971b55b4-69bd-434b-85b1-3421c875b3d8",
+			"key": "java_server_port",
+			"value": "8081",
+			"type": "string"
+		},
+		{
+			"id": "a230219f-8e79-4bf9-bdfc-14d5980e18be",
+			"key": "axialCoord",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "410b0f57-fc04-4b67-a9a7-e290621181c4",
+			"key": "frontalCoord",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "fb87206e-96a1-453f-9649-2fc371a1e73a",
+			"key": "sagittalCoord",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "3ee440af-1720-425c-9ae6-357f700f22e3",
+			"key": "black",
+			"value": "-1150.0",
+			"type": "string"
+		},
+		{
+			"id": "c58c393b-1d07-43ed-b3fc-6867bd01efec",
+			"key": "white",
+			"value": "350.0",
+			"type": "string"
+		},
+		{
+			"id": "54a69f3e-8d9b-4b7b-8c85-7180d07c5eab",
+			"key": "gamma",
+			"value": "1.0",
+			"type": "string"
+		},
+		{
+			"id": "f581450c-1dc5-4c16-a5b1-304fa84c8ed3",
+			"key": "sliceType",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"id": "b69f836f-da4a-43cd-b9b8-37e08d1fe72f",
+			"key": "mipMethod",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"id": "583510ab-14b4-4166-a239-ef69eb00daa3",
+			"key": "sliceNumber",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "3f06a8a5-4840-4114-840a-29ed72c633e6",
+			"key": "mipValue",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"id": "5499170b-92c0-497b-badd-abaaf9aaea9f",
+			"key": "research_route",
+			"value": "research",
+			"type": "string"
+		},
+		{
+			"id": "a795a9f4-4be5-4214-85df-a9a56c98ada1",
+			"key": "init_route",
+			"value": "init",
+			"type": "string"
+		},
+		{
+			"id": "5afad29b-1b08-4a5e-8665-1091bb876f83",
+			"key": "hounsfield_route",
+			"value": "hounsfield",
+			"type": "string"
+		},
+		{
+			"id": "ab247e8f-1b88-4f47-b8d0-6fd9084d138f",
+			"key": "research_accession_number",
+			"value": "RLA78410020296505",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

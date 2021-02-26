@@ -16,50 +16,7 @@ function ReturnResponseFromCommand(commandPath)
   }
 }
 
-function ValidateUsernameAndPassword()
-{
-  var username = document.getElementById("username").value;
-  var password = document.getElementById("password").value;
-  var response = ReturnResponseFromCommand('?command=CheckDoctorIDAndPassword&doctor_id=' + username +
-  '&password=' + password);
-  if (username == '')
-  {
-    document.getElementById("username").focus();
-    alert("Введено пустое поле в графе [Идентификатор врача]");
-  }
-  else if (password == '')
-  {
-    document.getElementById("password").focus();
-    alert("Введено пустое поле в графе [Пароль]");
-  }
-  //else if (response != 1)
-  else if (false)
-  {
-      alert("Неправильный Логин или Пароль");
-  }
-  else
-  {
-      alert('Вход выполнен успешно. Добро пожаловать!');
-      window.location = 'login_page.html?doctor_id='+username+'&login=true';
-      return false;
-  }
-}
 
-function InitOnStart()
-{
-  var url_string = window.location.href;
-  var url = new URL(url_string);
-  var doc_id_var = url.searchParams.get("doctor_id");
-  var login_bool = url.searchParams.get("login");
-  if (login_bool == 'true')
-  {
-    CreateLoginPage(doc_id_var);
-  }
-  else
-  {
-    window.location = '';
-  }
-}
 
 function GetAccessionNamesFromString(acc_names_response)
 {
@@ -72,10 +29,7 @@ function GoToDICOMPage()
   var acc_num_var = document.getElementById("accession_number_list").value;
   if (acc_num_var != "")
   {
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var doc_id_var = url.searchParams.get("doctor_id");
-    var jspage = "/DICOM_Viewer.html?accession_number="+acc_num_var+"&doctor_id=" + doc_id_var;
+    var jspage = "/DICOM_Viewer.html?accession_number="+acc_num_var;
     location.assign(jspage);
   }
   else
@@ -85,7 +39,7 @@ function GoToDICOMPage()
   }
 }
 
-function CreateLoginPage(doc_id_var)
+function CreateLoginPage()
 {
   var acc_num_p_var = document.getElementById('acc_num_p');
   acc_num_p.innerHTML = '  Введите идентификатор исследования (Accession Number)  ';
@@ -97,14 +51,14 @@ function CreateLoginPage(doc_id_var)
   var acc_names_var = document.createElement("DATALIST");
   acc_names_var.setAttribute("id", "input_options");
 
-  var acc_names_response = ReturnResponseFromCommand('?command=GetAccessionNames');
-  var arrayOfAccNames = acc_names_response.split(' ');
-  for (var i = 0; i < arrayOfAccNames.length; i++)
+   var acc_names_response = ReturnResponseFromCommand('?command=GetStudiesIDs');
+   var arrayOfAccNames = acc_names_response.split('\t');
+   for (var i = 0; i < arrayOfAccNames.length; i++)
   {
     var option_var = document.createElement("OPTION");
     option_var.setAttribute("value", arrayOfAccNames[i]);
-    acc_names_var.appendChild(option_var);
-  }
+   acc_names_var.appendChild(option_var);
+   }
   acc_num_p.appendChild(acc_names_var);
 
   var acc_num_button = document.createElement('INPUT');

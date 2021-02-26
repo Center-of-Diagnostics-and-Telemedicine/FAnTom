@@ -1,12 +1,18 @@
-﻿#include "pre.h"
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+#include "pre.h"
 /**
   @file
   @author Stefan Frings
 */
 
 #include "httpsession.h"
-#include <QTCore/QDateTime>
-#include <QTCore/QUuid>
+#include <QtCore/QDateTime>
+#include <QtCore/QUuid>
 
 using namespace stefanfrings;
 
@@ -19,12 +25,12 @@ HttpSession::HttpSession(bool canStore)
         dataPtr->lastAccess=QDateTime::currentMSecsSinceEpoch();
         dataPtr->id=QUuid::createUuid().toString().toLocal8Bit();
 #ifdef SUPERVERBOSE
-        qDebug("HttpSession: created new session data with id %s",dataPtr->id.data());
+        qDebug("HttpSession: (constructor) new session %s with refCount=1",dataPtr->id.constData());
 #endif
     }
     else
     {
-        dataPtr=0;
+        dataPtr=nullptr;
     }
 }
 
@@ -36,7 +42,7 @@ HttpSession::HttpSession(const HttpSession& other)
         dataPtr->lock.lockForWrite();
         dataPtr->refCount++;
 #ifdef SUPERVERBOSE
-        qDebug("HttpSession: refCount of %s is %i",dataPtr->id.data(),dataPtr->refCount);
+        qDebug("HttpSession: (constructor) copy session %s refCount=%i",dataPtr->id.constData(),dataPtr->refCount);
 #endif
         dataPtr->lock.unlock();
     }
@@ -51,7 +57,7 @@ HttpSession& HttpSession::operator= (const HttpSession& other)
         dataPtr->lock.lockForWrite();
         dataPtr->refCount++;
 #ifdef SUPERVERBOSE
-        qDebug("HttpSession: refCount of %s is %i",dataPtr->id.data(),dataPtr->refCount);
+        qDebug("HttpSession: (operator=) session %s refCount=%i",dataPtr->id.constData(),dataPtr->refCount);
 #endif
         dataPtr->lastAccess=QDateTime::currentMSecsSinceEpoch();
         dataPtr->lock.unlock();
@@ -59,14 +65,15 @@ HttpSession& HttpSession::operator= (const HttpSession& other)
     if (oldPtr)
     {
         int refCount;
-        oldPtr->lock.lockForRead();
-        refCount=oldPtr->refCount--;
+        oldPtr->lock.lockForWrite();
+        refCount=--oldPtr->refCount;
 #ifdef SUPERVERBOSE
-        qDebug("HttpSession: refCount of %s is %i",oldPtr->id.data(),oldPtr->refCount);
+        qDebug("HttpSession: (operator=) session %s refCount=%i",oldPtr->id.constData(),oldPtr->refCount);
 #endif
         oldPtr->lock.unlock();
         if (refCount==0)
         {
+            qDebug("HttpSession: deleting old data");
             delete oldPtr;
         }
     }
@@ -77,10 +84,10 @@ HttpSession::~HttpSession()
 {
     if (dataPtr) {
         int refCount;
-        dataPtr->lock.lockForRead();
+        dataPtr->lock.lockForWrite();
         refCount=--dataPtr->refCount;
 #ifdef SUPERVERBOSE
-        qDebug("HttpSession: refCount of %s is %i",dataPtr->id.data(),dataPtr->refCount);
+        qDebug("HttpSession: (destructor) session %s refCount=%i",dataPtr->id.constData(),dataPtr->refCount);
 #endif
         dataPtr->lock.unlock();
         if (refCount==0)
@@ -105,7 +112,7 @@ QByteArray HttpSession::getId() const
 }
 
 bool HttpSession::isNull() const {
-    return dataPtr==0;
+    return dataPtr==nullptr;
 }
 
 void HttpSession::set(const QByteArray& key, const QVariant& value)
@@ -181,7 +188,7 @@ void HttpSession::setLastAccess()
 {
     if (dataPtr)
     {
-        dataPtr->lock.lockForRead();
+        dataPtr->lock.lockForWrite();
         dataPtr->lastAccess=QDateTime::currentMSecsSinceEpoch();
         dataPtr->lock.unlock();
     }

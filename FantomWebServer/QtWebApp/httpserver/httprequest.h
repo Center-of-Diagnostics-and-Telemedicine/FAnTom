@@ -1,4 +1,10 @@
-﻿/**
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+/**
   @file
   @author Stefan Frings
 */
@@ -6,14 +12,14 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <QTCore/QByteArray>
-#include <QTNetwork/QHostAddress>
-#include <QTNetwork/QTcpSocket>
-#include <QTCore/QMap>
-#include <QTCore/QMultiMap>
-#include <QTCore/QSettings>
-#include <QTCore/QTemporaryFile>
-#include <QTCore/QUuid>
+#include <QtCore/QByteArray>
+#include <QtNetwork/QHostAddress>
+#include <QtNetwork/QTcpSocket>
+#include <QtCore/QMap>
+#include <QtCore/QMultiMap>
+#include <QtCore/QSettings>
+#include <QtCore/QTemporaryFile>
+#include <QtCore/QUuid>
 #include "httpglobal.h"
 
 namespace stefanfrings {
@@ -48,7 +54,7 @@ public:
       Constructor.
       @param settings Configuration settings
     */
-    HttpRequest(QSettings* settings);
+    HttpRequest(const QSettings* settings);
 
     /**
       Destructor.
@@ -61,7 +67,7 @@ public:
       until the status is RequestStatus::complete or RequestStatus::abort.
       @param socket Source of the data
     */
-    void readFromSocket(QTcpSocket* socket);
+    void readFromSocket(QTcpSocket *socket);
 
     /**
       Get the status of this reqeust.

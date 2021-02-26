@@ -51,9 +51,6 @@
     <ClCompile Include="QtWebApp\httpserver\httpsessionstore.cpp">
       <Filter>QtWebServer</Filter>
     </ClCompile>
-    <ClCompile Include="QtWebApp\httpserver\staticfilecontroller.cpp">
-      <Filter>QtWebServer</Filter>
-    </ClCompile>
     <ClCompile Include="RequestMapper.cpp">
       <Filter>QtWebServer</Filter>
     </ClCompile>
@@ -93,8 +90,11 @@
     <ClCompile Include="$(IntDir)\GeneratedFiles\moc_RequestMapper.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(IntDir)\GeneratedFiles\moc_staticfilecontroller.cpp">
-      <Filter>Generated Files</Filter>
+    <ClCompile Include="..\Common\WebServerSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(XRADRoot)\XRADQt\QtStringConverters.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +111,6 @@
       <Filter>QtWebServer\headers</Filter>
     </CustomBuild>
     <CustomBuild Include="QtWebApp\httpserver\httpsessionstore.h">
-      <Filter>QtWebServer\headers</Filter>
-    </CustomBuild>
-    <CustomBuild Include="QtWebApp\httpserver\staticfilecontroller.h">
       <Filter>QtWebServer\headers</Filter>
     </CustomBuild>
     <CustomBuild Include="RequestMapper.h">
@@ -149,6 +146,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ManageWebPages.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(XRADRoot)\XRADQt\QtStringConverters.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\WebServerSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

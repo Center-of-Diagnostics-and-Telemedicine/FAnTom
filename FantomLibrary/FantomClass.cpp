@@ -3,6 +3,13 @@
 
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
 #include <XRADBasic/Sources/Utils/ConsoleProgress.h>
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
+
+#include <cstring>
+#include <iostream>
+#include <sstream>
+#include "FantomLogger.h"
+
 
 //void GetDicomStudiesVector(std::vector<Dicom::study_loader> &m_studies_heap, const wstring &root_folder_name, bool analyze_subfolders, ProgressProxy progress_proxy);
 //TODO эта функция используется единственный раз в проекте Fantom. Уместно ли ради единственного случая ее держать? (Kovbas) я думаю, что её можно перенести в Fantom, когда будем активно продолжать с ним работы.
@@ -80,7 +87,7 @@ operation_result Fantom::InitFantom(const wstring &data_store_path)
 	return e_successful;
 }
 
-operation_result Fantom::GetAccessionNumbers(vector<wstring> &accession_numbers)
+operation_result Fantom::GetNumbersOfAccessions(vector<wstring> &accession_numbers)
 {
 	if (m_studies_heap.size() == 0) return e_other;
 	for (auto &study: m_studies_heap)
@@ -137,6 +144,11 @@ size_t slice_manager::GetAccessionHeapPosition(const wstring &accession_number, 
 }
 
 
+
+
+
+
+
 // получение acquisition с самым большим размером
 Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 {
@@ -160,20 +172,48 @@ Dicom::acquisition_loader &GetLargestAcquisition(Dicom::study_loader &study)
 	return *result;
 }
 
+
+
+
 //Загрузка данных выбранного КТ в свойства текущего объекта
+
+
+
 operation_result slice_manager::LoadCTbyAccession(const wstring &accession_number, bool &series_loaded)
 {
+//	std::lock_guard<std::mutex>  lg(m_slice_manager_mutex);
+	START_LOG;
+
+	if (m_accession_number == accession_number && proc_acquisition_work_ptr != nullptr)
+	{
+		series_loaded = true;
+		return e_successful;
+	}
+
 	size_t chosen_accession_number = GetAccessionHeapPosition(accession_number, series_loaded);
 
 	if (!series_loaded) return e_out_of_range;
 
 	proc_acquisition_work_ptr = CreateProcessAcquisition(GetLargestAcquisition(m_studies_heap[chosen_accession_number]), ConsoleProgressProxy());
 	proc_acquisition_work_ptr->open_instancestorages();
+
 	m_slices = ct_acquisition_ptr().slices();
 	m_scales = ct_acquisition_ptr().scales();
 	m_image_positions_patient = ct_acquisition_ptr().image_positions_patient();
 
 	CalculateInterpolationScales();
+
+	m_accession_number = accession_number;
+
+	auto	&sample_instance = *ct_acquisition_ptr().loader().front();
+
+	m_patient_id = sample_instance.get_wstring(Dicom::e_patient_id);
+	m_patient_sex = sample_instance.get_wstring(Dicom::e_patient_sex);
+	m_patient_age = sample_instance.get_wstring(Dicom::e_patient_age);
+	m_study_id = sample_instance.get_wstring(Dicom::e_study_id);
+	m_study_instance_uid = sample_instance.get_wstring(Dicom::e_study_instance_uid);
+
+	END_LOG;
 
 	return e_successful;
 }
@@ -236,13 +276,13 @@ double	slice_manager::dicom_to_screen_coordinate(double t, axis_t axis)
 	switch(axis)
 	{
 		case e_z:
-			return double(b_flip_z ? m_slices.sizes(0) - t-1 : t) * interpolation_factor.z();
+			return double(b_flip_z ? m_slices.sizes(0) - t-1 : t) * m_interpolation_factor.z();
 
 		case e_y:
-			return double(t) * interpolation_factor.y();
+			return double(t) * m_interpolation_factor.y();
 
 		case e_x:
-			return double(t) * interpolation_factor.x();
+			return double(t) * m_interpolation_factor.x();
 	}
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
@@ -253,15 +293,15 @@ double	slice_manager::screen_to_dicom_coordinate(double t, axis_t axis)
 	{
 		case e_z:
 		{
-			double	u = t / interpolation_factor.z();
+			double	u = t / m_interpolation_factor.z();
 			return double(b_flip_z ? m_slices.sizes(0) - u-1 : u);
 		}
 
 		case e_y:
-			return double(t) / interpolation_factor.y();
+			return double(t) / m_interpolation_factor.y();
 
 		case e_x:
-			return double(t) / interpolation_factor.x();
+			return double(t) / m_interpolation_factor.x();
 	}
 	XRAD_ASSERT_THROW_M(false, invalid_argument, "Unknown axis index");
 }
@@ -343,7 +383,7 @@ operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_
 		b1.UseDataFragment(m_slices, {0, p0, 0}, {m_slices.sizes(0), p1, m_slices.sizes(2)});
 		b1.GetSubset(acquisition_buffer, {slice_mask(1), slice_mask(0), slice_mask(2)});
 		break;
-	
+
 	case e_sagittal:
 		b1.UseDataFragment(m_slices, {0, 0, p0}, {m_slices.sizes(0), m_slices.sizes(1), p1});
 		b1.GetSubset(acquisition_buffer, {slice_mask(1), slice_mask(2), slice_mask(0)});
@@ -365,9 +405,9 @@ operation_result  slice_manager::CalculateMIPFrame(frame_t &frame, double dicom_
 //auto	get_iv(const )
 
 operation_result Fantom::GetTomogramSlice(frame_t &frame,
-	double tomogram_slice_position, 
-	slice_type st, 
-	size_t aprox_size, 
+	double tomogram_slice_position,
+	slice_type st,
+	size_t aprox_size,
 	mip_method_type mip_method)
 {
 	size_t	slice_no = size_t(tomogram_slice_position);
@@ -387,15 +427,13 @@ operation_result Fantom::GetTomogramSlice(frame_t &frame,
 
 operation_result Fantom::GetScreenSlice(frame_t &screen_image_buffer,
 			slice_type st,
-			size_t dicom_slice_position, 
+			size_t dicom_slice_position,
 			double black,
 			double white,
-			double gamma, 
+			double gamma,
 			size_t slice_aprox,
 			mip_method_type mip_method)
 {
-// 	double	dicom_slice_position(dicom_slice_position);
-// 	dicom_slice_position -= 1;
 	switch (st)
 	{
 	case e_frontal:
@@ -514,25 +552,17 @@ operation_result Fantom::GetDatabaseCoordinateFromScreenPosition(double &coord, 
 }
 
 
-operation_result Fantom::GetStudyAccessionNumber(wstring &accession_number)
-{
-	if ((ct_acquisition_ptr().accession_number() != L""))
-	{
-		accession_number = ct_acquisition_ptr().accession_number(), e_encode_literals;
-		return e_successful;
-	}
-	else return e_other;
-}
+
 
 operation_result slice_manager::CalculateInterpolationScales()
 {
-	interpolation_factor.CopyData(m_scales / min(m_scales.x(), m_scales.y()));
+	m_interpolation_factor.CopyData(m_scales / min(m_scales.x(), m_scales.y()));
 
-	interpolation_sizes = 
+	interpolation_sizes =
 	{
-		size_t(m_slices.sizes(0) * interpolation_factor.z()),
-		size_t(m_slices.sizes(1) * interpolation_factor.y()),
-		size_t(m_slices.sizes(2) * interpolation_factor.x())
+		size_t(m_slices.sizes(0) * m_interpolation_factor.z()),
+		size_t(m_slices.sizes(1) * m_interpolation_factor.y()),
+		size_t(m_slices.sizes(2) * m_interpolation_factor.x())
 	};
 
 	// учет укладки пациента
@@ -545,57 +575,101 @@ operation_result slice_manager::CalculateInterpolationScales()
 
 
 
-void logForJava(const char *val)
-{
-	printf("%s", val); //todo (Kovbas) лог для Джава
-}
-
-void logForJava(wstring val)
-{
-	logForJava(convert_to_string(val).c_str());
-}
-
 // Java ========================================================================================================
 operation_result  Fantom::InitFantom_J(const char *data_store_path)
 {
-	logForJava("InitFantom_J is started");
-	InitFantom(convert_to_wstring(data_store_path));
-	logForJava("InitFantom_J is finished");
+	START_LOG;
+	InitFantom(string8_to_wstring(data_store_path));
+	END_LOG;
 	return e_successful;
 }
 
+
+std::string slice_manager::DetailedStudyInfo()
+{
+	nlohmann::json	j;
+	nlohmann::json	tube_current;
+
+	auto	&first_frame = *ct_acquisition_ptr().get_loader()->front();
+
+	j["series_description"] = convert_to_string8(first_frame.get_wstring(Dicom::e_series_description));
+	j["convolution_kernel"] = convert_to_string8(first_frame.get_wstring(Dicom::e_convolution_kernel));
+	j["protocol_name"] = convert_to_string8(first_frame.get_wstring(Dicom::e_protocol_name));
+
+	j["accession_number"] = convert_to_string8(m_accession_number);
+	j["study_id"] = convert_to_string8(m_study_id);
+	j["study_instance_uid"] = convert_to_string8(m_study_instance_uid);
+	j["patient_id"] = convert_to_string8(m_patient_id);
+	j["patient_sex"] = convert_to_string8(m_patient_sex);
+	j["patient_age"] = convert_to_string8(m_patient_age);
+	j["tube_current"] = tube_current;
+
+
+	auto	currents = ct_acquisition_ptr().currents();
+
+	tube_current["min"] = MinValue(currents);
+	tube_current["max"] = MaxValue(currents);
+	tube_current["average"] = AverageValue(currents);
+	std::sort(currents.begin(), currents.end());
+	tube_current["median"] = currents[currents.size()/2];
+
+	return j.dump('\n');
+}
+
+
+
+operation_result Fantom::GetDetailedStudyInfo_J(char **info_json_p, int &length)
+{
+	START_LOG;
+
+	string string_buffer = DetailedStudyInfo();
+
+	auto string_length = string_buffer.size();
+
+	buffer_detailed_study_info = make_unique<char[]>(string_length+1);
+	memcpy(buffer_detailed_study_info.get(), string_buffer.c_str(), string_length+1);
+	*info_json_p = buffer_detailed_study_info.get();
+	length = int(string_length);
+
+	END_LOG;
+
+	return e_successful;
+}
+
+
 operation_result Fantom::GetStudiesIDs_J(char **studies_ids_p, int &length)
 {
-	logForJava("GetStudiesIDs_J is started");
+	START_LOG;
+
 	vector<Dicom::complete_study_id_t> study_ids;
 	GetStudiesIDs(study_ids);
 	string string_buffer;
 	for (auto &study_id : study_ids)
 	{
-//		string_buffer += convert_to_string(study_id.study_instance_uid()) + '\t' + convert_to_string(study_id.study_id()) + '\t' + convert_to_string(study_id.accession_number()) + '\n';
-		//TODO следующая строчка временно. Нужно вернуть то, что выше, предварительно наладив разбор на стороне котлина
-		string_buffer += convert_to_string(study_id.accession_number()) + '\t';
+//		string_buffer += convert_to_string8(study_id.study_instance_uid()) + '\t' + convert_to_string8(study_id.study_id()) + '\t' + convert_to_string8(study_id.accession_number()) + '\n';
+		//TODO следующая строчка временно. Нужно вернуть ту информацию, что выше, только в json
+		string_buffer += convert_to_string8(study_id.accession_number()) + '\t';
 	}
 
-	length = int(string_buffer.size());
-	buf_ct_accession_numbers = make_unique<char[]>(length);
-	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), length);
+	auto string_length = string_buffer.size();
+	buf_ct_accession_numbers = make_unique<char[]>(string_length+1);
+	memcpy(buf_ct_accession_numbers.get(), string_buffer.c_str(), string_length+1);
 	*studies_ids_p = buf_ct_accession_numbers.get();
+	length = int(string_length);
 
-	logForJava("GetStudiesIDs_J is finished");
+	END_LOG;
 	return e_successful;
 }
 
-operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
-{
-	logForJava("LoadCTbyAccession_J is started");
-
-	bool res;
-	LoadCTbyAccession(convert_to_wstring(accession_number), res);
-
-	logForJava("LoadCTbyAccession_J is finished");
-	return e_successful;
-}
+//operation_result  Fantom::LoadCTbyAccession_J(const char *accession_number)
+//{
+//	START_LOG;
+//	bool res;
+//	LoadCTbyAccession(convert_to_wstring(accession_number), res);
+//
+//	END_LOG;
+//	return e_successful;
+//}
 
 operation_result Fantom::GetSlice_J(
 	const unsigned char **imgData,
@@ -608,8 +682,9 @@ operation_result Fantom::GetSlice_J(
 	size_t slice_aprox,
 	mip_method_type mip_method)
 {
-	logForJava("GetSlice_J is started");
+	START_LOG;
 	frame_t screen_image;
+
 	if (GetScreenSlice(screen_image, st, dicom_slice_no, black, white, gamma, slice_aprox, mip_method) != e_successful)
 	{
 		return e_other;
@@ -622,20 +697,19 @@ operation_result Fantom::GetSlice_J(
 	{
 		bmp.palette[i] = static_cast<uint8_t>(i);
 	}
-	bmp.CopyData(screen_image);
+
+	for (size_t i = 0; i < screen_image.vsize(); ++i)
+	{
+		for (size_t j = 0; j < screen_image.hsize(); ++j)
+		{
+			bmp.at(i, j) = screen_image.at(screen_image.vsize() - i - 1, j);
+		}
+	}
 
 	length = static_cast<int>(bmp.GetBitmapFileSize());
-	auto bitmap_to_buffer = [&bmp, length](unique_ptr<unsigned char[]> &buf, const unsigned char **imgData)
-	{
-		buf = make_unique<unsigned char[]>(length);
-		memcpy(buf.get(), bmp.GetBitmapFile(), length);
-		*imgData = buf.get();
-		logForJava("GetSlice_J is finished (normal)");
-		return e_successful;
-	};
-
-	return bitmap_to_buffer(bitmap_buffers[st], imgData);
-	
-	logForJava("GetSlice_J is finished (error)");
-	return e_other;
+	bitmap_buffers[st] = make_unique<unsigned char[]>(length);
+	memcpy(bitmap_buffers[st].get(), bmp.GetBitmapFile(), length);
+	*imgData = bitmap_buffers[st].get();
+	END_LOG;
+	return e_successful;
 }

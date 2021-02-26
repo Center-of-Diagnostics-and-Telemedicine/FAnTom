@@ -1,4 +1,10 @@
-﻿#include "pre.h"
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+#include "pre.h"
 /**
   @file
   @author Stefan Frings
@@ -7,16 +13,16 @@
 #include "httplistener.h"
 #include "httpconnectionhandler.h"
 #include "httpconnectionhandlerpool.h"
-#include <QTCore/QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 using namespace stefanfrings;
 
-HttpListener::HttpListener(QSettings* settings, HttpRequestHandler* requestHandler, QObject *parent)
+HttpListener::HttpListener(const QSettings* settings, HttpRequestHandler* requestHandler, QObject *parent)
     : QTcpServer(parent)
 {
-    Q_ASSERT(settings!=0);
-    Q_ASSERT(requestHandler!=0);
-    pool=NULL;
+    Q_ASSERT(settings!=nullptr);
+    Q_ASSERT(requestHandler!=nullptr);
+    pool=nullptr;
     this->settings=settings;
     this->requestHandler=requestHandler;
     // Reqister type of socketDescriptor for signal/slot handling
@@ -40,7 +46,7 @@ void HttpListener::listen()
         pool=new HttpConnectionHandlerPool(settings,requestHandler);
     }
     QString host = settings->value("host").toString();
-    int port=settings->value("port").toInt();
+    quint16 port=settings->value("port").toUInt() & 0xFFFF;
     QTcpServer::listen(host.isEmpty() ? QHostAddress::Any : QHostAddress(host), port);
     if (!isListening())
     {
@@ -52,12 +58,20 @@ void HttpListener::listen()
 }
 
 
+void HttpListener::ForcedDestroy()
+{
+	delete pool;
+	pool = nullptr;
+	emit  readyToClose();
+//	this->~HttpListener();	
+}
+
 void HttpListener::close() {
     QTcpServer::close();
     qDebug("HttpListener: closed");
     if (pool) {
         delete pool;
-        pool=NULL;
+        pool=nullptr;
     }
 }
 
@@ -66,7 +80,7 @@ void HttpListener::incomingConnection(tSocketDescriptor socketDescriptor) {
     qDebug("HttpListener: New connection");
 #endif
 
-    HttpConnectionHandler* freeHandler=NULL;
+    HttpConnectionHandler* freeHandler=nullptr;
     if (pool)
     {
         freeHandler=pool->getConnectionHandler();

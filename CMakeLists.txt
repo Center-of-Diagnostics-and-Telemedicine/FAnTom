@@ -1,0 +1,31 @@
+﻿cmake_minimum_required (VERSION 3.8)
+
+set(Project "Fantom")
+project(${Project} LANGUAGES CXX)
+
+option(Build_XRAD "Build XRAD libraries" ON)
+option(Build_FantomLibrary "Build FantomLibrary" ON)
+option(Build_FantomConsoleTest "Build FantomConsoleTest" ON)
+option(Build_FantomWebServer "Build FantomWebServer" ON)
+
+if(Build_XRAD)
+	set(XRAD_Root $ENV{XRADRoot} CACHE PATH "XRAD library sources directory.")
+	if("${XRAD_Root}" STREQUAL "")
+		message(FATAL_ERROR "Please, specify XRAD library sources directory (XRAD_Root).")
+	endif()
+
+	include("${XRAD_Root}/CMake/Project.cmake")
+endif()
+if(Build_FantomLibrary)
+	add_subdirectory("FantomLibrary")
+endif()
+if(Build_FantomConsoleTest)
+	add_subdirectory("FantomConsoleTest")
+endif()
+if(Build_FantomWebServer)
+	add_subdirectory("FantomWebServer")
+endif()
+
+if(Build_XRAD)
+	xrad_add_xrad_project()
+endif()

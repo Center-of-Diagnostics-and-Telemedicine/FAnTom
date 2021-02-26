@@ -1,10 +1,10 @@
-#ifndef __pre_h
+п»ї#ifndef __pre_h
 #define __pre_h
 
 #define __pre_h_first
 
-#include <XRAD.h>
-// это заготовка
+#include <XRADGUI/XRAD.h>
+// СЌС‚Рѕ Р·Р°РіРѕС‚РѕРІРєР°
 
 #undef __pre_h_first
 

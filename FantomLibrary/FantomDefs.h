@@ -14,8 +14,12 @@ typedef RealFunction2D_F32 frame_t;
 enum operation_result
 {
 	e_successful,
+	e_empty_pointer,
 	e_out_of_range,
-	e_other
+	e_other,
+	e_other1,
+	e_other2,
+	e_other3,
 };
 
 enum slice_type

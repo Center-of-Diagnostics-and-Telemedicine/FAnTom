@@ -1,4 +1,10 @@
-﻿/**
+/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+/**
   @file
   @author Stefan Frings
 */
@@ -6,7 +12,7 @@
 #ifndef HTTPGLOBAL_H
 #define HTTPGLOBAL_H
 
-#include <QTCore/QtGlobal>
+#include <QtCore/QtGlobal>
 
 // This is specific to Windows dll's
 #if defined(Q_OS_WIN)
@@ -25,3 +31,4 @@ DECLSPEC const char* getQtWebAppLibVersion();
 
 
 #endif // HTTPGLOBAL_H
+

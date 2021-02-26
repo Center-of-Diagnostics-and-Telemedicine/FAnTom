@@ -2,9 +2,21 @@
 
 #include <QtCore/QCoreApplication>
 
+#include <QtConcurrent/QtConcurrentRun>
+
+#include <QtCore/QFuture>
+#include <QtCore/QThread>
+
 #include "RequestMapper.h"
 
 #include <FantomLibrary/FantomLibrary.h>
+
+#include <iostream>
+#include <locale>
+
+#include <Common/WebServerSettings.h>
+#include <XRADQt/QtStringConverters.h>
+
 
 #ifdef _MSC_VER
 	#include <XRADConsoleUI/Sources/PlatformSpecific/MSVC/MSVC_XRADConsoleUILink.h>
@@ -14,61 +26,101 @@
 #endif //_MSC_VER
 
 
-QString	web_server_path;
+//QString	web_server_path;
 QString	data_store_path;
-QString	text_file_path;
-QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
-
-int xrad::xrad_main(int argc, char *argv[])
+void f(HttpListener* listener)
 {
+	cout << "test" << endl;
+}
+
+
+ int xrad::xrad_main(int argc, char *argv[])
+{
+	using namespace std;
+	
+//	std::locale::global(std::locale("C"));
+//	locale("C");
+
 	QCoreApplication app(argc, argv);
-	app.setApplicationName("DicomMarkerServer");
-	app.setOrganizationName("RPCMR");
-	QString	app_path = app.applicationDirPath();
+	
+	std::locale::global(std::locale("C"));
 
+	WebServerSettings wss;
 
+	QString server_ini_file;
 
-//#error здесь идет обращение к файлу с настройками. Организовано очень плохо. С реорганизации настроек следует начать
-
-	QString	web_sources_ini_filename = app_path + "/websources.ini";
-	QSettings* web_sources_settings = new QSettings(web_sources_ini_filename, QSettings::IniFormat, &app);
-	web_sources_settings->beginGroup("websources");
-	QString web_sources_path = web_sources_settings->value("WebSourcesPath").toString();
-
-	QString	web_server_path_app = web_sources_path + "/WebServerData/";
-	web_server_path = web_server_path_app;
-
-	QString	server_ini_filename = web_sources_path + "/webserver.ini";
-	QSettings* settings_webserver=new QSettings(server_ini_filename, QSettings::IniFormat, &app);
-
-	QString	data_ini_filename = web_sources_path + "/datastore.ini";
-	QSettings* settings_datastore = new QSettings(data_ini_filename, QSettings::IniFormat, &app);
-
-	QString	doctor_ini_filename = web_sources_path + "/doctor_database.ini";
-	QSettings* settings_doctor_database = new QSettings(doctor_ini_filename, QSettings::IniFormat, &app);
-
-	for (size_t i = 1; i < 4 /*note Kovbas это кол-во записей о врачах в базе врачей*/; ++i)
+	if (argc == 3)
 	{
-		QString doctor_ini_group = QString("doctor_%1").arg(i);
-		settings_doctor_database->beginGroup(doctor_ini_group);
-		QByteArray doctor_id_buff = settings_doctor_database->value("doctor_id").toByteArray();
-		QByteArray doctor_pass_buff = settings_doctor_database->value("password").toByteArray();
-		doctor_database_map.insert(doctor_id_buff, doctor_pass_buff);
-		settings_doctor_database->endGroup();
+		data_store_path = string_to_qstring(argv[1]);
+		server_ini_file = string_to_qstring(argv[2]);
+	}
+	else
+	{
+		ImportSettngs(wss);
+
+		data_store_path = wstring_to_qstring(wss.dicom_folder);
+		server_ini_file = wstring_to_qstring(wss.server_ini_file);
 	}
 
+	cout << "Dicom folder is " << data_store_path.toStdString() << endl;
+	cout << "Webserver .ini file is " << server_ini_file.toStdString() << endl;
+
+	QSettings* settings_webserver = new QSettings(server_ini_file, QSettings::IniFormat, &app);
+
 	settings_webserver->beginGroup("listener");
- 	int port = settings_webserver->value("port").toInt();
 
-	settings_datastore->beginGroup("datastore");
-	data_store_path = settings_datastore->value("dataStorePath").toString();
-	text_file_path = settings_datastore->value("textfilepath").toString();
+//	RequestMapper* handler = new RequestMapper(&app);
+	RequestMapper* mapper = new RequestMapper();
+	HttpListener* listener = new HttpListener(settings_webserver, mapper, &app);
 
-	RequestMapper* handler=new RequestMapper(&app, port);
+	QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
+	QThread  thread;
+
+	QObject::connect(&thread, SIGNAL(started()), mapper, SLOT(LoadFantom1()));//Qt::QueuedConnection
+	QObject::connect(mapper, &RequestMapper::CloseApp, &thread, &QThread::quit);
+	QObject::connect(&thread, &QThread::finished, listener, &HttpListener::ForcedDestroy);
+
+    mapper->moveToThread(&thread);
+	thread.start();
+
+//	if(mapper->diagnostic_info)
+
+	//	QObject::connect(handler, SIGNAL(CloseApp()), &thread, SLOT(deleteLater()));//Qt::QueuedConnection
+
+//	QObject::connect(handler, SIGNAL(CloseApp()), settings_webserver, SLOT(deleteLater()), Qt::QueuedConnection);
+
+//	QObject::connect(handler, &RequestMapper::CloseApp, [listener]() {
+//		QMetaObject::invokeMethod(listener, "myDestroy", Qt::QueuedConnection);
+//	});//Qt::QueuedConnection
+
+//		QObject::connect(handler, &RequestMapper::CloseApp, [&thread]() {thread.exit(0);});
 
 
-	HttpListener* listener=new HttpListener(settings_webserver, handler, &app);
+	
+//	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
+
+
+
+//	QObject::connect(handler, &RequestMapper::CloseApp, listener, &HttpListener::myDestroy);
+
+//	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
+
+//	QObject::connect(listener, SIGNAL(readyToClose()), &app, SLOT(quit()));//Qt::QueuedConnection
+
+//	QObject::connect(listener, SIGNAL(readyToClose()), &thread, SLOT(terminate()));//Qt::QueuedConnection
+
+//	QObject::connect(&thread, SIGNAL(finished()), &app, SLOT(quit()));
+
+//	QMetaObject::invokeMethod(freeHandler, "handleConnection", Qt::QueuedConnection, Q_ARG(tSocketDescriptor, socketDescriptor))
+
+
+
+	//	QFuture<void> future = QtConcurrent::run(handler, &RequestMapper::LoadFantom);
+
+
 
 	return app.exec();
+//	return 0;
 }

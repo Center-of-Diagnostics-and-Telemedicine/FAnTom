@@ -14,30 +14,97 @@
 #include "RequestMapper.h"
 
 #include <sstream>
+#include <iostream>
+#include <chrono>
 
 #include <XRADBasic/Core.h>
 #include <XRADBasic/ContainersAlgebra.h>
 #include <XRADSystem/Sources/CFile/shared_cfile.h>
-#include <QTGui/QImage.h>
-#include <QTCore/QBuffer.h>
+#include <XRADBasic/ThirdParty/nlohmann/json.hpp>
+#include <QtGui/QImage>
+#include <QtCore/QBuffer>
+#include <QtCore/QThread>
+#include <QtCore/QTextCodec>
+
+
+
 #include "ManageStrings.h"
 #include "ManageBitmap.h"
 #include "ManageTomogram.h"
 #include "ManageWebPages.h"
 #include "ManageServerCommands.h"
+//#include "FantomDefs.h"
 
+#include <XRADQt/QtStringConverters.h>
+#include <XRADBasic/Sources/Utils/ConsoleProgress.h>
 
-extern QString	web_server_path;
 extern QString	data_store_path;
-extern QString	text_file_path;
-extern QMultiMap<QByteArray, QByteArray> doctor_database_map;
 
-
-RequestMapper::RequestMapper(QObject* parent, int in_port)
-	:HttpRequestHandler(parent), port(in_port)
+RequestMapper::RequestMapper(QObject* parent)
+	:HttpRequestHandler(parent), isLoaded(false)
 {
-	//wstring data_store_path_ws = convert_to_wstring(data_store_path.toStdString());
-	InitFantom(convert_to_wstring(data_store_path.toStdString()));
+//	qDebug() << "RequestMapper constructor finished";
+}
+
+
+
+void RequestMapper::LoadFantom1()
+{
+	wstring ws = qstring_to_wstring(data_store_path);
+
+	using millis = std::chrono::milliseconds;
+	using std::chrono::duration_cast;
+	using std::chrono::steady_clock;
+
+	try
+	{
+			auto t1 = steady_clock::now();
+
+		InitIterpolators();
+
+			auto t2 = steady_clock::now();
+
+			auto time1 = duration_cast<millis>(t2 - t1).count();
+			cout << "Time: " << time1 << " millisecons.\n" << endl;
+
+		InitHeapFiltered_N(ws);
+
+			auto t3 = steady_clock::now();
+
+			auto time2 = duration_cast<millis>(t3 - t2).count();
+			cout << "Time: " << time2 << " millisecons.\n" << endl;
+
+		LoadByAccession_N();
+
+			auto t4 = steady_clock::now();
+
+			auto time3 = duration_cast<millis>(t4 - t3).count();
+			cout << "Time: " << time3 << " millisecons.\n" << endl;
+
+	}
+	catch(invalid_argument &e)
+	{
+		cout << "Invalid argument" << e.what() << endl;
+		fflush(stdout);
+
+		return;// e_other;
+	}
+
+	catch (runtime_error opr)
+	{
+		cout << "Operation result error " << opr.what() << endl;
+		fflush(stdout);
+
+		return;// e_other;
+	}
+	catch (...)
+	{
+		cout << "Some unhandled exception thrown" << endl;
+		fflush(stdout);
+		return;// e_other;
+	}
+
+	isLoaded = true;
 }
 
 
@@ -51,130 +118,276 @@ using namespace xrad;
 
 void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 {
-// Get a request parameters
-	std::wstringstream	message;
+//	lock_guard<std::mutex> lck(m_RequestMapperMutex);
 
-//Определение чистого адреса без параметров
+	qDebug() << "############";
+	qDebug() << "SERVICE STARTED ID = " << QThread::currentThreadId();
+	qDebug() << "############";
+
+
+	//Определение чистого адреса без параметров
 
 	wstring	ws_path_name = interpret_url(request.getRawPath());
 	wstring	ws_path_name_no_slash = DeleteSlash(ws_path_name);
 
-//Определение имени сайта (хоста)
+	//Определение имени сайта (хоста)
 
 	QByteArray q_host_name = request.getHeader("host");
 
-//Type = POST, SEND, GET ...
+	//Type = POST, SEND, GET ...
 	QByteArray q_request_method = request.getMethod();
 
-//Определение параметров запроса
 
-	QMultiMap<QByteArray, QByteArray> q_params_map = request.getParameterMap();
-	command_type com_t = ParseCommand(q_params_map);
-
-	if (is_filetype(ws_path_name_no_slash, L"html")&&(com_t == e_load_web_page))
+	if (!isLoaded)
 	{
-		if (ws_path_name_no_slash == L"DICOM_Viewer.html")
+		if (q_request_method == "GET" && ws_path_name_no_slash == L"research/close")
 		{
-			GenerateDICOMPage(q_params_map, message);
-		}
-		else
-		{
-			GenerateLoginPage(q_params_map, message);
-		}
-	}
-	else
-	{
-		if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "POST")
-		{
-			QByteArray text_saved = request.getBody();
-			shared_cfile	file;
-			string file_path = text_file_path.toStdString() + "/" + convert_to_string(ws_path_name_no_slash);
-			file.open(file_path, "wb");
-			file.write(text_saved.data(), text_saved.size(), 1);
-		}
-		else if (is_filetype(ws_path_name_no_slash, L"txt") && q_request_method == "GET")
-		{
-			shared_cfile	opened_file;
-			string document_path = text_file_path.toStdString() +"/" + convert_to_string(ws_path_name_no_slash);
-			opened_file.open(document_path, "rb");
-			DataArray<char>	document_data(opened_file.size() + 1, 0);
-			opened_file.read_numbers(document_data, ioI8);
-			wstring	ws_data = convert_to_wstring(ustring((const uchar_t*)document_data.data()));
-			message << ws_data;
-		}
-		else if (is_filetype(ws_path_name_no_slash, L"js"))
-		{
-			wstring	wjsdata = ReadDocument(ws_path_name_no_slash);
-			message << wjsdata;
-		}
-		//else if (filetype_is(ws_path_name_no_slash, L".bmp"))
-		//else if (is_filetype(ws_path_name_no_slash, L"png"))
-		else if (q_params_map.value("img_format","") == "png" || q_params_map.value("img_format", "") == "bmp")
-		{
-			QByteArray bmp;
-			bmp = ParseSliceBMP(q_params_map);
 			response.setStatus(200, "OK");
-			response.write(bmp);
+
+			emit CloseApp();
+
 			return;
 		}
+
 		else
 		{
-			switch (com_t)
-			{
-			case e_get_original_coordinate:
-				GenerateOriginalPixelCoordData(q_params_map, message);
-				break;
-			case e_get_pixel_interpolated:
-				GenerateInterpolatedPixelData(q_params_map, message);
-				break;
-			case e_get_pixel_length:
-				GeneratePixelLengthData(q_params_map, message);
-				break;
-			case e_get_n_frames_interpolated:
-				GenerateNFramesInterpolatedData(q_params_map, message);
-				break;
-			case e_get_n_frames_real:
-				GenerateNFramesRealData(q_params_map, message);
-				break;
-			case e_get_point_HU:
-				GenerateHUValueData(q_params_map, message);
-				break;
-			case e_get_coordinate_native:
-				GenerateNativeCoordData(q_params_map, message);
-				break;
-			case e_get_coordinate_interpolated:
-				GenerateInterpolatedCoordData(q_params_map, message);
-				break;
-			case e_load_start_page:
-				GenerateStartPage(message);
-				break;
-			case e_check_doctor_login:
-				CheckDoctorLogin(q_params_map, message);
-				break;
-			case e_get_accession_numbers:
-				GetAccNamesData(message);
-				break;
-			case e_delete_ct:
-				//CloseTomogram(q_params_map);
-				break;
-			case e_get_study_accession:
-				GenerateStudyAccessionNumberData(message);
-				break;
-			case e_no_command:
-				break;
-			case e_load_web_page:
-				break;
-			default:
-				break;
-			}
+			nlohmann::json	j;
+
+			j["response"] = nullptr;
+			j["error"] = 22;
+
+			response.setHeader("Content-Type", "application/json; charset=utf-8");
+
+			response.write(QByteArray(j.dump('\t').c_str()));
+
+			return;
 		}
 	}
-	// Set a response header
-	response.setHeader("Content-Type", "text/html; charset=utf-8");
+
+				if (q_request_method == "GET")
+				{
+					if (ws_path_name_no_slash == L"research/close")
+					{
+						response.setStatus(200, "OK");
+
+						emit CloseApp();
+
+						return;
+					}
+
+					if (ws_path_name_no_slash == L"research/init")
+					{
+						nlohmann::json	j_reply, j_dictionary;
+
+						string modality;
+						GetModality_N(modality);
+
+						GetDimensions_N(j_reply);
+
+						GetDictionary_N(j_dictionary);
+
+						bool isFlipped;
+
+						GetZFlip_N(isFlipped);
+
+						j_reply["response"][modality]["reversed"] = isFlipped;
+
+						j_reply["error"] = nullptr;
+
+						j_reply["dictionary"] = { j_dictionary };
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_reply.dump('\t').c_str()));
+
+					//	return;
+					}
+				}
+
+				else if (q_request_method == "POST")
+				{
+
+					if (ws_path_name_no_slash == L"research/brightness")
+					{
+						QByteArray myBody = request.getBody();
+						if (myBody.isEmpty())
+						{
+							qDebug() << "The body of request is empty";
+							return;
+						}
+						QString DataAsString(myBody);
+
+						string str = convert_to_string8(qstring_to_wstring(DataAsString));
+
+						nlohmann::json	j_req, j_response;
+
+						j_req = nlohmann::json::parse(str);
+
+						double brValue;
+					try
+					{
+
+							GetBrightness_N(&brValue,
+							{ j_req["image"]["modality"],
+								j_req["image"]["type"],
+								j_req["image"]["number"],
+								j_req["image"]["width"],
+								j_req["image"]["height"],
+								{
+									j_req["image"]["mip"]["mip_method"],
+									j_req["image"]["mip"]["mip_value"]
+								}
+							},
+								j_req["point"]["vertical"],
+								j_req["point"]["horizontal"]
+							);
+					}
+					catch (modality_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["brightness"] = nullptr;
+						j_response["error"] = "requested wrong modality";
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+					catch (image_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["brightness"] = nullptr;
+						j_response["error"] = "requested wrong image";
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+					catch (mip_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["brightness"] = nullptr;
+						j_response["error"] = "requested wrong mip";
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+
+						j_response["response"]["brightness"] = brValue;
+						j_response["error"] = nullptr;
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+					//	return;
+					}
+
+					if (ws_path_name_no_slash == L"research/slice")
+					{
+						QByteArray myBody = request.getBody();
+						if (myBody.isEmpty())
+						{
+							qDebug() << "The body of request is empty";
+							return;
+						}
+						QString DataAsString(myBody);
+
+						string str = convert_to_string8(qstring_to_wstring(DataAsString));
+
+						nlohmann::json	j_req, j_response;;
+
+						j_req = nlohmann::json::parse(str);
+
+						const unsigned char *img;
+						int  length;
+
+						//GetScreenImage_N(const unsigned char **img, int *length, image_index_t idx, brightness brightness)
+					try
+					{
+
+								GetScreenImage_N(&img, &length,
+								{ j_req["image"]["modality"],
+									j_req["image"]["type"],
+									j_req["image"]["number"],
+									j_req["image"]["width"],
+									j_req["image"]["height"],
+									{
+										j_req["image"]["mip"]["mip_method"],
+										j_req["image"]["mip"]["mip_value"]
+									}
+								},
+								{
+									j_req["brightness"]["white"],
+									j_req["brightness"]["black"],
+									j_req["brightness"]["gamma"]
+								}
+								);
+					}
+
+					catch (modality_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["image"] = nullptr;
+						j_response["error"] = "requested wrong modality";;
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+					catch (image_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["image"] = nullptr;
+						j_response["error"] = "requested wrong image";
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+					catch (mip_error &e)
+					{
+						std::cout << e.what() << std::endl;
+
+						j_response["response"]["image"] = nullptr;
+						j_response["error"] = "requested wrong mip";
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						return;
+					}
+
+						QByteArray png = QByteArray();
+
+						CreateQByteArrayPngFromChar(png, img, length);
+
+					
+						j_response["response"]["image"] = png;//.toBase64();
+						j_response["error"] = nullptr;
+
+						response.setHeader("Content-Type", "application/json; charset=utf-8");
+						response.write(QByteArray(j_response.dump('\t').c_str()));
+
+						//return;
+					}
+
+				}
 
 
-	// Generate the HTML document
-	string	msgstr = u16tou8(message.str());
-	response.write(msgstr.c_str());
+
+
+	qDebug() << "############";
+	qDebug() << "SERVICE COMPLETED ID = " << QThread::currentThreadId();
+	qDebug() << "############";
 }
+
 

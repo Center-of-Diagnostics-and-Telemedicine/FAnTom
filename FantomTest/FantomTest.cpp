@@ -6,10 +6,24 @@
 #endif
 
 XRAD_USING
-
+/*
+const char *GetExtendedVersion()
+{
+#ifndef XRAD_COMPILER_CMAKE
+	return
+#include "ProjectVersion.hh"
+		;
+#else
+	// TODO
+	return "<not available>\n";
+#endif // XRAD_COMPILER_CMAKE
+}
+*/
 
 int	xrad::xrad_main(int n, char *names[])
 {
+
+//	SetVersionInfo(GetExtendedVersion());
 	try
 	{
 		XRAD_ASSERT_THROW_M(n <= 2, invalid_argument, "Укажите только одну папку с данными формата DICOM");
@@ -18,17 +32,24 @@ int	xrad::xrad_main(int n, char *names[])
 		{
 			//foldername = L"D:/websrv_marktomogram/data_store/2015_08_KT_subsets/subset";
 			//foldername = L"D:/websrv_marktomogram/data_store/multiple_accession_test";
-			foldername = L"c:/Dicom";
+			foldername = L"C:/xray/tuberculosis";//L"c:/Dicom";
+	
 		}
 		//auto m_studies_heap = GetDicomStudiesHeap(Dicom::datasource_folder(foldername, true), MakeDicomStudiesFilters(), VoidProgressProxy());
 		//Dicom::acquisition_loader ct = SelectSeriesInteractive(m_studies_heap);
-		size_t continue_option = 0;
-		do
-		{
-			TestLibraryImage(foldername);
-			continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
-		}
-		while (continue_option == 0);
+	//	size_t continue_option = 0;
+	//	do
+	//	{
+		
+		TestHeap();
+		//TestLibraryImage(L"C:/dicom/+AGFA000000015851_AGFA000000015807");
+	//	TestMamoImage();
+		//	TestTomogram();
+		//	TestXRAYImage();
+			Pause();
+	//		continue_option = Decide("Choose option", {"Select another slice?", "Exit" });
+	//	}
+	//	while (continue_option == 0);
 		return 0;
 	}
 

@@ -1,10 +1,16 @@
-﻿#ifndef HTTPCONNECTIONHANDLERPOOL_H
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+#ifndef HTTPCONNECTIONHANDLERPOOL_H
 #define HTTPCONNECTIONHANDLERPOOL_H
 
-#include <QTCore/QList>
-#include <QTCore/QTimer>
-#include <QTCore/QObject>
-#include <QTCore/QMutex>
+#include <QtCore/QList>
+#include <QtCore/QTimer>
+#include <QtCore/QObject>
+#include <QtCore/QMutex>
 #include "httpglobal.h"
 #include "httpconnectionhandler.h"
 
@@ -56,7 +62,7 @@ public:
       @param requestHandler The handler that will process each received HTTP request.
       @warning The requestMapper gets deleted by the destructor of this pool
     */
-    HttpConnectionHandlerPool(QSettings* settings, HttpRequestHandler* requestHandler);
+    HttpConnectionHandlerPool(const QSettings* settings, HttpRequestHandler *requestHandler);
 
     /** Destructor */
     virtual ~HttpConnectionHandlerPool();
@@ -67,7 +73,7 @@ public:
 private:
 
     /** Settings for this pool */
-    QSettings* settings;
+    const QSettings* settings;
 
     /** Will be assigned to each Connectionhandler during their creation */
     HttpRequestHandler* requestHandler;

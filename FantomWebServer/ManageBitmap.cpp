@@ -15,9 +15,9 @@
 
 #include <XRADBasic/Sources/Utils/StatisticUtils.h>
 #include <XRADBasic/Sources/Utils/BitmapContainer.h>
-#include <QTGui/QPixMap.h>
-#include <QTGui/QImage.h>
-#include <QTCore/QBuffer.h>
+#include <QtGui/QPixmap>
+#include <QtGui/QImage>
+#include <QtCore/QBuffer>
 
 XRAD_BEGIN
 
@@ -31,6 +31,28 @@ bool	SaveImageFormat(const QByteArray &raw_image_body, QString filename,  char* 
 	}
 	else return false;
 }
+
+
+
+
+void CreateQByteArrayPngFromChar(QByteArray &png, const unsigned char *img, int length)
+{
+	QImage q_image;
+
+	if (q_image.loadFromData(img, length, ".bmp"))
+	{
+		QBuffer buffer;
+		buffer.open(QIODevice::ReadWrite);
+		//q_image.save(&buffer, "bmp"); // writes pixmap into bytes in BMP format
+		q_image.save(&buffer, "png");	// writes pixmap into bytes in PNG format
+
+		q_image.save("C:/temp/ddd.png", "png");
+
+		png = buffer.buffer().toBase64();
+	}
+}
+
+
 
 void	CreateBitMap(QByteArray &raw_bitmap, const RealFunction2D_UI8 &img, const wstring &format)
 {
@@ -64,4 +86,3 @@ void	CreateBitMap(QByteArray &raw_bitmap, const RealFunction2D_UI8 &img, const w
 
 
 XRAD_END
-

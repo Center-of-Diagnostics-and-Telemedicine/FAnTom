@@ -1,11 +1,11 @@
-﻿// file pre.h
-//--------------------------------------------------------------
-#ifndef __pre_h
-#define __pre_h
+﻿#ifndef File__pre_h
+#define File__pre_h
 //--------------------------------------------------------------
 
-#ifndef _DEBUG
+#ifndef XRAD_DEBUG
+#ifndef QT_NO_DEBUG
 #define QT_NO_DEBUG
+#endif
 #endif
 
 #include <XRADBasic/Core.h>
@@ -13,4 +13,4 @@
 #include <XRADDicom/XRADDicom.h>
 
 //--------------------------------------------------------------
-#endif // __pre_h
+#endif // File__pre_h

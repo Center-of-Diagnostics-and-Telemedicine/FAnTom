@@ -1,4 +1,10 @@
-﻿/**
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+/**
   @file
   @author Stefan Frings
 */
@@ -6,10 +12,10 @@
 #ifndef HTTPSESSIONSTORE_H
 #define HTTPSESSIONSTORE_H
 
-#include <QTCore/QObject>
-#include <QTCore/QMap>
-#include <QTCore/QTimer>
-#include <QTCore/QMutex>
+#include <QtCore/QObject>
+#include <QtCore/QMap>
+#include <QtCore/QTimer>
+#include <QtCore/QMutex>
 #include "httpglobal.h"
 #include "httpsession.h"
 #include "httpresponse.h"
@@ -37,8 +43,17 @@ class DECLSPEC HttpSessionStore : public QObject {
     Q_DISABLE_COPY(HttpSessionStore)
 public:
 
-    /** Constructor. */
-    HttpSessionStore(QSettings* settings, QObject* parent=NULL);
+    /**
+      Constructor.
+      @param settings Configuration settings, usually stored in an INI file. Must not be 0.
+      Settings are read from the current group, so the caller must have called settings->beginGroup().
+      Because the group must not change during runtime, it is recommended to provide a
+      separate QSettings instance that is not used by other parts of the program.
+      The HttpSessionStore does not take over ownership of the QSettings instance, so the
+      caller should destroy it during shutdown.
+      @param parent Parent object
+     */
+    HttpSessionStore(const QSettings* settings, QObject* parent=nullptr);
 
     /** Destructor */
     virtual ~HttpSessionStore();
@@ -64,7 +79,7 @@ public:
        @return If autoCreate is disabled, the function returns a null session if there is no session.
        @see HttpSession::isNull()
     */
-    HttpSession getSession(HttpRequest& request, HttpResponse& response, bool allowCreate=true);
+    HttpSession getSession(HttpRequest& request, HttpResponse& response, const bool allowCreate=true);
 
     /**
        Get a HTTP session by it's ID number.
@@ -76,7 +91,7 @@ public:
     HttpSession getSession(const QByteArray id);
 
     /** Delete a session */
-    void removeSession(HttpSession session);
+    void removeSession(const HttpSession session);
 
 protected:
     /** Storage for the sessions */
@@ -85,7 +100,7 @@ protected:
 private:
 
     /** Configuration settings */
-    QSettings* settings;
+    const QSettings* settings;
 
     /** Timer to remove expired sessions */
     QTimer cleanupTimer;

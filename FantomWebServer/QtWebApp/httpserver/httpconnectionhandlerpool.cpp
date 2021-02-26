@@ -1,16 +1,22 @@
-﻿#include "pre.h"
-#ifndef QT_NO_OPENSSL
-    #include <QTNetwork/QSslSocket>
-    #include <QTNetwork/QSslKey>
-    #include <QTNetwork/QSslCertificate>
-    #include <QTNetwork/QSslConfiguration>
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+#include "pre.h"
+#ifndef QT_NO_SSL
+    #include <QtNetwork/QSslSocket>
+    #include <QtNetwork/QSslKey>
+    #include <QtNetwork/QSslCertificate>
+    #include <QtNetwork/QSslConfiguration>
 #endif
-#include <QTCore/QDir>
+#include <QtCore/QDir>
 #include "httpconnectionhandlerpool.h"
 
 using namespace stefanfrings;
 
-HttpConnectionHandlerPool::HttpConnectionHandlerPool(QSettings* settings, HttpRequestHandler* requestHandler)
+HttpConnectionHandlerPool::HttpConnectionHandlerPool(const QSettings *settings, HttpRequestHandler *requestHandler)
     : QObject()
 {
     Q_ASSERT(settings!=0);
@@ -28,7 +34,7 @@ HttpConnectionHandlerPool::~HttpConnectionHandlerPool()
     // delete all connection handlers and wait until their threads are closed
     foreach(HttpConnectionHandler* handler, pool)
     {
-       delete handler;
+     delete handler;
     }
     delete sslConfiguration;
     qDebug("HttpConnectionHandlerPool (%p): destroyed", this);
@@ -94,7 +100,7 @@ void HttpConnectionHandlerPool::loadSslConfig()
     QString sslCertFileName=settings->value("sslCertFile","").toString();
     if (!sslKeyFileName.isEmpty() && !sslCertFileName.isEmpty())
     {
-        #ifdef QT_NO_OPENSSL
+        #ifdef QT_NO_SSL
             qWarning("HttpConnectionHandlerPool: SSL is not supported");
         #else
             // Convert relative fileNames to absolute, based on the directory of the config file.

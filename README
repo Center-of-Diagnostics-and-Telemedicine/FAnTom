@@ -1,0 +1,21 @@
+﻿FAnTom
+
+FAnTom is a software project that consists of sereral parts.
+
+FAnTom consists of several packages:
+- FantomConsoleTest;
+- FantomLibrary;
+- FantomSettingsEdit;
+- FantomTest;
+- FantomWebServer.
+
+Each package is located in a separate directory with the corresponding name.
+Documentation specific to each package (if any) is located in the package
+directory.
+
+FAnTom also contains common files in the root, Common and WebServerSources
+directories and some facilities in the Postman directory.
+
+General license information is located in the LICENSE file.
+
+FAnTom depends on XRAD and Qt libraries.
