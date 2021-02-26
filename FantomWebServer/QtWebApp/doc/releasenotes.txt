@@ -1,3 +1,10 @@
+Modified by Moscow Center for Diagnostics & Telemedicine.
+
+This is a modified version of the QtWebApp software.
+
+The original version of the QtWebApp software is located in the following file:
+../../ThirdParty/QtWebApp.zip
+
 Dont forget to update the release number also in
 QtWebApp.pro and httpserver/httpglobal.cpp.
 

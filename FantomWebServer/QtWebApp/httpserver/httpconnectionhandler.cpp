@@ -1,14 +1,17 @@
-﻿#include "pre.h"
+﻿/*
+  Copyright (c) 2021, Moscow Center for Diagnostics & Telemedicine
+
+  This is a modified version of the QtWebApp software.
+  The original license terms (GNU LGPLv3) are effective. See copyright.txt.
+*/
+#include "pre.h"
 /**
   @file
   @author Stefan Frings
 */
-#include <iostream>
-#include <stdexcept>
 
 #include "httpconnectionhandler.h"
 #include "httpresponse.h"
-#include <XRADBasic/Sources/Core/BasicUtils.h>
 
 using namespace stefanfrings;
 
@@ -220,7 +223,6 @@ void HttpConnectionHandler::read()
             {
                 requestHandler->service(*currentRequest, response);
             }
-
             catch (...)
             {
                 qCritical("HttpConnectionHandler (%p): An uncatched exception occured in the request handler",
